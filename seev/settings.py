@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 
+# Get DB connection properties from system ENV
+DB_ENV = os.environ['SEEV_AGGRE'].split(';@')
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -75,8 +78,12 @@ WSGI_APPLICATION = 'seev.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': DB_ENV[0],
+        'NAME': DB_ENV[1],
+        'USER': DB_ENV[3],
+        'PASSWORD': DB_ENV[4],
+        'HOST': DB_ENV[2],
+        'PORT': DB_ENV[5],
     }
 }
 
