@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 
+from django.core.management.utils import get_random_secret_key
+
 # Get DB connection properties from system ENV
 DB_ENV = os.environ['SEEV_AGGRE'].split(';@')
 
@@ -23,7 +25,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '9^#&2ub-uaxps4_24+xm7yqkld^h1_#ryvd#9p4glt*a*61$^('
+# SECRET_KEY = '9^#&2ub-uaxps4_24+xm7yqkld^h1_#ryvd#9p4glt*a*61$^('
+SECRET_KEY = get_random_secret_key()
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
