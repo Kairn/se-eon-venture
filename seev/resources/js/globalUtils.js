@@ -1,0 +1,1 @@
+// All constants and shared functions used by the application
