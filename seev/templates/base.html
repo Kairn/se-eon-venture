@@ -8,14 +8,28 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>SE Eon Venture</title>
+	{% load static %}
 	<!-- Extra Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Titillium+Web&display=swap" rel="stylesheet">
 	<!-- CSS -->
+	<link rel="stylesheet" href="{% static 'global.min.css' %}">
+	{% block css %}
+	{% endblock css %}
 </head>
 
 <body>
+	<!-- Content -->
+	{% block content %}
+	{% endblock content %}
 
 	<!-- JavaScripts -->
-	<div></div>
+	<div>
+		<script src="{% static 'globalUtils.js' %}"></script>
+		{% block js %}
+		{% endblock js %}
+	</div>
 </body>
 
 </html>

@@ -1,5 +1,29 @@
-// For global styles and variable definitions
+// For global styles
 
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  text-decoration: none;
+  text-align: left;
+  color: black;
+  font-weight: 400;
+}
+
+body {
+  font-size: 16px;
+  font-family: "Roboto", sans-serif;
+}
+
+.font-rob {
+  font-family: "Roboto", sans-serif;
+}
+
+.font-mont {
+  font-family: "Montserrat", sans-serif;
+}
+
+.font-tweb {
+  font-family: "Titillium Web", sans-serif;
 }

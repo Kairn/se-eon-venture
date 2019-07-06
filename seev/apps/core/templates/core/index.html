@@ -1,0 +1,16 @@
+<!-- Landing page of the application -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'core/css/main.min.css' %}">
+{% endblock css %}
+
+{% block content %}
+<h1>Hello SEEV</h1>
+<h1 class="font-tweb">Font Test</h1>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'core/js/main.js' %}"></script>
+{% endblock js %}
