@@ -14,6 +14,7 @@ footer#footer {
   justify-content: space-between;
   align-items: center;
   & > img:last-child {
+    user-select: none;
     position: absolute;
     bottom: 1rem;
     right: 2rem;
@@ -41,12 +42,19 @@ footer#footer {
   #logo {
     width: 64px;
     height: 64px;
+    @include mobile {
+      width: 56px;
+      height: 56px;
+    }
   }
   #footer-brand {
     text-align: center;
     font-size: 32px;
     margin-top: 1rem;
     margin-bottom: 0.5rem;
+    @include mobile {
+      font-size: 30px;
+    }
   }
   #media {
     user-select: none;

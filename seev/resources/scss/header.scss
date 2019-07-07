@@ -1,0 +1,90 @@
+// For global footer styles
+@import "./theme.scss";
+@import "./media.scss";
+
+header#header {
+  user-select: none;
+  width: 100%;
+  min-height: 10vh;
+  padding: 1.5rem 2rem 1.5rem 3.5rem;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: center;
+  @include tablet {
+    padding: 1.5rem 0;
+    flex-flow: column wrap;
+  }
+}
+
+#header-brand {
+  display: inline-flex;
+  flex-flow: row wrap;
+  align-items: center;
+  @include tablet {
+    margin-bottom: 0.5rem;
+  }
+  img {
+    width: 80px;
+    height: 80px;
+    @include mobile {
+      width: 72px;
+      height: 72px;
+    }
+  }
+  #header-brand {
+    display: inline-block;
+    margin-left: 1rem;
+    font-weight: bold;
+    font-size: 42px;
+    filter: invert(0.25);
+    @include mobile {
+      font-size: 34px;
+    }
+  }
+}
+
+#header-btns {
+  a {
+    cursor: pointer;
+    display: inline-flex;
+    flex-flow: row wrap;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    text-decoration: none;
+    color: black;
+    border: #515151 1px solid;
+    border-radius: 5px;
+    transition-duration: 0.5s;
+    &:first-child {
+      margin-right: 1rem;
+    }
+    &:hover,
+    &:visited {
+      color: inherit;
+      text-decoration: none;
+    }
+    &:hover {
+      transition-duration: 0.5s;
+      background-color: #515151;
+      img {
+        filter: invert(1);
+      }
+      span {
+        filter: none;
+        color: white;
+      }
+    }
+    img {
+      filter: invert(0.25);
+      width: 26px;
+      height: 26px;
+    }
+    span {
+      filter: invert(0.25);
+      display: inline-block;
+      font-size: 16px;
+      margin-left: 0.4rem;
+    }
+  }
+}
