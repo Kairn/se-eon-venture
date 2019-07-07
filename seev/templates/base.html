@@ -14,16 +14,54 @@
 	<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Titillium+Web&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Cinzel+Decorative&display=swap" rel="stylesheet">
 	<!-- CSS -->
 	<link rel="stylesheet" href="{% static 'global.min.css' %}">
+	<link rel="stylesheet" href="{% static 'footer.min.css' %}">
 	{% block css %}
 	{% endblock css %}
 </head>
 
 <body>
+	<!-- Header -->
+
 	<!-- Content -->
-	{% block content %}
-	{% endblock content %}
+	<div id="content-wrapper">
+		{% block content %}
+		{% endblock content %}
+	</div>
+
+	<!-- Footer -->
+	<footer id="footer">
+		<div id="trademark">
+			<img id="logo" src="{% static 'logo.png' %}" alt="site-logo"></img>
+			<div id="footer-brand" class="font-brand">SE Eon Venture</div>
+			<div id="media">
+				<img src="https://unpkg.com/simple-icons@latest/icons/facebook.svg" />
+				<img src="https://unpkg.com/simple-icons@latest/icons/twitter.svg" />
+				<img src="https://unpkg.com/simple-icons@latest/icons/linkedin.svg" />
+				<a href="https://www.djangoproject.com/" target="_blank"><img
+						src="https://unpkg.com/simple-icons@latest/icons/django.svg" /></a>
+			</div>
+		</div>
+		<div id="support">
+			<div id="support-title" class="font-tweb">Need technical support?</div>
+			<div id="support-content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus, voluptatum error
+				veniam nemo minus deserunt repellat sequi, odio voluptas officiis excepturi culpa quaerat iste est obcaecati,
+				ipsa adipisci quasi unde alias sapiente eligendi incidunt consectetur porro tempora? Laboriosam dolore, sequi
+				nostrum eaque voluptatum debitis officia voluptatibus libero dolores repudiandae similique.</div>
+			<div id="support-links" class="font-tweb">
+				<span>Terms of service</span> |
+				<span>Privacy Policy</span> |
+				<span>FAQs</span>
+			</div>
+		</div>
+		<div id="footnote">
+			<small id="copyright">© 2019 SE Eon Venture. All rights reserved.</small>
+			<small id="author" class="font-tweb">Designed by: Eddy Soma</small>
+		</div>
+		<img src="{% static 'icon-00.svg' %}" alt="footer-order">
+	</footer>
 
 	<!-- JavaScripts -->
 	<div>

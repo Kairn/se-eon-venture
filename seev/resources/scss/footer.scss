@@ -1,0 +1,99 @@
+// For global footer styles
+@import "./theme.scss";
+@import "./media.scss";
+
+footer#footer {
+  position: relative;
+  width: 100%;
+  min-height: 25vh;
+  background: linear-gradient(to top right, #1a237e, #2962ff);
+  padding: 2rem 4rem;
+  color: white;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: center;
+  & > img:last-child {
+    position: absolute;
+    bottom: 1rem;
+    right: 2rem;
+    width: 80px;
+    height: 80px;
+  }
+}
+
+#trademark {
+  height: 100%;
+  width: 25vw;
+  display: inline-flex;
+  flex-flow: column wrap;
+  justify-content: space-between;
+  align-items: center;
+  #logo {
+    width: 64px;
+    height: 64px;
+  }
+  #footer-brand {
+    text-align: center;
+    font-size: 32px;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  #media {
+    user-select: none;
+    img {
+      display: inline-block;
+      margin-left: 4px;
+      margin-right: 4px;
+      filter: invert(1);
+      width: 28px;
+      height: 28px;
+      cursor: pointer;
+      &:hover {
+        filter: invert(0.75);
+      }
+    }
+  }
+}
+
+#support {
+  height: 100%;
+  width: 55vw;
+  display: inline-flex;
+  flex-flow: column wrap;
+  justify-content: space-between;
+  #support-title {
+    font-weight: 600;
+    font-size: 26px;
+    margin-bottom: 0.75rem;
+  }
+  #support-content {
+    //
+  }
+  #support-links {
+    font-size: 20px;
+    margin-top: 1.25rem;
+    span {
+      cursor: pointer;
+      &:hover {
+        filter: invert(0.25);
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+#footnote {
+  margin-top: 3rem;
+  margin-bottom: -0.75rem;
+  small {
+    display: block;
+  }
+  #copyright {
+    font-size: 16px;
+  }
+  #author {
+    margin-top: 2px;
+    font-style: italic;
+  }
+}
