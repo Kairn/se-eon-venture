@@ -20,6 +20,12 @@ footer#footer {
     width: 80px;
     height: 80px;
   }
+  @include tablet {
+    flex-flow: column wrap;
+  }
+  @include mobile {
+    padding: 2rem 2rem;
+  }
 }
 
 #trademark {
@@ -29,6 +35,9 @@ footer#footer {
   flex-flow: column wrap;
   justify-content: space-between;
   align-items: center;
+  @include tablet {
+    width: 80vw;
+  }
   #logo {
     width: 64px;
     height: 64px;
@@ -62,17 +71,27 @@ footer#footer {
   display: inline-flex;
   flex-flow: column wrap;
   justify-content: space-between;
+  @include tablet {
+    width: 60vw;
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+  }
   #support-title {
     font-weight: 600;
     font-size: 26px;
     margin-bottom: 0.75rem;
+    @include tablet {
+      text-align: center;
+    }
   }
   #support-content {
-    //
   }
   #support-links {
     font-size: 20px;
     margin-top: 1.25rem;
+    @include tablet {
+      text-align: center;
+    }
     span {
       cursor: pointer;
       &:hover {
@@ -86,6 +105,9 @@ footer#footer {
 #footnote {
   margin-top: 3rem;
   margin-bottom: -0.75rem;
+  @include tablet {
+    width: 100%;
+  }
   small {
     display: block;
   }
