@@ -7,6 +7,27 @@
 {% endblock css %}
 
 {% block content %}
+<div id="banner">
+	<div id="hero">
+		<div id="banner-title" class="font-hero">
+			<span>Enterprise</span>
+			<span>Servicing</span>
+		</div>
+		<div id="banner-subtitle">Smart ordering platform with catalog system</div>
+		<div id="banner-divide"></div>
+		<div id="banner-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus quibusdam nostrum eaque
+			fugiat molestiae? Quasi quos a molestiae dolorum accusamus consequuntur sequi at amet iste.</div>
+		<div id="banner-btns">
+			<a>Sign in</a>
+			<a>New business</a>
+		</div>
+	</div>
+	<div id="icon-group">
+		<img src="{% static 'core/images/nav-i.svg' %}" alt="nav-icon-i">
+		<img src="{% static 'core/images/nav-m.svg' %}" alt="nav-icon-m">
+		<img src="{% static 'core/images/nav-o.svg' %}" alt="nav-icon-o">
+	</div>
+</div>
 {% endblock content %}
 
 {% block js %}

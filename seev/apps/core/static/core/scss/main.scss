@@ -1,2 +1,107 @@
 @import "../../../../../resources/scss/theme.scss";
 @import "../../../../../resources/scss/media.scss";
+
+#banner {
+  padding: 4rem 6rem;
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(to bottom right, #4527a0, #673ab7);
+}
+
+#hero {
+  height: 100%;
+  width: 55vw;
+  color: white;
+  #banner-title {
+    font-size: 52px;
+    margin-bottom: 0.5rem;
+    span {
+      &:first-child {
+        color: #0091ea;
+      }
+    }
+  }
+  #banner-subtitle {
+    font-size: 20px;
+    margin-bottom: 1rem;
+    font-style: italic;
+  }
+  #banner-divide {
+    display: inline-block;
+    width: 128px;
+    height: 3px;
+    background-color: #0091ea;
+    margin-bottom: 1.5rem;
+    transform: skewX(-30deg);
+  }
+  #banner-text {
+    width: 80%;
+    line-height: 1.4;
+    font-size: 18px;
+  }
+  #banner-btns {
+    user-select: none;
+    margin-top: 2rem;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    align-items: center;
+    a {
+      text-decoration: none;
+      padding: 0.75rem 2rem;
+      display: inline-flex;
+      flex-flow: row wrap;
+      align-items: center;
+      cursor: pointer;
+      font-size: 20px;
+      border-radius: 24px;
+      filter: drop-shadow(0 1px 2px #424242);
+      &:first-child {
+        // background-color: #0288d1;
+        // background: linear-gradient(to right, #0097a7, #0288d1);
+        background: linear-gradient(to right, #00acc1, #039be5);
+        color: white;
+        margin-right: 2rem;
+      }
+      &:nth-child(2) {
+        color: white;
+        border: 1px white solid;
+        transition-duration: 0.25s;
+        &:hover {
+          background-color: #ede7f6;
+          color: #512da8;
+          transition-duration: 0.25s;
+        }
+      }
+    }
+  }
+}
+
+#icon-group {
+  position: relative;
+  height: 100%;
+  width: 30vw;
+  img {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    &:first-child {
+      z-index: 2;
+      width: 96px;
+      height: 96px;
+    }
+    &:nth-child(2) {
+      z-index: 1;
+      width: 112px;
+      height: 112px;
+    }
+    &:nth-child(3) {
+      width: 128px;
+      height: 128px;
+    }
+  }
+}
