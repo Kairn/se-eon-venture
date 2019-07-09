@@ -1,20 +1,32 @@
 @import "../../../../../resources/scss/theme.scss";
 @import "../../../../../resources/scss/media.scss";
 
+$show-icon-size: 160px;
+$side-icon-size: 88px;
+
 #banner {
-  padding: 4rem 6rem;
+  padding: 2rem 6rem;
   width: 100%;
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
   align-items: center;
   background: linear-gradient(to bottom right, #4527a0, #673ab7);
+  @include tablet {
+    flex-flow: column-reverse wrap;
+    justify-content: space-evenly;
+    padding: 1rem 0 3rem 0;
+  }
 }
 
 #hero {
   height: 100%;
   width: 55vw;
   color: white;
+  @include tablet {
+    width: 90vw;
+    text-align: center;
+  }
   #banner-title {
     font-size: 52px;
     margin-bottom: 0.5rem;
@@ -36,11 +48,21 @@
     background-color: #0091ea;
     margin-bottom: 1.5rem;
     transform: skewX(-30deg);
+    @include tablet {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
   }
   #banner-text {
     width: 80%;
     line-height: 1.4;
     font-size: 18px;
+    @include tablet {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
   }
   #banner-btns {
     user-select: none;
@@ -49,6 +71,9 @@
     flex-flow: row wrap;
     justify-content: flex-start;
     align-items: center;
+    @include tablet {
+      justify-content: center;
+    }
     a {
       text-decoration: none;
       padding: 0.75rem 2rem;
@@ -60,8 +85,6 @@
       border-radius: 24px;
       filter: drop-shadow(0 1px 2px #424242);
       &:first-child {
-        // background-color: #0288d1;
-        // background: linear-gradient(to right, #0097a7, #0288d1);
         background: linear-gradient(to right, #00acc1, #039be5);
         color: white;
         margin-right: 2rem;
@@ -81,27 +104,50 @@
 }
 
 #icon-group {
+  user-select: none;
   position: relative;
-  height: 100%;
-  width: 30vw;
-  img {
+  height: $show-icon-size * 2.56;
+  flex: 1 1 auto;
+  img.cloud-icon,
+  img.side-icon {
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
     &:first-child {
       z-index: 2;
-      width: 96px;
-      height: 96px;
+      width: $show-icon-size;
+      height: $show-icon-size;
     }
     &:nth-child(2) {
       z-index: 1;
-      width: 112px;
-      height: 112px;
+      width: $show-icon-size * 1.6;
+      height: $show-icon-size * 1.6;
     }
     &:nth-child(3) {
-      width: 128px;
-      height: 128px;
+      width: $show-icon-size * 2.3;
+      height: $show-icon-size * 2.3;
+    }
+  }
+  img.side-icon {
+    position: absolute;
+    z-index: 3;
+    width: $side-icon-size;
+    height: $side-icon-size;
+    &:nth-child(4) {
+      transform: translate(calc(-50% - (#{$side-icon-size} * 1.534)), calc(-50% - (#{$side-icon-size} * 0.682)));
+    }
+    &:nth-child(5) {
+      transform: translate(calc(-50% - (#{$side-icon-size} * 1.932)), calc(-50% + (#{$side-icon-size} * 1.08)));
+    }
+    &:nth-child(6) {
+      transform: translate(calc(-50% + (#{$side-icon-size} * 0.511)), calc(-50% - (#{$side-icon-size} * 1.25)));
+    }
+    &:nth-child(7) {
+      transform: translate(calc(-50% + (#{$side-icon-size} * 0.795)), calc(-50% + (#{$side-icon-size} * 1.477)));
+    }
+    &:nth-child(8) {
+      transform: translate(calc(-50% + (#{$side-icon-size} * 1.761)), -50%);
     }
   }
 }
