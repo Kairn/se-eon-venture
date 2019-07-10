@@ -108,24 +108,32 @@ $side-icon-size: 88px;
   position: relative;
   height: $show-icon-size * 2.56;
   flex: 1 1 auto;
+  @include tablet {
+    margin-bottom: 1rem;
+  }
   img.cloud-icon {
     position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    transition-duration: 0.5s;
+    transition-timing-function: ease-out;
     &:first-child {
       z-index: 2;
       width: $show-icon-size;
       height: $show-icon-size;
+      top: calc(50% - #{$show-icon-size} / 2);
+      left: calc(50% - #{$show-icon-size} / 2);
     }
     &:nth-child(2) {
       z-index: 1;
       width: $show-icon-size * 1.6;
       height: $show-icon-size * 1.6;
+      top: calc(50% - #{$show-icon-size * 1.6} / 2);
+      left: calc(50% - #{$show-icon-size * 1.6} / 2);
     }
     &:nth-child(3) {
       width: $show-icon-size * 2.3;
       height: $show-icon-size * 2.3;
+      top: calc(50% - #{$show-icon-size * 2.3} / 2);
+      left: calc(50% - #{$show-icon-size * 2.3} / 2);
     }
   }
   img.side-icon {
@@ -133,6 +141,8 @@ $side-icon-size: 88px;
     z-index: 3;
     width: $side-icon-size;
     height: $side-icon-size;
+    transition-duration: 0.5s;
+    transition-timing-function: ease-out;
     &:nth-child(4) {
       top: calc(50% - 95px);
       left: calc(50% - 195px);
