@@ -108,8 +108,7 @@ $side-icon-size: 88px;
   position: relative;
   height: $show-icon-size * 2.56;
   flex: 1 1 auto;
-  img.cloud-icon,
-  img.side-icon {
+  img.cloud-icon {
     position: absolute;
     left: 50%;
     top: 50%;
@@ -135,19 +134,24 @@ $side-icon-size: 88px;
     width: $side-icon-size;
     height: $side-icon-size;
     &:nth-child(4) {
-      transform: translate(calc(-50% - (#{$side-icon-size} * 1.534)), calc(-50% - (#{$side-icon-size} * 0.682)));
+      top: calc(50% - 95px);
+      left: calc(50% - 195px);
     }
     &:nth-child(5) {
-      transform: translate(calc(-50% - (#{$side-icon-size} * 1.932)), calc(-50% + (#{$side-icon-size} * 1.08)));
+      top: calc(50% + 60px);
+      left: calc(50% - 215px);
     }
     &:nth-child(6) {
-      transform: translate(calc(-50% + (#{$side-icon-size} * 0.511)), calc(-50% - (#{$side-icon-size} * 1.25)));
+      top: calc(50% - 155px);
+      left: calc(50% + 15px);
     }
     &:nth-child(7) {
-      transform: translate(calc(-50% + (#{$side-icon-size} * 0.795)), calc(-50% + (#{$side-icon-size} * 1.477)));
+      top: calc(50% + 95px);
+      left: calc(50% + 30px);
     }
     &:nth-child(8) {
-      transform: translate(calc(-50% + (#{$side-icon-size} * 1.761)), -50%);
+      top: calc(50% - 10px);
+      left: calc(50% + 145px);
     }
   }
 }
