@@ -165,3 +165,40 @@ $side-icon-size: 88px;
     }
   }
 }
+
+#features {
+  & > img {
+    width: 144px;
+    height: 144px;
+  }
+  #fet-header {
+    #fet-how {
+      //
+    }
+    #fet-title {
+      //
+    }
+    #fet-text {
+      //
+    }
+  }
+  #fet-container {
+    //
+  }
+}
+
+.fet-card {
+  img {
+    width: 72px;
+    height: 72px;
+  }
+  .card-title {
+    //
+  }
+  .card-div {
+    //
+  }
+  .card-text {
+    //
+  }
+}
