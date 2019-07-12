@@ -7,6 +7,7 @@
 {% endblock css %}
 
 {% block content %}
+<!-- Banner -->
 <div id="banner">
 	<div id="hero">
 		<div id="banner-title" class="font-hero">
@@ -31,6 +32,43 @@
 		<img class="side-icon" src="{% static 'core/images/side-03.png' %}" alt="side-icon-3">
 		<img class="side-icon" src="{% static 'core/images/side-04.png' %}" alt="side-icon-4">
 		<img class="side-icon" src="{% static 'core/images/side-05.png' %}" alt="side-icon-5">
+	</div>
+</div>
+
+<!-- Features -->
+<div id="features">
+	<img src="{% static 'core/images/icon-16.svg' %}" alt="fet-icon">
+	<div id="fet-header">
+		<div id="fet-how">
+			<span></span>
+			<span>THE WAY IT WORKS</span>
+		</div>
+		<div id="fet-title">Our Advantages</div>
+		<div id="fet-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Animi eum fuga eligendi iusto commodi
+			odit, doloribus voluptatem officia impedit cum.</div>
+	</div>
+	<div id="fet-container">
+		<div class="fet-card">
+			<img src="{% static 'core/images/card-icon-1.svg' %}" alt="card-icon-1" class="card-icon">
+			<div class="card-title">Open & Secure</div>
+			<div class="card-div"></div>
+			<div class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat assumenda voluptas
+				perferendis? Expedita, voluptatem minima!</div>
+		</div>
+		<div class="fet-card">
+			<img src="{% static 'core/images/card-icon-2.svg' %}" alt="card-icon-2" class="card-icon">
+			<div class="card-title">Highly Customizable</div>
+			<div class="card-div"></div>
+			<div class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Id, libero nihil ab dignissimos
+				expedita facere.</div>
+		</div>
+		<div class="fet-card">
+			<img src="core/images/card-icon-3.svg" alt="card-icon-3" class="card-icon">
+			<div class="card-title">Fast & Economic</div>
+			<div class="card-div"></div>
+			<div class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione nulla molestiae aliquam
+				aspernatur possimus adipisci.</div>
+		</div>
 	</div>
 </div>
 {% endblock content %}
