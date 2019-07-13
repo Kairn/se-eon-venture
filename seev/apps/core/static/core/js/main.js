@@ -1,5 +1,7 @@
 console.log('Core app is launching...');
 
+var isMobileSize = false;
+
 const maxOffsetXAbs = 45;
 const maxOffsetYAbs = 30;
 const baseCloudSize = 160;
@@ -21,8 +23,22 @@ setInterval(() => {
   translateUpdate = true;
 }, 100);
 
+window.onresize = () => {
+  isMobileSize = true;
+  if (window.innerWidth < 768) {
+    for (let i = 0; i < cloudIconList.length; ++i) {
+      applyTranslate(cloudIconList[i], makeTranslate2D(0, 0));
+    }
+    for (let i = 0; i < sideIconList.length; ++i) {
+      applyTranslate(sideIconList[i], makeTranslate2D(0, 0));
+    }
+  } else {
+    isMobileSize = false;
+  }
+};
+
 map.addEventListener('mousemove', (e) => {
-  if (!translateUpdate) {
+  if (!translateUpdate || isMobileSize) {
     return;
   }
   let height = window.innerHeight;
