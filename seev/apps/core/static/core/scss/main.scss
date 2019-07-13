@@ -230,7 +230,7 @@ $card-width: 300px;
     }
   }
   #fet-container {
-    margin-top: 2rem;
+    margin-top: 1.5rem;
     margin-bottom: 2rem;
     display: flex;
     flex-flow: row wrap;
@@ -240,7 +240,7 @@ $card-width: 300px;
 }
 
 .fet-card {
-  margin-top: 3rem;
+  margin-top: 3.5rem;
   margin-left: 2rem;
   margin-right: 2rem;
   user-select: none;
@@ -252,14 +252,18 @@ $card-width: 300px;
   justify-content: space-evenly;
   align-items: center;
   padding: 2rem 1.5rem;
+  border-radius: $card-width / 12;
   &:nth-child(1) {
     background: linear-gradient(to bottom, #ba68c8, #4a148c);
+    box-shadow: 0 68px 16px -48px rgba($color: #7b1fa2, $alpha: 0.7);
   }
   &:nth-child(2) {
     background: linear-gradient(to bottom, #ff7043, #b71c1c);
+    box-shadow: 0 68px 16px -48px rgba($color: #d32f2f, $alpha: 0.7);
   }
   &:nth-child(3) {
     background: linear-gradient(to bottom, #29b6f6, #0d47a1);
+    box-shadow: 0 68px 16px -48px rgba($color: #1976d2, $alpha: 0.7);
   }
   img {
     width: 88px;
