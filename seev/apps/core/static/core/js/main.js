@@ -27,8 +27,8 @@ map.addEventListener('mousemove', (e) => {
   }
   let height = window.innerHeight;
   let width = window.innerWidth;
-  let offsetX = ((e.pageX - width / 2) / width) * maxOffsetXAbs;
-  let offsetY = ((e.pageY - height / 2) / height) * maxOffsetYAbs;
+  let offsetX = Math.min(((e.pageX - width / 2) / width) * maxOffsetXAbs, maxOffsetXAbs);
+  let offsetY = Math.min(((e.pageY - height / 2) / height) * maxOffsetYAbs, maxOffsetYAbs);
 
   for (let i = 0; i < cloudIconList.length; ++i) {
     let cloudSize = cloudIconList[i].getBoundingClientRect().bottom - cloudIconList[i].getBoundingClientRect().top;
