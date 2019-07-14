@@ -3,9 +3,39 @@
 
 class UnoCountry:
     US = 'US'
+    AF = 'AF'
+    AL = 'AL'
+    DZ = 'DZ'
+    AS = 'AS'
+    AD = 'AD'
+    AO = 'AO'
+    AI = 'AI'
+    AQ = 'AQ'
+    AG = 'AG'
+    AR = 'AR'
+    AM = 'AM'
+    AW = 'AW'
+    AU = 'AU'
+    AT = 'AT'
+    AZ = 'AZ'
 
     DATA_DICT = {
         US: 'United States of America',
+        AF: 'Afghanistan',
+        AL: 'Albania',
+        DZ: 'Algeria',
+        AS: 'American Samoa',
+        AD: 'Andorra',
+        AO: 'Angola',
+        AI: 'Anguilla',
+        AQ: 'Antarctica',
+        AG: 'Antigua and Barbuda',
+        AR: 'Argentina',
+        AM: 'Armenia',
+        AW: 'Aruba',
+        AU: 'Australia',
+        AT: 'Austria',
+        AZ: 'Azerbaijan',
     }
 
     def __init__(self):
