@@ -20,3 +20,7 @@ class UnoCountry:
             data_list.append(cty)
 
         return data_list
+
+    @staticmethod
+    def get_default_cty():
+        return (UnoCountry.US, UnoCountry.DATA_DICT[UnoCountry.US])
