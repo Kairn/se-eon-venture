@@ -28,7 +28,8 @@ SRC_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY = '9^#&2ub-uaxps4_24+xm7yqkld^h1_#ryvd#9p4glt*a*61$^('
-SECRET_KEY = get_random_secret_key()
+# SECRET_KEY = get_random_secret_key()
+SECRET_KEY = os.environ['DJANGO_SEC_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
