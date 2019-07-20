@@ -13,9 +13,37 @@
 			<a class="home-btn">Home</a>
 		</div>
 		<div class="form-title font-nuni">Client Portal</div>
+
 		<!-- Forms -->
-		<!-- <div class="form-sub-title">Sign in</div> -->
-		<!-- <div class="form-sub-title">Password Reset</div> -->
+		<form id="login-form" action="#" method="post" novalidate>
+			<div class="form-sub-title">Sign in</div>
+			{% csrf_token %}
+			{% for field in loginForm %}
+			<div class="form-ti-wrapper">
+				{{ field }}
+			</div>
+			{% endfor %}
+			<div id="forget" class="font-tweb">Forgot password?</div>
+			<div class="form-action-wrapper">
+				<button class="form-action-btn" type="submit">Login</button>
+				<button class="form-action-btn" type="reset">Clear</button>
+			</div>
+		</form>
+
+		<form id="psr-form" action="#" method="post" novalidate>
+			<div class="form-sub-title">Password Reset</div>
+			{% csrf_token %}
+			{% for field in psrForm %}
+			<div class="form-ti-wrapper">
+				{{ field }}
+			</div>
+			{% endfor %}
+			<div class="form-action-wrapper">
+				<button class="form-action-btn" type="submit">Reset</button>
+				<button class="form-action-btn" type="reset">Clear</button>
+			</div>
+		</form>
+
 		<div class="form-alt-text font-tweb">
 			<span class="fat-text">Don't have a business account yet?</span>
 			<span class="fat-action"><a>Sign up</a></span>

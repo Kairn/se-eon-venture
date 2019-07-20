@@ -1,5 +1,7 @@
 from django.shortcuts import render
 
+from .forms import LoginForm, PasswordResetForm
+
 # Create your views here.
 
 
@@ -16,4 +18,10 @@ def go_login(request):
         request.session.delete_test_cookie()
 
     context = {}
+    if request.method == 'GET':
+        loginForm = LoginForm()
+        psrForm = PasswordResetForm()
+        context['loginForm'] = loginForm
+        context['psrForm'] = psrForm
+
     return render(request, 'core/login.html', context=context)
