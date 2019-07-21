@@ -25,6 +25,14 @@ body {
   flex: 1 1 auto;
 }
 
+.no-show {
+  display: none;
+}
+
+.show {
+  display: initial;
+}
+
 .font-rob {
   font-family: "Roboto", sans-serif;
 }

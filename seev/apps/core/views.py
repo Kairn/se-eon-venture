@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from .forms import LoginForm, PasswordResetForm
 
@@ -25,3 +25,17 @@ def go_login(request):
         context['psrForm'] = psrForm
 
     return render(request, 'core/login.html', context=context)
+
+
+def auth_login(request):
+    if request.method == 'POST':
+        return redirect('go_landing')
+    else:
+        return redirect('go_login')
+
+
+def auth_password_reset(request):
+    if request.method == 'POST':
+        return redirect('go_landing')
+    else:
+        return redirect('go_login')

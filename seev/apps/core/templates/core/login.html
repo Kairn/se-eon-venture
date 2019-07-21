@@ -15,29 +15,44 @@
 		<div class="form-title font-nuni">Client Portal</div>
 
 		<!-- Forms -->
-		<form id="login-form" action="#" method="post" novalidate>
+		<form id="login-form" action="/auth-login/" method="post" novalidate>
 			<div class="form-sub-title">Sign in</div>
 			{% csrf_token %}
 			{% for field in loginForm %}
 			<div class="form-ti-wrapper">
+				<div class="form-label-wrapper">
+					<label>{{ field.label }}</label>
+					{% if field.field.required %}
+					<span class="asterisk"> * </span>
+					{% endif %}
+				</div>
 				{{ field }}
+				<div class="form-ie-wrapper"></div>
 			</div>
 			{% endfor %}
-			<div id="forget" class="font-tweb">Forgot password?</div>
+			<div class="form-alt-link font-tweb">Forgot password?</div>
 			<div class="form-action-wrapper">
 				<button class="form-action-btn" type="submit">Login</button>
 				<button class="form-action-btn" type="reset">Clear</button>
 			</div>
 		</form>
 
-		<form id="psr-form" action="#" method="post" novalidate>
+		<form id="psr-form" action="/auth-psr/" method="post" novalidate>
 			<div class="form-sub-title">Password Reset</div>
 			{% csrf_token %}
 			{% for field in psrForm %}
 			<div class="form-ti-wrapper">
+				<div class="form-label-wrapper">
+					<label>{{ field.label }}</label>
+					{% if field.field.required %}
+					<span class="asterisk"> * </span>
+					{% endif %}
+				</div>
 				{{ field }}
+				<div class="form-ie-wrapper"></div>
 			</div>
 			{% endfor %}
+			<div class="form-alt-link font-tweb">Back to login</div>
 			<div class="form-action-wrapper">
 				<button class="form-action-btn" type="submit">Reset</button>
 				<button class="form-action-btn" type="reset">Clear</button>

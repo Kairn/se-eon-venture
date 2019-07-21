@@ -4,6 +4,8 @@ from django import forms
 class LoginForm(forms.Form):
     username = forms.CharField(
         required=True,
+        label='Username',
+        label_suffix='',
         error_messages={
             'required': 'Please enter your username',
         },
@@ -15,6 +17,8 @@ class LoginForm(forms.Form):
     )
     password = forms.CharField(
         required=True,
+        label='Password',
+        label_suffix='',
         error_messages={
             'required': 'Please enter your password',
         },
@@ -29,6 +33,8 @@ class LoginForm(forms.Form):
 class PasswordResetForm(forms.Form):
     email = forms.EmailField(
         required=True,
+        label='Email',
+        label_suffix='',
         error_messages={
             'required': 'Email address is required',
         },
@@ -40,6 +46,8 @@ class PasswordResetForm(forms.Form):
     )
     pin = forms.IntegerField(
         required=True,
+        label='PIN',
+        label_suffix='',
         max_value=9999,
         min_value=1000,
         error_messages={
