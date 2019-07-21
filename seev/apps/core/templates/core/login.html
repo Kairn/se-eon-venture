@@ -10,54 +10,54 @@
 <div id="login-wrapper">
 	<div id="forms-wrapper">
 		<div class="form-home-wrapper">
-			<a class="home-btn">Home</a>
+			<a href="/" class="home-btn">Home</a>
 		</div>
-		<div class="form-title font-nuni">Client Portal</div>
+		<div class="form-title font-title">Client Portal</div>
 
 		<!-- Forms -->
-		<form id="login-form" action="/auth-login/" method="post" novalidate>
-			<div class="form-sub-title">Sign in</div>
-			{% csrf_token %}
-			{% for field in loginForm %}
-			<div class="form-ti-wrapper">
-				<div class="form-label-wrapper">
-					<label>{{ field.label }}</label>
-					{% if field.field.required %}
-					<span class="asterisk"> * </span>
-					{% endif %}
+		<section id="forms-section">
+			<form id="login-form" action="/auth-login/" method="post" novalidate>
+				<div class="form-sub-title font-mont">Sign in</div>
+				{% csrf_token %}
+				{% for field in loginForm %}
+				<div class="form-ti-wrapper">
+					<div class="form-label-wrapper">
+						<label>{{ field.label }}</label>
+						{% if field.field.required %}
+						<span class="asterisk"> * </span>
+						{% endif %}
+					</div>
+					{{ field }}
+					<div class="form-ie-wrapper">Sample error message</div>
 				</div>
-				{{ field }}
-				<div class="form-ie-wrapper"></div>
-			</div>
-			{% endfor %}
-			<div class="form-alt-link font-tweb">Forgot password?</div>
-			<div class="form-action-wrapper">
-				<button class="form-action-btn" type="submit">Login</button>
-				<button class="form-action-btn" type="reset">Clear</button>
-			</div>
-		</form>
+				{% endfor %}
+				<div class="form-action-wrapper">
+					<button class="form-action-btn" type="submit">Login</button>
+					<button class="form-action-btn reset-btn" type="reset">Clear</button>
+				</div>
+			</form>
 
-		<form id="psr-form" action="/auth-psr/" method="post" novalidate>
-			<div class="form-sub-title">Password Reset</div>
-			{% csrf_token %}
-			{% for field in psrForm %}
-			<div class="form-ti-wrapper">
-				<div class="form-label-wrapper">
-					<label>{{ field.label }}</label>
-					{% if field.field.required %}
-					<span class="asterisk"> * </span>
-					{% endif %}
+			<form id="psr-form" action="/auth-psr/" method="post" novalidate>
+				<div class="form-sub-title font-mont">Password Reset</div>
+				{% csrf_token %}
+				{% for field in psrForm %}
+				<div class="form-ti-wrapper">
+					<div class="form-label-wrapper">
+						<label>{{ field.label }}</label>
+						{% if field.field.required %}
+						<span class="asterisk"> * </span>
+						{% endif %}
+					</div>
+					{{ field }}
+					<div class="form-ie-wrapper">Sample error message</div>
 				</div>
-				{{ field }}
-				<div class="form-ie-wrapper"></div>
-			</div>
-			{% endfor %}
-			<div class="form-alt-link font-tweb">Back to login</div>
-			<div class="form-action-wrapper">
-				<button class="form-action-btn" type="submit">Reset</button>
-				<button class="form-action-btn" type="reset">Clear</button>
-			</div>
-		</form>
+				{% endfor %}
+				<div class="form-action-wrapper">
+					<button class="form-action-btn" type="submit">Reset</button>
+					<button class="form-action-btn reset-btn" type="reset">Clear</button>
+				</div>
+			</form>
+		</section>
 
 		<div class="form-alt-text font-tweb">
 			<span class="fat-text">Don't have a business account yet?</span>
