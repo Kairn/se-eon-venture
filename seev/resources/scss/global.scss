@@ -30,6 +30,12 @@ a {
   }
 }
 
+form {
+  *:not(input) {
+    user-select: none;
+  }
+}
+
 #content-wrapper {
   width: 100%;
   flex: 1 1 auto;
@@ -43,26 +49,16 @@ a {
   display: initial;
 }
 
-.form-home-wrapper {
-  margin-top: -3rem;
-  padding: 1rem 1rem 1rem 0rem;
-  .home-btn {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    border: 1px white solid;
-    border-radius: 21px;
-    font-family: "Montserrat", sans-serif;
-    font-size: 20px;
-    text-align: center;
-  }
-}
-
 .form-title {
+  user-select: none;
   padding: 0.5rem 0 1rem 0;
   margin-bottom: 1rem;
   text-align: center;
   font-size: 50px;
   font-weight: 500;
+  @include mobile {
+    font-size: 46px;
+  }
 }
 
 .form-alt-text {
@@ -85,6 +81,9 @@ a {
   text-align: center;
   margin-bottom: 2rem;
   margin-top: -1rem;
+  @include mobile {
+    font-size: 24px;
+  }
 }
 
 .form-ti-wrapper {
@@ -96,6 +95,10 @@ a {
     font-family: "Comfortaa", cursive;
     border: 1px #9e9e9e solid;
     border-radius: 4px;
+    @include mobile {
+      font-size: 16px;
+      padding: 1.2rem 1.5rem 1rem 1.5rem;
+    }
   }
 }
 
@@ -104,6 +107,9 @@ a {
   margin-bottom: 0.5rem;
   padding-left: 0.5rem;
   color: #616161;
+  @include mobile {
+    font-size: 18px;
+  }
 }
 
 .form-ie-wrapper {
@@ -111,6 +117,9 @@ a {
   font-size: 14px;
   color: $warn;
   margin-top: 0.5rem;
+  @include mobile {
+    font-size: 12px;
+  }
 }
 
 .form-action-wrapper {
@@ -130,8 +139,15 @@ a {
   color: white;
   text-align: center;
   margin-bottom: 1.5rem;
-  width: 70%;
+  width: 280px;
   border-radius: 6px;
+  @include mobile {
+    width: 220px;
+    font-size: 18px;
+  }
+  @include small {
+    width: 180px;
+  }
   &.reset-btn {
     background-color: #757575;
   }

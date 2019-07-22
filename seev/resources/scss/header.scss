@@ -3,6 +3,7 @@
 @import "./media.scss";
 
 header#header {
+  display: block;
   user-select: none;
   width: 100%;
   min-height: 10vh;

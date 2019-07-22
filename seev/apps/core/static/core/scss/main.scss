@@ -315,6 +315,14 @@ $card-width: 300px;
   box-shadow: 0 16px 32px 0 #9e9e9e;
   // background: linear-gradient(to top, rgba($color: #4dd0e1, $alpha: 1), rgba($color: #4dd0e1, $alpha: 1));
   background-color: #03a9f4;
+  @include mobile {
+    width: 90%;
+    padding: 4rem 1rem 6rem 1rem;
+  }
+  @include small {
+    width: 95%;
+    padding: 4rem 0 6rem 0;
+  }
 }
 
 #forms-section {
@@ -331,5 +339,23 @@ $card-width: 300px;
     background-color: #e1f5fe;
     width: 41%;
     box-shadow: 0 8px 32px 0 #0277bd;
+    @include laptop {
+      width: 56%;
+      &:first-child {
+        margin-bottom: 5rem;
+      }
+    }
+    @include tablet {
+      width: 66%;
+    }
+    @include mobile {
+      width: 84%;
+    }
+    @include small {
+      width: 92%;
+    }
+  }
+  @include laptop {
+    flex-flow: column wrap;
   }
 }
