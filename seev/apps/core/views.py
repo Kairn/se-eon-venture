@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 
-from .forms import LoginForm, PasswordResetForm
+from .forms import LoginForm, PasswordResetForm, RegisterForm
 
 # Create your views here.
 
@@ -39,3 +39,19 @@ def auth_password_reset(request):
         return redirect('go_landing')
     else:
         return redirect('go_login')
+
+
+def go_register(request):
+    context = {}
+    if request.method == 'GET':
+        registerForm = RegisterForm()
+        context['registerForm'] = registerForm
+
+    return render(request, 'core/register.html', context=context)
+
+
+def do_register(request):
+    if request.method == 'POST':
+        return redirect('go_landing')
+    else:
+        return redirect('go_register')

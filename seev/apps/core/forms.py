@@ -15,6 +15,7 @@ class LoginForm(forms.Form):
             }
         )
     )
+
     password = forms.CharField(
         required=True,
         label='Password',
@@ -44,6 +45,7 @@ class PasswordResetForm(forms.Form):
             }
         )
     )
+
     pin = forms.IntegerField(
         required=True,
         label='PIN',
@@ -59,6 +61,22 @@ class PasswordResetForm(forms.Form):
         widget=forms.NumberInput(
             attrs={
                 'placeholder': 'PIN',
+            }
+        )
+    )
+
+
+class RegisterForm(forms.Form):
+    entity_name = forms.CharField(
+        required=True,
+        label='Entity Name',
+        label_suffix='',
+        error_messages={
+            'required': 'Entity name is required',
+        },
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Entity Name',
             }
         )
     )

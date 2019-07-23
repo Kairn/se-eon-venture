@@ -1,0 +1,46 @@
+<!-- Main login page of the application -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'core/css/main.min.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div id="register-wrapper">
+	<div id="reg-form-wrapper">
+		<div class="form-title font-title">Business Portal</div>
+
+		<!-- Forms -->
+		<form id="register-form" action="/do-reg/" method="post" novalidate>
+			<div class="form-sub-title font-mont">Sign up</div>
+			{% csrf_token %}
+			{% for field in registerForm %}
+			<div class="form-ti-wrapper">
+				<div class="form-label-wrapper">
+					<label>{{ field.label }}</label>
+					{% if field.field.required %}
+					<span class="asterisk"> * </span>
+					{% endif %}
+				</div>
+				{{ field }}
+				<div class="form-ie-wrapper">Sample error message</div>
+			</div>
+			{% endfor %}
+			<div class="form-action-wrapper">
+				<button class="form-action-btn" type="submit">Submit</button>
+				<button class="form-action-btn reset-btn" type="reset">Clear</button>
+			</div>
+		</form>
+
+		<div class="form-alt-text font-tweb">
+			<span class="fat-text">Already a registered business?</span>
+			<span class="fat-action"><a href="/login/">Sign in</a></span>
+		</div>
+	</div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'core/js/main.js' %}"></script>
+{% endblock js %}
