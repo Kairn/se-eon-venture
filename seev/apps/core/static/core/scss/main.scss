@@ -364,7 +364,9 @@ $card-width: 300px;
   display: flex;
   justify-content: center;
   align-items: center;
-  input {
+  input,
+  select,
+  textarea {
     caret-color: #e91e63;
     background-color: lighten($color: #e91e63, $amount: 48%);
     &:focus {
@@ -401,16 +403,16 @@ $card-width: 300px;
   border-radius: 16px;
   color: black;
   background-color: #fce4ec;
-  width: 55%;
+  width: 65%;
   margin-top: 2rem;
   margin-bottom: 3rem;
   margin-left: auto;
   margin-right: auto;
   box-shadow: 0 8px 32px 0 #ad1457;
   @include tablet {
-    width: 70%;
+    width: 80%;
   }
   @include mobile {
-    width: 85%;
+    width: 90%;
   }
 }
