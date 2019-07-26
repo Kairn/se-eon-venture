@@ -171,6 +171,41 @@ form {
   }
 }
 
+input[type="file"] {
+  height: 0;
+  overflow: hidden;
+  width: 0;
+  padding: 0;
+  margin: 0;
+  border: none;
+  border-radius: 0;
+  opacity: 0;
+  display: block;
+}
+
+input[type="file"] + label.form-inp-label {
+  font-family: "Montserrat", sans-serif;
+  font-size: 18px;
+  display: block;
+  width: 100%;
+  color: white;
+  text-align: center;
+  padding: 0.75rem;
+  margin: 1rem 0 1rem 0.5rem;
+  border-radius: 23.2px;
+  width: 45%;
+  cursor: pointer;
+  transition-property: background-color;
+  transition-duration: 0.25s;
+  &:hover {
+    transition-property: background-color;
+    transition-duration: 0.25s;
+  }
+  @include mobile {
+    width: 60%;
+  }
+}
+
 .font-rob {
   font-family: "Roboto", sans-serif;
 }

@@ -379,6 +379,12 @@ $card-width: 300px;
   .form-action-btn:not(.reset-btn) {
     background-color: #d81b60;
   }
+  label.form-inp-label {
+    background-color: #e91e63;
+    &:hover {
+      background-color: #c2185b;
+    }
+  }
 }
 
 #reg-form-wrapper {
