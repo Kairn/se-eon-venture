@@ -49,6 +49,53 @@ form {
   display: initial;
 }
 
+.invisible {
+  visibility: hidden;
+}
+
+.visible {
+  visibility: visible;
+}
+
+#gsb {
+  user-select: none;
+  z-index: 100;
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 400px;
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #282828;
+  box-shadow: 0 3px 16px -1px #232323;
+  border-radius: 3px;
+  transition-property: visibility;
+  transition-duration: 0.1s;
+  @include mobile {
+    width: 334px;
+  }
+  #sb-msg {
+    cursor: default;
+    color: white;
+    @include mobile {
+      font-size: 14px;
+    }
+  }
+  #sb-act {
+    font-family: "Titillium Web", sans-serif;
+    color: #ffc107;
+    cursor: pointer;
+    font-size: 18px;
+    @include mobile {
+      font-size: 16px;
+    }
+  }
+}
+
 .form-title {
   user-select: none;
   padding: 0.5rem 0 1rem 0;
