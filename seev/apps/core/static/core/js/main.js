@@ -1,3 +1,5 @@
+// Main script used in core app
+
 console.log('Core app is launching...');
 
 const maxOffsetXAbs = 45;

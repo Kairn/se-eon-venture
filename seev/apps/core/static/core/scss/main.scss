@@ -339,13 +339,13 @@ $card-width: 300px;
     width: 41%;
     box-shadow: 0 8px 32px 0 #283593;
     @include laptop {
-      width: 56%;
+      width: 60%;
       &:first-child {
         margin-bottom: 5rem;
       }
     }
     @include tablet {
-      width: 66%;
+      width: 72%;
     }
     @include mobile {
       width: 84%;

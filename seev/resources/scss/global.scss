@@ -218,6 +218,17 @@ form {
   }
 }
 
+.form-btn-dis {
+  opacity: 1;
+  cursor: default;
+  background-color: rgba($color: #000000, $alpha: 0.15) !important;
+  color: rgba($color: #000000, $alpha: 0.3) !important;
+  box-shadow: none;
+  &:hover {
+    opacity: 1;
+  }
+}
+
 input[type="file"] {
   height: 0;
   overflow: hidden;
