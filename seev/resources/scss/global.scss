@@ -165,12 +165,21 @@ form {
 }
 
 .form-ie-wrapper {
+  overflow: hidden;
   padding-left: 0.5rem;
   font-size: 14px;
   color: $warn;
   margin-top: 0.5rem;
   @include mobile {
     font-size: 12px;
+  }
+}
+
+.ie-msg {
+  display: inline-block;
+  transition-duration: 0.4s;
+  &.ie-hide-up {
+    transform: translateY(-1.2em);
   }
 }
 

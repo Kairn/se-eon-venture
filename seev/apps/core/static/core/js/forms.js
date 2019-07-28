@@ -4,6 +4,7 @@
 var allForms = document.querySelectorAll('form');
 var allInputFields = document.querySelectorAll('input');
 var allButtons = document.querySelectorAll('button');
+var allValidationMessages = document.querySelectorAll('.ie-msg');
 
 // Validate login form
 const validateLoginForm = function(form) {
@@ -41,7 +42,36 @@ const validateLoginForm = function(form) {
 
 // Validate password reset form
 const validateResetForm = function(form) {
-  //
+  let valid = true;
+  let submitBtn;
+
+  for (let i = 0; i < form.length; ++i) {
+    let fe = form[i];
+
+    if (fe.type === 'submit') {
+      submitBtn = fe;
+    } else if (fe.id === 'id_email') {
+      if (!fe.value) {
+        valid = false;
+        if (fe.touched) {
+          displayValidationError(fe.name, VE_REQUIRED);
+        }
+      } else {
+        removeValidationError(fe.name);
+      }
+    } else if (fe.id === 'id_pin') {
+      if (!fe.value) {
+        valid = false;
+        if (fe.touched) {
+          displayValidationError(fe.name, VE_REQUIRED);
+        }
+      } else {
+        removeValidationError(fe.name);
+      }
+    }
+  }
+
+  disEnaButton(submitBtn, valid);
 };
 
 // Show field error message after validation
@@ -49,6 +79,7 @@ const displayValidationError = function(name, errMsg) {
   let errId = `ie_${name}`;
   let me = document.getElementById(errId);
   me.innerText = errMsg;
+  me.classList.remove('ie-hide-up');
 };
 
 // Remove field error message
@@ -56,6 +87,7 @@ const removeValidationError = function(name) {
   let errId = `ie_${name}`;
   let me = document.getElementById(errId);
   me.innerText = '';
+  me.classList.add('ie-hide-up');
 };
 
 // Trigger form validation based on input event
@@ -97,4 +129,9 @@ allButtons.forEach((button) => {
     button.disabled = true;
     button.classList.add('form-btn-dis');
   }
+});
+
+// Initially hide all validation messages
+allValidationMessages.forEach((message) => {
+  message.classList.add('ie-hide-up');
 });
