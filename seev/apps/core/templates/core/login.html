@@ -25,7 +25,9 @@
 						{% endif %}
 					</div>
 					{{ field }}
-					<div class="form-ie-wrapper">Sample error message</div>
+					<div class="form-ie-wrapper">
+						<span id="ie_{{ field.name }}" class="ie-msg invisible"></span><span class="invisible">I</span>
+					</div>
 				</div>
 				{% endfor %}
 				<div class="form-action-wrapper">
@@ -46,7 +48,9 @@
 						{% endif %}
 					</div>
 					{{ field }}
-					<div class="form-ie-wrapper">Sample error message</div>
+					<div class="form-ie-wrapper">
+						<span id="ie_{{ field.name }}" class="ie-msg invisible"></span><span class="invisible">I</span>
+					</div>
 				</div>
 				{% endfor %}
 				<div class="form-action-wrapper">
@@ -66,4 +70,5 @@
 
 {% block js %}
 <script src="{% static 'core/js/main.js' %}"></script>
+<script src="{% static 'core/js/forms.js' %}"></script>
 {% endblock js %}
