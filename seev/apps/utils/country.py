@@ -94,6 +94,123 @@ class UnoCountry:
     IM = 'IM'
     IL = 'IL'
     IT = 'IT'
+    JM = 'JM'
+    JP = 'JP'
+    JE = 'JE'
+    JO = 'JO'
+    KZ = 'KZ'
+    KE = 'KE'
+    KI = 'KI'
+    KP = 'KP'
+    KR = 'KR'
+    KW = 'KW'
+    KG = 'KG'
+    LA = 'LA'
+    LV = 'LV'
+    LB = 'LB'
+    LS = 'LS'
+    LR = 'LR'
+    LY = 'LY'
+    LI = 'LI'
+    LT = 'LT'
+    LU = 'LU'
+    MO = 'MO'
+    MG = 'MG'
+    MW = 'MW'
+    MY = 'MY'
+    MV = 'MV'
+    ML = 'ML'
+    MT = 'MT'
+    MQ = 'MQ'
+    MR = 'MR'
+    MU = 'MU'
+    YT = 'YT'
+    MX = 'MX'
+    MC = 'MC'
+    MN = 'MN'
+    ME = 'ME'
+    MS = 'MS'
+    MA = 'MA'
+    MZ = 'MZ'
+    MM = 'MM'
+    NA = 'NA'
+    NR = 'NR'
+    NP = 'NP'
+    NL = 'NL'
+    NC = 'NC'
+    NZ = 'NZ'
+    NI = 'NI'
+    NE = 'NE'
+    NG = 'NG'
+    NU = 'NU'
+    NF = 'NF'
+    NO = 'NO'
+    OM = 'OM'
+    PK = 'PK'
+    PW = 'PW'
+    PS = 'PS'
+    PA = 'PA'
+    PG = 'PG'
+    PY = 'PY'
+    PE = 'PE'
+    PH = 'PH'
+    PN = 'PN'
+    PL = 'PL'
+    PT = 'PT'
+    PR = 'PR'
+    QA = 'QA'
+    RO = 'RO'
+    RU = 'RU'
+    RW = 'RW'
+    LC = 'LC'
+    PM = 'PM'
+    WS = 'WS'
+    SM = 'SM'
+    SA = 'SA'
+    SN = 'SN'
+    RS = 'RS'
+    SC = 'SC'
+    SL = 'SL'
+    SG = 'SG'
+    SK = 'SK'
+    SI = 'SI'
+    SB = 'SB'
+    SO = 'SO'
+    ZA = 'ZA'
+    SS = 'SS'
+    ES = 'ES'
+    LK = 'LK'
+    SD = 'SD'
+    SR = 'SR'
+    SE = 'SE'
+    CH = 'CH'
+    SY = 'SY'
+    TW = 'TW'
+    TJ = 'TJ'
+    TZ = 'TZ'
+    TH = 'TH'
+    TG = 'TG'
+    TK = 'TK'
+    TO = 'TO'
+    TT = 'TT'
+    TN = 'TN'
+    TR = 'TR'
+    TM = 'TM'
+    TV = 'TV'
+    UG = 'UG'
+    UA = 'UA'
+    AE = 'AE'
+    GB = 'GB'
+    UY = 'UY'
+    UZ = 'UZ'
+    VU = 'VU'
+    VE = 'VE'
+    VN = 'VN'
+    WF = 'WF'
+    EH = 'EH'
+    YE = 'YE'
+    ZM = 'ZM'
+    ZW = 'ZW'
 
     DATA_DICT = {
         US: 'United States of America',
@@ -188,6 +305,123 @@ class UnoCountry:
         IM: 'Isle of Man',
         IL: 'Israel',
         IT: 'Italy',
+        JM: 'Jamaica',
+        JP: 'Japan',
+        JE: 'Jersey',
+        JO: 'Jordan',
+        KZ: 'Kazakhstan',
+        KE: 'Kenya',
+        KI: 'Kiribati',
+        KP: 'North Korea',
+        KR: 'South Korea',
+        KW: 'Kuwait',
+        KG: 'Kyrgyzstan',
+        LA: 'Laos',
+        LV: 'Latvia',
+        LB: 'Lebanon',
+        LS: 'Lesotho',
+        LR: 'Liberia',
+        LY: 'Libya',
+        LI: 'Liechtenstein',
+        LT: 'Lithuania',
+        LU: 'Luxembourg',
+        MO: 'Macao',
+        MG: 'Madagascar',
+        MW: 'Malawi',
+        MY: 'Malaysia',
+        MV: 'Maldives',
+        ML: 'Mali',
+        MT: 'Malta',
+        MQ: 'Martinique',
+        MR: 'Mauritania',
+        MU: 'Mauritius',
+        YT: 'Mayotte',
+        MX: 'Mexico',
+        MC: 'Monaco',
+        MN: 'Mongolia',
+        ME: 'Montenegro',
+        MS: 'Montserrat',
+        MA: 'Morocco',
+        MZ: 'Mozambique',
+        MM: 'Myanmar',
+        NA: 'Namibia',
+        NR: 'Nauru',
+        NP: 'Nepal',
+        NL: 'Netherlands',
+        NC: 'New Caledonia',
+        NZ: 'New Zealand',
+        NI: 'Nicaragua',
+        NE: 'Niger',
+        NG: 'Nigeria',
+        NU: 'Niue',
+        NF: 'Norfolk Island',
+        NO: 'Norway',
+        OM: 'Oman',
+        PK: 'Pakistan',
+        PW: 'Palau',
+        PS: 'Palestine',
+        PA: 'Panama',
+        PG: 'Papua New Guinea',
+        PY: 'Paraguay',
+        PE: 'Peru',
+        PH: 'Philippines',
+        PN: 'Pitcairn',
+        PL: 'Poland',
+        PT: 'Portugal',
+        PR: 'Puerto Rico',
+        QA: 'Qatar',
+        RO: 'Romania',
+        RU: 'Russia',
+        RW: 'Rwanda',
+        LC: 'Saint Lucia',
+        PM: 'Saint Pierre and Miquelon',
+        WS: 'Samoa',
+        SM: 'San Marino',
+        SA: 'Saudi Arabia',
+        SN: 'Senegal',
+        RS: 'Serbia',
+        SC: 'Seychelles',
+        SL: 'Sierra Leone',
+        SG: 'Singapore',
+        SK: 'Slovakia',
+        SI: 'Slovenia',
+        SB: 'Solomon Islands',
+        SO: 'Somalia',
+        ZA: 'South Africa',
+        SS: 'South Sudan',
+        ES: 'Spain',
+        LK: 'Sri Lanka',
+        SD: 'Sudan',
+        SR: 'Suriname',
+        SE: 'Sweden',
+        CH: 'Switzerland',
+        SY: 'Syria',
+        TW: 'Taiwan',
+        TJ: 'Tajikistan',
+        TZ: 'Tanzania',
+        TH: 'Thailand',
+        TG: 'Togo',
+        TK: 'Tokelau',
+        TO: 'Tonga',
+        TT: 'Trinidad and Tobago',
+        TN: 'Tunisia',
+        TR: 'Turkey',
+        TM: 'Turkmenistan',
+        TV: 'Tuvalu',
+        UG: 'Uganda',
+        UA: 'Ukraine',
+        AE: 'United Arab Emirates',
+        GB: 'United Kingdom',
+        UY: 'Uruguay',
+        UZ: 'Uzbekistan',
+        VU: 'Vanuatu',
+        VE: 'Venezuela',
+        VN: 'Vietnam',
+        WF: 'Wallis and Futuna',
+        EH: 'Western Sahara',
+        YE: 'Yemen',
+        ZM: 'Zambia',
+        ZW: 'Zimbabwe',
     }
 
     def __init__(self):
