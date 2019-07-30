@@ -2,7 +2,7 @@
 
 // General DOM element references
 var allForms = document.querySelectorAll('form');
-var allInputFields = document.querySelectorAll('input');
+var allInputFields = document.querySelectorAll('input, select, textarea');
 var allButtons = document.querySelectorAll('button');
 var allValidationMessages = document.querySelectorAll('.ie-msg');
 
@@ -134,4 +134,26 @@ allButtons.forEach((button) => {
 // Initially hide all validation messages
 allValidationMessages.forEach((message) => {
   message.classList.add('ie-hide-up');
+});
+
+// Clear all validation related data when form resets
+allButtons.forEach((button) => {
+  if (button.type === 'reset') {
+    button.addEventListener('click', (e) => {
+      let targetForm = e.target.form;
+
+      for (let i = 0; i < targetForm.length; ++i) {
+        let element = targetForm[i];
+
+        if (!element.id.startsWith('id_')) {
+          continue;
+        }
+        if (element.tagName === 'INPUT' || element.tagName === 'SELECT' || element.tagName === 'TEXTAREA') {
+          element.touched = false;
+          element.dirty = false;
+          removeValidationError(element.name);
+        }
+      }
+    })
+  }
 });
