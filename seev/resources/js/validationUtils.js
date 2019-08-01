@@ -30,17 +30,51 @@ const isSuffLength = function(input, length) {
 
 // Validate an email address
 const isValidEmail = function(input) {
-  //
+  // Email pattern
+  let emlRegex = new RegExp(`^[\\w\\.]+@\\w+\\.[\\w]+$`);
+
+  // Double dots
+  let ddRegex = new RegExp(`\\.\\.`);
+  if (ddRegex.test(input)) {
+    return false;
+  }
+
+  return emlRegex.test(input);
 };
 
 // Validate a U.S. phone number
 const isValidPhone = function(input) {
-  //
+  // Non-digit
+  let ndRegex = new RegExp(`\\D`);
+
+  if (input.length !== 10) {
+    return false;
+  }
+  if (ndRegex.test(input)) {
+    return false;
+  }
+
+  try {
+    input = parseInt(input, 10);
+    return true;
+  } catch (e) {
+    return false;
+  }
 };
 
 // Validate a PIN number
 const isValidPin = function(input) {
-  //
+  try {
+    input = parseInt(input, 10);
+
+    if (input < 1000 || input > 9999) {
+      return false;
+    }
+  } catch (e) {
+    return false;
+  }
+
+  return true;
 };
 
 // Validate a user password
