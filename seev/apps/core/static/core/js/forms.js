@@ -74,6 +74,33 @@ const validateResetForm = function(form) {
   disEnaButton(submitBtn, valid);
 };
 
+// Validate register form
+const validateRegisterForm = function(form) {
+  let valid = true;
+  let submitBtn;
+
+  for (let i = 0; i < form.length; ++i) {
+    let fe = form[i];
+
+    if (fe.type === 'submit') {
+      submitBtn = fe;
+    } else if (fe.id === 'id_entity_name') {
+      if (fe.required && !fe.value) {
+        valid = false;
+        if (fe.touched) {
+          displayValidationError(fe.name, VE_REQUIRED);
+        }
+      } else {
+        removeValidationError(fe.name);
+      }
+    } else if (fe.id === '') {
+      //
+    }
+  }
+
+  disEnaButton(submitBtn, valid);
+}
+
 // Show field error message after validation
 const displayValidationError = function(name, errMsg) {
   let errId = `ie_${name}`;
@@ -102,8 +129,8 @@ const triggerFormValidation = function(event) {
     validateLoginForm(e.target.form);
   } else if (e.target.form.id === 'psr-form') {
     validateResetForm(e.target.form);
-  } else if (e.target.form.id === '') {
-    //
+  } else if (e.target.form.id === 'register-form') {
+    validateRegisterForm(e.target.form);
   }
 }
 

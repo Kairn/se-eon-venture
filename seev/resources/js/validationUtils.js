@@ -21,12 +21,12 @@ const disEnaButton = function(button, valid) {
     button.disabled = true;
     button.classList.add('form-btn-dis');
   }
-}
+};
 
 // Validate if an input meets length requirement
 const isSuffLength = function(input, length) {
   return input.length >= length;
-}
+};
 
 // Validate an email address
 const isValidEmail = function(input) {
@@ -110,6 +110,21 @@ const isPsStrong = function(input) {
     return false;
   }
   if (!speRegex.test(input)) {
+    return false;
+  }
+  if (spaRegex.test(input)) {
+    return false;
+  }
+
+  return true;
+};
+
+// Validate basic credentials
+const isValidCredentials = function(input) {
+  // White spaces
+  let spaRegex = new RegExp(`\\s`);
+
+  if (input.length < 6) {
     return false;
   }
   if (spaRegex.test(input)) {
