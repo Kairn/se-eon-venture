@@ -4,9 +4,11 @@
 const VE_REQUIRED = 'Field is required';
 const VE_EMAIL = 'Invalid email format';
 const VE_PHONE = 'Invalid phone number';
-const VE_PSWEAK = 'Need at least 6 characters';
+const VE_USERNAME = 'Username is too short or invalid';
+const VE_PSWEAK = 'Password is too weak';
 const VE_PSCONFIRM = 'Passwords do not match';
-const VE_NOFILE = 'File upload is required';
+const VE_NOFILE = 'No file selected';
+const VE_PIN = 'Must be between 1000 and 9999';
 
 // Disbale or enable a button
 const disEnaButton = function(button, valid) {

@@ -93,13 +93,109 @@ const validateRegisterForm = function(form) {
       } else {
         removeValidationError(fe.name);
       }
-    } else if (fe.id === '') {
-      //
+    } else if (fe.id === 'id_contact_email' || fe.id === 'id_recovery_email') {
+      if (fe.required && !fe.value) {
+        valid = false;
+        if (fe.touched) {
+          displayValidationError(fe.name, VE_REQUIRED);
+        }
+      } else if (fe.value && !isValidEmail(fe.value)) {
+        valid = false;
+        if (fe.touched && fe.dirty) {
+          displayValidationError(fe.name, VE_EMAIL);
+        }
+      } else {
+        removeValidationError(fe.name);
+      }
+    } else if (fe.id === 'id_contact_phone') {
+      if (fe.required && !fe.value) {
+        valid = false;
+        if (fe.touched) {
+          displayValidationError(fe.name, VE_REQUIRED);
+        }
+      } else if (fe.value && !isValidPhone(fe.value)) {
+        valid = false;
+        if (fe.touched && fe.dirty) {
+          displayValidationError(fe.name, VE_PHONE);
+        }
+      } else {
+        removeValidationError(fe.name);
+      }
+    } else if (fe.id === 'id_signature_letter') {
+      if (!fe.value) {
+        valid = false;
+        displayValidationError(fe.name, VE_NOFILE);
+      } else {
+        removeValidationError(fe.name);
+      }
+    } else if (fe.id === 'id_username') {
+      if (fe.required && !fe.value) {
+        valid = false;
+        if (fe.touched) {
+          displayValidationError(fe.name, VE_REQUIRED);
+        }
+      } else if (fe.value && !isValidCredentials(fe.value)) {
+        valid = false;
+        if (fe.touched && fe.dirty) {
+          displayValidationError(fe.name, VE_USERNAME);
+        }
+      } else {
+        removeValidationError(fe.name);
+      }
+    } else if (fe.id === 'id_password') {
+      if (fe.required && !fe.value) {
+        valid = false;
+        if (fe.touched) {
+          displayValidationError(fe.name, VE_REQUIRED);
+        }
+      } else if (fe.value && !isPsStrong(fe.value)) {
+        valid = false;
+        if (fe.touched && fe.dirty) {
+          displayValidationError(fe.name, VE_PSWEAK);
+        }
+      } else {
+        removeValidationError(fe.name);
+      }
+    } else if (fe.id === 'id_confirm_password') {
+      let psfe = document.getElementById('id_password');
+
+      if (psfe && psfe.value && isPsStrong(psfe.value)) {
+        if (fe.required && !fe.value) {
+          valid = false;
+          if (fe.touched) {
+            displayValidationError(fe.name, VE_REQUIRED);
+          }
+        } else if (fe.value && fe.value !== psfe.value) {
+          valid = false;
+          if (fe.touched && fe.dirty) {
+            displayValidationError(fe.name, VE_PSCONFIRM);
+          }
+        } else {
+          removeValidationError(fe.name);
+        }
+      } else {
+        valid = false;
+        removeValidationError(fe.name);
+      }
+    } else if (fe.id === 'id_pin') {
+      if (fe.required && !fe.value) {
+        valid = false;
+        if (fe.touched) {
+          displayValidationError(fe.name, VE_REQUIRED);
+        }
+      } else if (fe.value && !isValidPin(fe.value)) {
+        valid = false;
+        if (fe.touched && fe.dirty) {
+          displayValidationError(fe.name, VE_PIN);
+        }
+      } else {
+        removeValidationError(fe.name);
+      }
     }
   }
 
   disEnaButton(submitBtn, valid);
-}
+};
 
 // Show field error message after validation
 const displayValidationError = function(name, errMsg) {
@@ -132,7 +228,7 @@ const triggerFormValidation = function(event) {
   } else if (e.target.form.id === 'register-form') {
     validateRegisterForm(e.target.form);
   }
-}
+};
 
 // Detect form input changes to trigger validation
 allInputFields.forEach((field) => {
