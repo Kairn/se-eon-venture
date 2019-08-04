@@ -1,5 +1,8 @@
 from django.shortcuts import render, redirect
 
+from seev.apps.utils.validations import isValidRegisterRequest
+
+from .models import UnoClient, UnoCredentials
 from .forms import LoginForm, PasswordResetForm, RegisterForm
 
 # Create your views here.
@@ -52,6 +55,54 @@ def go_register(request):
 
 def do_register(request):
     if request.method == 'POST':
-        return redirect('go_landing')
+        registerForm = RegisterForm(request.POST, request.FILES)
+
+        # Basic validation
+        if registerForm.is_multipart() and registerForm.is_valid():
+            # Specific validation
+            if isValidRegisterRequest(request.POST):
+                entity_name = request.POST['entity_name']
+                country = request.POST['country']
+                trade_ticker = request.POST['trade_ticker']
+                contact_email = request.POST['contact_email']
+                contact_phone = request.POST['contact_phone']
+                summary = request.POST['summary']
+                website = request.POST['website']
+                # username = request.POST['username']
+                # password = request.POST['password']
+                # recovery_email = request.POST['recovery_email']
+                # pin = request.POST['pin']
+
+                signature_letter = request.FILES['signature_letter']
+                sl_bin = b''
+
+                # Obtain binary data
+                for chunk in signature_letter.chunks():
+                    sl_bin += chunk
+
+                if len(trade_ticker) == 0:
+                    trade_ticker = None
+                if len(summary) == 0:
+                    summary = None
+                if len(website) == 0:
+                    website = None
+
+                print(UnoClient(
+                    ctg_name=None,
+                    entity_name=entity_name,
+                    country=country,
+                    trade_ticker=trade_ticker,
+                    contact_email=contact_email,
+                    contact_phone=contact_phone,
+                    signature_letter=sl_bin,
+                    summary=summary,
+                    website=website
+                ).__dict__)
+
+                return redirect('go_landing')
+            else:
+                return redirect('go_register')
+        else:
+            return redirect('go_register')
     else:
         return redirect('go_register')

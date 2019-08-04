@@ -2,6 +2,7 @@
 
 import re
 
+# Regex patterns
 EMAIL_PATTERN = r'^[^_\W][\w\.]*@\w+\.\w+$'
 DOUBLE_DOTS_PATTERN = r'\.\.'
 SPACE_PATTERN = r'\s'
@@ -12,6 +13,7 @@ UPPER_CASE_PATTERN = r'[A-Z]'
 SPECIAL_PATTERN = r'[\W_]'
 
 
+# Simple validations
 def isValidEmail(input):
     input = input.strip()
 
@@ -70,3 +72,32 @@ def isValidPhone(input):
         return False
 
     return True
+
+
+# Bulk request validations
+def isValidRegisterRequest(post_data):
+    try:
+        if post_data is None:
+            return False
+
+        if isValidEmail(post_data['contact_email']) == False:
+            return False
+
+        if isValidEmail(post_data['recovery_email']) == False:
+            return False
+
+        if isValidPhone(post_data['contact_phone']) == False:
+            return False
+
+        if isValidUsername(post_data['username']) == False:
+            return False
+
+        if isValidPassword(post_data['password']) == False:
+            return False
+
+        if post_data['password'] != post_data['confirm_password']:
+            return False
+
+        return True
+    except:
+        return False
