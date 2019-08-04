@@ -12,7 +12,7 @@
 		<div class="form-title font-title">Business Portal</div>
 
 		<!-- Forms -->
-		<form id="register-form" action="/do-reg/" method="post" novalidate>
+		<form id="register-form" action="/do-reg/" method="post" enctype="multipart/form-data" novalidate>
 			<div class="form-sub-title font-mont">Sign up</div>
 			{% csrf_token %}
 			{% for field in registerForm %}
