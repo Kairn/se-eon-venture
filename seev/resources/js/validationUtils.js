@@ -33,7 +33,7 @@ const isSuffLength = function(input, length) {
 // Validate an email address
 const isValidEmail = function(input) {
   // Email pattern
-  let emlRegex = new RegExp(`^[\\w\\.]+@\\w+\\.[\\w]+$`);
+  let emlRegex = new RegExp(`^[^_\\W][\\w\\.]*@\\w+\\.\\w+$`);
 
   // Double dots
   let ddRegex = new RegExp(`\\.\\.`);
@@ -91,7 +91,7 @@ const isPsStrong = function(input) {
   let digRegex = new RegExp(`\\d`);
 
   // Special character
-  let speRegex = new RegExp(`\\W`);
+  let speRegex = new RegExp(`[\\W_]`);
 
   // No space character allowed
   let spaRegex = new RegExp(`\\s`);
