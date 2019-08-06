@@ -111,10 +111,16 @@ def do_register(request):
                     pin=pin
                 ).__dict__)
 
-                return redirect('go_landing')
+                # return redirect('go_landing')
+                return go_success(None, {'message': 'Registration form submitted successfully!'})
             else:
                 return redirect('go_register')
         else:
             return redirect('go_register')
     else:
         return redirect('go_register')
+
+
+def go_success(request, context):
+    context = context
+    return render(request, 'core/success.html', context=context)

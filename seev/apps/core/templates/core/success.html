@@ -1,0 +1,19 @@
+<!-- Landing page of the application -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'core/css/main.min.css' %}">
+{% endblock css %}
+
+{% block content %}
+<h1>Success</h1>
+<br>
+<h2>{{ message }}</h2>
+<br>
+<a href="/">Home</a>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'core/js/main.js' %}"></script>
+{% endblock js %}
