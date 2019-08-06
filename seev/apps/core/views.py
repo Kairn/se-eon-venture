@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 
+from seev.apps.utils.generators import getRandomSalt, getSha384Hash
 from seev.apps.utils.validations import isValidRegisterRequest
 
 from .models import UnoClient, UnoCredentials
@@ -68,13 +69,15 @@ def do_register(request):
                 contact_phone = request.POST['contact_phone']
                 summary = request.POST['summary']
                 website = request.POST['website']
-                # username = request.POST['username']
-                # password = request.POST['password']
-                # recovery_email = request.POST['recovery_email']
-                # pin = request.POST['pin']
+                username = request.POST['username']
+                password = request.POST['password']
+                recovery_email = request.POST['recovery_email']
+                pin = request.POST['pin']
 
                 signature_letter = request.FILES['signature_letter']
                 sl_bin = b''
+
+                password_salt = getRandomSalt(8)
 
                 # Obtain binary data
                 for chunk in signature_letter.chunks():
@@ -97,6 +100,15 @@ def do_register(request):
                     signature_letter=sl_bin,
                     summary=summary,
                     website=website
+                ).__dict__)
+
+                print(UnoCredentials(
+                    client=None,
+                    username=username,
+                    password_salt=password_salt,
+                    password_hash=getSha384Hash(password + password_salt),
+                    recovery_email=recovery_email,
+                    pin=pin
                 ).__dict__)
 
                 return redirect('go_landing')
