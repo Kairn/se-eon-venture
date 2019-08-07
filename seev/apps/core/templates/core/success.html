@@ -7,11 +7,12 @@
 {% endblock css %}
 
 {% block content %}
-<h1>Success</h1>
-<br>
-<h2>{{ message }}</h2>
-<br>
-<a href="/">Home</a>
+<div id="success-wrapper">
+	<img src="{% static 'core/images/icon-34.svg' %}" alt="suc-icon">
+	<h1>Success</h1>
+	<h2>{{ message }}</h2>
+	<a href="/" class="seev-btn"><span>HOME</span></a>
+</div>
 {% endblock content %}
 
 {% block js %}

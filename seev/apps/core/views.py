@@ -111,8 +111,7 @@ def do_register(request):
                     pin=pin
                 ).__dict__)
 
-                # return redirect('go_landing')
-                return go_success(None, {'message': 'Registration form submitted successfully!'})
+                return go_success(None, {'message': 'We will be working hard to process your request.'})
             else:
                 return redirect('go_register')
         else:
