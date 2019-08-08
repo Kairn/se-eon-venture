@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 
 from seev.apps.utils.generators import getRandomSalt, getSha384Hash
 from seev.apps.utils.validations import isValidRegisterRequest
+from seev.apps.utils.messages import get_app_message
 
 from .models import UnoClient, UnoCredentials
 from .forms import LoginForm, PasswordResetForm, RegisterForm
@@ -111,11 +112,11 @@ def do_register(request):
                     pin=pin
                 ).__dict__)
 
-                return go_success(None, {'message': 'We will be working hard to process your request.'})
+                return go_success(None, {'message': get_app_message('register_success')})
             else:
-                return redirect('go_register')
+                return go_error(None, {'error': get_app_message('register_error'), 'message': get_app_message('register_error_message')})
         else:
-            return redirect('go_register')
+            return go_error(None, {'error': get_app_message('register_error'), 'message': get_app_message('register_error_message')})
     else:
         return redirect('go_register')
 
@@ -123,3 +124,8 @@ def do_register(request):
 def go_success(request, context):
     context = context
     return render(request, 'core/success.html', context=context)
+
+
+def go_error(request, context):
+    context = context
+    return render(request, 'core/error.html', context=context)

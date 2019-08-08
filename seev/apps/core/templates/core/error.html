@@ -1,0 +1,20 @@
+<!-- Landing page of the application -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'core/css/main.min.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div id="error-wrapper">
+	<img src="{% static 'core/images/icon-33.svg' %}" alt="err-icon">
+	<h1>{{ error }}</h1>
+	<h2>{{ message }}</h2>
+	<a href="/" id="error-page-btn" class="seev-btn"><span>HOME</span></a>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'core/js/main.js' %}"></script>
+{% endblock js %}
