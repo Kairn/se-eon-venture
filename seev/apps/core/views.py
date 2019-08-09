@@ -1,3 +1,6 @@
+import traceback
+
+from django.db import transaction
 from django.shortcuts import render, redirect
 
 from seev.apps.utils.generators import getRandomSalt, getSha384Hash
@@ -55,6 +58,7 @@ def go_register(request):
     return render(request, 'core/register.html', context=context)
 
 
+@transaction.atomic
 def do_register(request):
     if request.method == 'POST':
         registerForm = RegisterForm(request.POST, request.FILES)
@@ -91,26 +95,35 @@ def do_register(request):
                 if len(website) == 0:
                     website = None
 
-                print(UnoClient(
-                    ctg_name=None,
-                    entity_name=entity_name,
-                    country=country,
-                    trade_ticker=trade_ticker,
-                    contact_email=contact_email,
-                    contact_phone=contact_phone,
-                    signature_letter=sl_bin,
-                    summary=summary,
-                    website=website
-                ).__dict__)
+                try:
+                    # Create client object
+                    newClient = UnoClient(
+                        ctg_name=None,
+                        entity_name=entity_name,
+                        country=country,
+                        trade_ticker=trade_ticker,
+                        contact_email=contact_email,
+                        contact_phone=contact_phone,
+                        signature_letter=sl_bin,
+                        summary=summary,
+                        website=website
+                    )
 
-                print(UnoCredentials(
-                    client=None,
-                    username=username,
-                    password_salt=password_salt,
-                    password_hash=getSha384Hash(password + password_salt),
-                    recovery_email=recovery_email,
-                    pin=pin
-                ).__dict__)
+                    # Create credentials object
+                    newCredentials = UnoCredentials(
+                        client=newClient,
+                        username=username,
+                        password_salt=password_salt,
+                        password_hash=getSha384Hash(password + password_salt),
+                        recovery_email=recovery_email,
+                        pin=pin
+                    )
+
+                    newClient.save()
+                    newCredentials.save()
+                except:
+                    traceback.print_exc()
+                    return go_error(None, {'error': get_app_message('register_error'), 'message': get_app_message('register_error_message')})
 
                 return go_success(None, {'message': get_app_message('register_success')})
             else:

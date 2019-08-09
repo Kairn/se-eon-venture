@@ -12,7 +12,7 @@ def getRandomSalt(length):
     else:
         length = 4
 
-    return ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(10))
+    return ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(length))
 
 
 # Get SHA-384 digest of a message
