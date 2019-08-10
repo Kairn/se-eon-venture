@@ -1,3 +1,7 @@
+"""
+Form definitions for core app
+"""
+
 from django import forms
 
 from seev.apps.utils.country import UnoCountry

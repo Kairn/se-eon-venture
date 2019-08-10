@@ -1,4 +1,6 @@
-# Define country related utilities
+"""
+Define country related utilities
+"""
 
 
 class UnoCountry:

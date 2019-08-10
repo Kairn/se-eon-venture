@@ -1,3 +1,7 @@
+"""
+View logic used in core app
+"""
+
 import traceback
 
 from django.http import HttpRequest
@@ -5,7 +9,8 @@ from django.db import transaction
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
 
-from seev.apps.utils.generators import getRandomSalt, getSha384Hash, getSha224Hash, getAdminCredentials, getCpAdminId
+from seev.apps.utils.generators import (getRandomSalt, getSha384Hash,
+                                        getSha224Hash, getAdminCredentials, getCpAdminId)
 from seev.apps.utils.validations import isValidRegisterRequest
 from seev.apps.utils.messages import get_app_message
 
@@ -184,6 +189,7 @@ def go_admin(request, context=None):
     else:
         requestPage = 1
 
+    # Fetch client data
     clientList = UnoClient.objects.all().order_by('client_id')
     pagedList = Paginator(clientList, ITEMS_PER_PAGE)
     clients = pagedList.get_page(requestPage)

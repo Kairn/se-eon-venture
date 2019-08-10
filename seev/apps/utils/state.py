@@ -1,4 +1,6 @@
-# Define state related utilities
+"""
+Define state related utilities
+"""
 
 
 class UnoState:

@@ -1,3 +1,7 @@
+"""
+Model definitions in core app
+"""
+
 import uuid
 
 from django.db import models

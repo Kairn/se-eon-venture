@@ -1,4 +1,6 @@
-# File for providing static messages or data
+"""
+File for providing static messages or data
+"""
 
 
 def get_app_message(key):

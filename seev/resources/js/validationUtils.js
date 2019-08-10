@@ -7,7 +7,7 @@ const VE_PHONE = 'Invalid phone number';
 const VE_USERNAME = 'Username is too short or invalid';
 const VE_PSWEAK = 'Password is too weak';
 const VE_PSCONFIRM = 'Passwords do not match';
-const VE_NOFILE = 'No file selected';
+const VE_NOFILE = 'Only .txt file is supported';
 const VE_PIN = 'Must be between 1000 and 9999';
 
 // Disbale or enable a button
