@@ -3,7 +3,7 @@ import traceback
 from django.db import transaction
 from django.shortcuts import render, redirect
 
-from seev.apps.utils.generators import getRandomSalt, getSha384Hash
+from seev.apps.utils.generators import getRandomSalt, getSha384Hash, getSha224Hash, getAdminCredentials
 from seev.apps.utils.validations import isValidRegisterRequest
 from seev.apps.utils.messages import get_app_message
 
@@ -20,12 +20,15 @@ def go_landing(request):
     return render(request, 'core/index.html', context=context)
 
 
-def go_login(request):
+def go_login(request, context=None):
     if request.session.test_cookie_worked():
         print('Django session is working')
         request.session.delete_test_cookie()
 
-    context = {}
+    context = context
+    if context is None:
+        context = {}
+
     if request.method == 'GET':
         loginForm = LoginForm()
         psrForm = PasswordResetForm()
@@ -37,7 +40,19 @@ def go_login(request):
 
 def auth_login(request):
     if request.method == 'POST':
-        return redirect('go_landing')
+        try:
+            unHash = getSha224Hash(request.POST['username'])
+            psHash = getSha224Hash(request.POST['password'])
+
+            if unHash == getAdminCredentials()[0] and psHash == getAdminCredentials()[1]:
+                context = {}
+                return go_admin(None, context)
+            else:
+                context = {}
+                return go_login(None, context)
+        except:
+            traceback.print_exc()
+            return redirect('go_login')
     else:
         return redirect('go_login')
 
@@ -142,3 +157,8 @@ def go_success(request, context):
 def go_error(request, context):
     context = context
     return render(request, 'core/error.html', context=context)
+
+
+def go_admin(request, context):
+    context = context
+    return render(request, 'core/admin.html', context=context)

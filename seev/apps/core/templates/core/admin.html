@@ -1,4 +1,4 @@
-<!-- General success page of the application -->
+<!-- Administrator page of the application -->
 {% extends 'base.html' %}
 {% load static %}
 
@@ -7,12 +7,7 @@
 {% endblock css %}
 
 {% block content %}
-<div id="success-wrapper">
-	<img src="{% static 'core/images/icon-34.svg' %}" alt="suc-icon">
-	<h1>Success</h1>
-	<h2>{{ message }}</h2>
-	<a href="/" class="seev-btn"><span>HOME</span></a>
-</div>
+<h1>Admin works!</h1>
 {% endblock content %}
 
 {% block js %}
