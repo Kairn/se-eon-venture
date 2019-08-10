@@ -10,4 +10,5 @@ urlpatterns = [
             name='auth_password_reset'),
     re_path(r'^register/$', views.go_register, name='go_register'),
     re_path(r'^do-reg/$', views.do_register, name='do_register'),
+    re_path(r'^cpadmin/$', views.go_admin, name='go_admin'),
 ]

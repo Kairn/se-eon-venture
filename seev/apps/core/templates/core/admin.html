@@ -8,6 +8,10 @@
 
 {% block content %}
 <h1>Admin works!</h1>
+{% for client in clients %}
+<h2>{{ client.entity_name }}</h2>
+<p>{{ client.signature_letter }}</p>
+{% endfor %}
 {% endblock content %}
 
 {% block js %}

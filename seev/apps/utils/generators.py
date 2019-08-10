@@ -15,6 +15,11 @@ def getAdminCredentials():
     return credentials
 
 
+# Get cpadmin ID
+def getCpAdminId():
+    return '-777'
+
+
 # Generate a random salt of specified length
 def getRandomSalt(length):
     if length is not None and length > 0:

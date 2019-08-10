@@ -1,9 +1,11 @@
 import traceback
 
+from django.http import HttpRequest
 from django.db import transaction
 from django.shortcuts import render, redirect
+from django.core.paginator import Paginator
 
-from seev.apps.utils.generators import getRandomSalt, getSha384Hash, getSha224Hash, getAdminCredentials
+from seev.apps.utils.generators import getRandomSalt, getSha384Hash, getSha224Hash, getAdminCredentials, getCpAdminId
 from seev.apps.utils.validations import isValidRegisterRequest
 from seev.apps.utils.messages import get_app_message
 
@@ -21,7 +23,7 @@ def go_landing(request):
 
 
 def go_login(request, context=None):
-    if request.session.test_cookie_worked():
+    if request and request.session.test_cookie_worked():
         print('Django session is working')
         request.session.delete_test_cookie()
 
@@ -45,13 +47,14 @@ def auth_login(request):
             psHash = getSha224Hash(request.POST['password'])
 
             if unHash == getAdminCredentials()[0] and psHash == getAdminCredentials()[1]:
-                context = {}
-                return go_admin(None, context)
+                request.session['id'] = getCpAdminId()
+                return redirect('go_admin')
             else:
-                context = {}
-                return go_login(None, context)
-        except:
+                request.session.clear()
+                return redirect('go_login')
+        except RuntimeError:
             traceback.print_exc()
+            request.session.clear()
             return redirect('go_login')
     else:
         return redirect('go_login')
@@ -138,13 +141,13 @@ def do_register(request):
                     newCredentials.save()
                 except:
                     traceback.print_exc()
-                    return go_error(None, {'error': get_app_message('register_error'), 'message': get_app_message('register_error_message')})
+                    return go_error(HttpRequest(), {'error': get_app_message('register_error'), 'message': get_app_message('register_error_message')})
 
-                return go_success(None, {'message': get_app_message('register_success')})
+                return go_success(HttpRequest(), {'message': get_app_message('register_success')})
             else:
-                return go_error(None, {'error': get_app_message('register_error'), 'message': get_app_message('register_error_message')})
+                return go_error(HttpRequest(), {'error': get_app_message('register_error'), 'message': get_app_message('register_error_message')})
         else:
-            return go_error(None, {'error': get_app_message('register_error'), 'message': get_app_message('register_error_message')})
+            return go_error(HttpRequest(), {'error': get_app_message('register_error'), 'message': get_app_message('register_error_message')})
     else:
         return redirect('go_register')
 
@@ -159,6 +162,37 @@ def go_error(request, context):
     return render(request, 'core/error.html', context=context)
 
 
-def go_admin(request, context):
+def go_admin(request, context=None):
+    try:
+        if request is None:
+            return redirect('go_login')
+        elif request.session['id'] != getCpAdminId():
+            request.session.clear()
+            return redirect('go_login')
+    except KeyError:
+        return redirect('go_login')
+
     context = context
+    if context is None:
+        context = {}
+
+    ITEMS_PER_PAGE = 10
+
+    requestPage = None
+    if request.GET.get('request_page'):
+        requestPage = request.GET.get('request_page')
+    else:
+        requestPage = 1
+
+    clientList = UnoClient.objects.all().order_by('client_id')
+    pagedList = Paginator(clientList, ITEMS_PER_PAGE)
+    clients = pagedList.get_page(requestPage)
+
+    for client in clients:
+        tempBytes = client.signature_letter
+        if tempBytes:
+            client.signature_letter = tempBytes.decode('U8')
+
+    context['clients'] = clients
+
     return render(request, 'core/admin.html', context=context)
