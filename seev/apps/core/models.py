@@ -5,6 +5,7 @@ Model definitions in core app
 import uuid
 
 from django.db import models
+from django.utils.timezone import now
 
 from seev.apps.utils.country import UnoCountry
 from seev.apps.utils.state import UnoState
@@ -27,9 +28,13 @@ class UnoClient(models.Model):
         'Contact Phone', max_length=10, help_text='Must be a valid number in the U.S.')
     signature_letter = models.BinaryField('Signature Letter of Agreement')
     active = models.BooleanField(default=False, editable=False)
+    status = models.CharField('Status', max_length=16,
+                              default='Pending', editable=False, null=False)
     summary = models.TextField('Business Summary', null=True, blank=True)
     website = models.CharField(
         'Business Website', max_length=255, null=True, blank=True)
+    creation_time = models.DateTimeField(
+        'Timestamp of Creation', default=now, editable=False, null=False)
 
     class Meta:
         db_table = 'UNO_CLIENT'
@@ -48,6 +53,8 @@ class UnoCredentials(models.Model):
         'Recovery Email', help_text='Email used to reset password', unique=True)
     pin = models.PositiveSmallIntegerField(
         'PIN', help_text='PIN is required to reset password')
+    creation_time = models.DateTimeField(
+        'Timestamp of Creation', default=now, editable=False, null=False)
 
     class Meta:
         db_table = 'UNO_CREDENTIALS'
@@ -65,7 +72,8 @@ class UnoApproval(models.Model):
         ('RI', 'Reinstate Business'),
     ], null=False, blank=False)
     message = models.TextField('Message/Comment', null=True, blank=False)
-    created_at = models.DateTimeField(auto_now_add=True, editable=False)
+    creation_time = models.DateTimeField(
+        'Timestamp of Creation', default=now, editable=False, null=False)
 
     class Meta:
         db_table = 'UNO_APPROVAL'
