@@ -57,6 +57,14 @@ form {
   visibility: visible;
 }
 
+.no-size {
+  transform: scale(0);
+}
+
+.normal-size {
+  transform: scale(1);
+}
+
 .seev-btn {
   user-select: none;
   display: inline-flex;

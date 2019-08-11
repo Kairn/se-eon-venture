@@ -144,7 +144,7 @@ def do_register(request):
 
                     newClient.save()
                     newCredentials.save()
-                except:
+                except RuntimeError:
                     traceback.print_exc()
                     return go_error(HttpRequest(), {'error': get_app_message('register_error'), 'message': get_app_message('register_error_message')})
 
@@ -181,7 +181,7 @@ def go_admin(request, context=None):
     if context is None:
         context = {}
 
-    ITEMS_PER_PAGE = 10
+    ITEMS_PER_PAGE = 1
 
     requestPage = None
     if request.GET.get('request_page'):
@@ -190,7 +190,7 @@ def go_admin(request, context=None):
         requestPage = 1
 
     # Fetch client data
-    clientList = UnoClient.objects.all().order_by('client_id')
+    clientList = UnoClient.objects.all().order_by('-creation_time', 'client_id')
     pagedList = Paginator(clientList, ITEMS_PER_PAGE)
     clients = pagedList.get_page(requestPage)
 
@@ -202,3 +202,10 @@ def go_admin(request, context=None):
     context['clients'] = clients
 
     return render(request, 'core/admin.html', context=context)
+
+
+def go_logout(request):
+    if request:
+        request.session.clear()
+
+    return redirect('go_landing')

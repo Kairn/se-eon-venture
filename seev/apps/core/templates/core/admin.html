@@ -7,11 +7,39 @@
 {% endblock css %}
 
 {% block content %}
-<h1>Admin works!</h1>
-{% for client in clients %}
-<h2>{{ client.entity_name }}</h2>
-<p>{{ client.signature_letter }}</p>
-{% endfor %}
+<div id="admin-header">
+	<img src="" alt="admin-icon">
+	<div id="admin-title">Client Profile Manager</div>
+</div>
+<div id="admin-logout">
+	<a href="/logout/" class="seev-btn">Logout</a>
+</div>
+<div id="clients-wrapper">
+	{% for client in clients %}
+	<div class="client-row-wrapper" data-status="{{ client.status }}">
+		<div class="client-name">{{ client.entity_name }}</div>
+		<div class="client-cty">{{ client.country }}</div>
+	</div>
+	<div id="client_{{ client.client_id }}" class="no-show">
+		<div class="ctg_name">{{ client.ctg_name }}</div>
+		<div class="trade_ticker">{{ client.trade_ticker }}</div>
+		<div class="contact_email">{{ client.contact_email }}</div>
+		<div class="contact_phone">{{ client.contact_phone }}</div>
+		<div class="website">{{ client.website }}</div>
+		<div class="summary">{{ client.summary }}</div>
+		<div class="signature_letter">{{ client.signature_letter }}</div>
+	</div>
+	{% endfor %}
+</div>
+<div id="admin-paginator">
+	{% if clients.has_previous %}
+	<a href="?request_page={{ clients.previous_page_number }}" class="seev-btn">Previous</a>
+	{% endif %}
+	{% if clients.has_next %}
+	<a href="?request_page={{ clients.next_page_number }}" class="seev-btn">Next</a>
+	{% endif %}
+</div>
+<aside id="admin-action-panel" class="no-size"></aside>
 {% endblock content %}
 
 {% block js %}
