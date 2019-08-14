@@ -469,6 +469,7 @@ $card-width: 300px;
 }
 
 #admin-header {
+  user-select: none;
   margin-top: 2.5rem;
   padding: 1rem 4rem 0.5rem 8rem;
   display: flex;
@@ -476,6 +477,11 @@ $card-width: 300px;
   justify-content: flex-start;
   align-items: center;
   font-family: "Righteous", cursive;
+  @include tablet {
+    padding: 0;
+    text-align: center;
+    flex-flow: column wrap;
+  }
   img {
     display: inline-block;
     width: 96px;
@@ -487,24 +493,40 @@ $card-width: 300px;
     font-size: 42px;
     color: #4a148c;
     margin-left: 3rem;
+    @include tablet {
+      margin-top: 1rem;
+      margin-bottom: 3rem;
+    }
+    @include mobile {
+      font-size: 38px;
+    }
   }
 }
 
 #admin-logout {
   text-align: right;
+  @include tablet {
+    text-align: center;
+  }
   a.seev-btn {
     margin-right: 6rem;
     background-color: #bf360c;
+    @include tablet {
+      margin-right: 0;
+    }
   }
 }
 
 #clients-wrapper {
+  user-select: none;
+  height: 400px;
   margin-top: 5rem;
   display: flex;
   flex-flow: column wrap;
   justify-content: center;
   align-items: center;
   .client-row-wrapper {
+    height: 72px;
     display: flex;
     flex-flow: row wrap;
     justify-content: space-between;
@@ -514,6 +536,25 @@ $card-width: 300px;
     font-size: 26px;
     width: 800px;
     max-width: 80%;
+    background-color: #7e57c2;
+    color: white;
+    cursor: pointer;
+    border-top-left-radius: 36px;
+    border-bottom-right-radius: 36px;
+    transform: skewX(-18deg);
+    margin: 1.25rem 0;
+    transition-duration: 0.54s;
+    transition-property: transform, margin, box-shadow;
+    @include mobile {
+      font-size: 20px;
+    }
+    &:hover {
+      transform: scale(1.05) skewX(-18deg);
+      margin: 1.75rem 0;
+      box-shadow: 0 2px 6px 0 #000000;
+      transition-duration: 0.4s;
+      transition-property: transform, margin, box-shadow;
+    }
   }
 }
 

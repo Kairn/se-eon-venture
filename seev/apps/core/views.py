@@ -181,7 +181,7 @@ def go_admin(request, context=None):
     if context is None:
         context = {}
 
-    ITEMS_PER_PAGE = 1
+    ITEMS_PER_PAGE = 3
 
     requestPage = None
     if request.GET.get('request_page'):
