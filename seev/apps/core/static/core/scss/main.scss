@@ -565,9 +565,15 @@ $card-width: 300px;
   justify-content: center;
   align-items: center;
   margin-bottom: 5rem;
+  @include mobile {
+    flex-flow: column wrap;
+  }
   a.seev-btn {
     background-color: #4527a0;
     transform: scale(0.95);
     margin: 0 2rem;
+    @include mobile {
+      margin: 0.75rem 0;
+    }
   }
 }
