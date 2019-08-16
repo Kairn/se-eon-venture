@@ -65,6 +65,25 @@ form {
   transform: scale(1);
 }
 
+.no-scroll-bar {
+  &::-webkit-scrollbar {
+    width: 0 !important;
+  }
+  overflow: -moz-scrollbars-none;
+  -ms-overflow-style: none;
+}
+
+.black-overlay {
+  width: 100vw;
+  height: 100vh;
+  z-index: 4;
+  background-color: black;
+  opacity: 0.6;
+  position: fixed;
+  left: 0;
+  top: 0;
+}
+
 .seev-btn {
   user-select: none;
   display: inline-flex;

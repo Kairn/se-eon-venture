@@ -15,7 +15,7 @@ from seev.apps.utils.validations import isValidRegisterRequest
 from seev.apps.utils.messages import get_app_message
 
 from .models import UnoClient, UnoCredentials
-from .forms import LoginForm, PasswordResetForm, RegisterForm
+from .forms import LoginForm, PasswordResetForm, RegisterForm, ApprovalForm
 
 # Create your views here.
 
@@ -200,6 +200,7 @@ def go_admin(request, context=None):
             client.signature_letter = tempBytes.decode('U8')
 
     context['clients'] = clients
+    context['approvalForm'] = ApprovalForm()
 
     return render(request, 'core/admin.html', context=context)
 

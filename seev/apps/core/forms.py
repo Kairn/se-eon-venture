@@ -237,3 +237,38 @@ class RegisterForm(forms.Form):
             }
         )
     )
+
+
+class ApprovalForm(forms.Form):
+    client_id = forms.CharField(
+        label=None,
+        label_suffix=None,
+        widget=forms.HiddenInput()
+    )
+
+    action = forms.ChoiceField(
+        required=True,
+        label='Action',
+        label_suffix='',
+        error_messages={
+            'required': 'Action is required',
+        },
+        choices=[
+            ('AP', 'Approve'),
+            ('DE', 'Deny'),
+            ('RV', 'Revoke'),
+            ('RI', 'Reinstate'),
+        ]
+    )
+
+    message = forms.CharField(
+        required=False,
+        label='Comment',
+        label_suffix='',
+        widget=forms.Textarea(
+            attrs={
+                'placeholder': 'Write your justification here',
+                'maxlength': 500,
+            }
+        )
+    )

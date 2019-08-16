@@ -577,3 +577,17 @@ $card-width: 300px;
     }
   }
 }
+
+#admin-action-panel {
+  width: 60%;
+  height: 90%;
+  padding: 3rem;
+  z-index: 10;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  overflow-y: scroll;
+  overflow-x: hidden;
+  background-color: white;
+}

@@ -39,7 +39,45 @@
 	<a href="?request_page={{ clients.next_page_number }}" class="seev-btn">Next</a>
 	{% endif %}
 </div>
-<aside id="admin-action-panel" class="no-size"></aside>
+<aside id="admin-action-panel" class="no-scroll-bar show">
+	<div id="client-details">
+		<div>Client ???</div>
+		<div>UK</div>
+		<div>abc@example.com</div>
+		<div>8885009200</div>
+		<div>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Deserunt adipisci quidem unde saepe magni reiciendis
+			sint labore at ab. Impedit?</div>
+		<div>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Magni amet cupiditate maiores hic laudantium eaque
+			deleniti repellat, neque repellendus possimus nulla eveniet. Minus adipisci exercitationem animi, iure eligendi
+			quaerat fugit?</div>
+	</div>
+	<form id="approval-form" action="" method="post" novalidate>
+		{% csrf_token %}
+		{% if client.ctg_name is None or client.ctg_name == '' %}
+		<div class="form-ti-wrapper">
+			<div class="form-label-wrapper">
+				<label>Catalog Namespace</label>
+			</div>
+			<input type="text" name="ctg_name">
+		</div>
+		{% endif %}
+		{% for field in approvalForm.hidden_fields %}
+		{{ field }}
+		{% endfor %}
+		{% for field in approvalForm.visible_fields %}
+		<div class="form-ti-wrapper">
+			<div class="form-label-wrapper">
+				<label>{{ field.label }}</label>
+			</div>
+			{{ field }}
+		</div>
+		{% endfor %}
+		<div class="form-action-wrapper">
+			<button class="form-action-btn" type="submit">Save</button>
+		</div>
+	</form>
+</aside>
+<div class="black-overlay show"></div>
 {% endblock content %}
 
 {% block js %}
