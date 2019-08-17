@@ -38,6 +38,7 @@
 	<a href="?request_page={{ clients.next_page_number }}" class="seev-btn">Next</a>
 	{% endif %}
 </div>
+<!-- Popup Panel -->
 <aside id="admin-action-panel" class="no-scroll-bar show">
 	<img class="seev-close" src="{% static 'icon-99.svg' %}" alt="close-icon">
 	<div id="client-details" class="no-show">
@@ -76,6 +77,7 @@
 			<button class="form-action-btn" type="submit">Save</button>
 		</div>
 	</form>
+	<img class="seev-switch" src="{% static 'icon-98.svg' %}" alt="switch-icon">
 </aside>
 <div class="black-overlay show"></div>
 {% endblock content %}
