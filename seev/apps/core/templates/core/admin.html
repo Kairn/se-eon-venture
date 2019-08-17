@@ -21,10 +21,8 @@
 	</div>
 	<div id="client_{{ client.client_id }}" class="no-show">
 		<div class="ctg_name">{{ client.ctg_name }}</div>
-		<div class="trade_ticker">{{ client.trade_ticker }}</div>
 		<div class="contact_email">{{ client.contact_email }}</div>
 		<div class="contact_phone">{{ client.contact_phone }}</div>
-		<div class="website">{{ client.website }}</div>
 		<div class="summary">{{ client.summary }}</div>
 		<div class="status">{{ client.status }}</div>
 	</div>
@@ -39,16 +37,16 @@
 	{% endif %}
 </div>
 <!-- Popup Panel -->
-<aside id="admin-action-panel" class="no-scroll-bar show">
+<aside id="admin-action-panel" class="no-scroll-bar no-show">
 	<img class="seev-close" src="{% static 'icon-99.svg' %}" alt="close-icon">
 	<div id="client-details" class="show">
-		<div>Client Name: <span>Client ???</span></div>
-		<div>Country: <span>UK</span></div>
-		<div>Email: <span>abc@example.com</span></div>
-		<div>Phone: <span>8885009200</span></div>
-		<div>Summary: <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus vero nesciunt voluptatem a
-				fugit consectetur.</span></div>
-		<div>Status: Pending</div>
+		<div>Client Name: <span></span></div>
+		<div>Country: <span></span></div>
+		<div>Email: <span></span></div>
+		<div>Phone: <span></span></div>
+		<div>Summary: <p></p>
+		</div>
+		<div>Status: <span></span></div>
 	</div>
 	<form id="approval-form" action="" method="post" class="no-show" novalidate>
 		{% csrf_token %}
@@ -78,7 +76,7 @@
 	</form>
 	<img class="seev-switch" src="{% static 'icon-98.svg' %}" alt="switch-icon">
 </aside>
-<div class="black-overlay show"></div>
+<div class="black-overlay no-show"></div>
 {% endblock content %}
 
 {% block js %}

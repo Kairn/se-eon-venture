@@ -34,6 +34,7 @@ form {
   *:not(input) {
     user-select: none;
   }
+  display: block;
 }
 
 #content-wrapper {
@@ -78,7 +79,7 @@ form {
   height: 100vh;
   z-index: 4;
   background-color: black;
-  opacity: 0.6;
+  opacity: 0.5;
   position: fixed;
   left: 0;
   top: 0;

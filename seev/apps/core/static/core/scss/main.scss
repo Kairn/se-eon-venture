@@ -581,33 +581,70 @@ $card-width: 300px;
 #admin-action-panel {
   width: 60%;
   height: 90%;
-  padding: 4.5rem 6rem 2rem 6rem;
+  padding: 3.5rem 6rem 2rem 6rem;
   z-index: 10;
   position: fixed;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  overflow-y: scroll;
-  overflow-x: hidden;
+  overflow: hidden;
   background-color: white;
+  border-radius: 8px;
+  border-top: 3px #f44336 ridge;
+  border-bottom: 3px #ad1457 ridge;
   box-shadow: 0 4px 8px 0 #424242;
+  @include laptop {
+    width: 65%;
+    padding: 3.5rem 5rem 2rem 5rem;
+  }
+  @include tablet {
+    width: 80%;
+    padding: 3.5rem 3rem 2rem 3rem;
+  }
+  @include mobile {
+    width: 90%;
+    padding: 3.5rem 1rem 2rem 1.25rem;
+  }
   #client-details {
     div {
+      @include mobile {
+        margin: 1.5rem 0;
+      }
       &:first-child {
         margin-top: 0.5rem;
       }
       margin: 2rem 0;
-      font-size: 20px;
+      font-size: 22px;
       color: #4527a0;
       font-weight: 600;
       span {
+        font-size: 20px;
+        color: black;
+        font-weight: normal;
+      }
+      p {
+        display: block;
+        padding: 0;
+        margin: 4px 0 0 0;
         font-size: 18px;
         color: black;
         font-weight: normal;
+        @include laptop {
+          font-size: 17px;
+        }
+        @include tablet {
+          font-size: 16px;
+        }
       }
     }
   }
   form#approval-form {
+    &:not(.no-show) {
+      display: block;
+    }
+    @include tablet {
+      padding: 0 2.5rem;
+    }
     .form-ti-wrapper {
       input,
       select {
