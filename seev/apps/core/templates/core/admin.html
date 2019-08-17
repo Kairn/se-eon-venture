@@ -18,7 +18,6 @@
 	{% for client in clients %}
 	<div class="client-row-wrapper" data-status="{{ client.status }}">
 		<div class="client-name">{{ client.entity_name }}</div>
-		<div class="client-cty">{{ client.country }}</div>
 	</div>
 	<div id="client_{{ client.client_id }}" class="no-show">
 		<div class="ctg_name">{{ client.ctg_name }}</div>
@@ -40,23 +39,24 @@
 	{% endif %}
 </div>
 <aside id="admin-action-panel" class="no-scroll-bar show">
-	<div id="client-details">
-		<div>Client ???</div>
-		<div>UK</div>
-		<div>abc@example.com</div>
-		<div>8885009200</div>
-		<div>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Deserunt adipisci quidem unde saepe magni reiciendis
-			sint labore at ab. Impedit?</div>
-		<div>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Magni amet cupiditate maiores hic laudantium eaque
-			deleniti repellat, neque repellendus possimus nulla eveniet. Minus adipisci exercitationem animi, iure eligendi
-			quaerat fugit?</div>
+	<img class="seev-close" src="{% static 'icon-99.svg' %}" alt="close-icon">
+	<div id="client-details" class="no-show">
+		<div>Client Name: <span>Client ???</span></div>
+		<div>Country: <span>UK</span></div>
+		<div>Email: <span>abc@example.com</span></div>
+		<div>Phone: <span>8885009200</span></div>
+		<div>Summary: <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus vero nesciunt voluptatem a
+				fugit consectetur.</span></div>
+		<div>Letter: <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores in aperiam recusandae
+				consequatur, exercitationem veritatis tempore voluptatibus! Repudiandae, molestiae optio?</span></div>
 	</div>
-	<form id="approval-form" action="" method="post" novalidate>
+	<form id="approval-form" action="" method="post" class="show" novalidate>
 		{% csrf_token %}
 		{% if client.ctg_name is None or client.ctg_name == '' %}
 		<div class="form-ti-wrapper">
 			<div class="form-label-wrapper">
 				<label>Catalog Namespace</label>
+				<span class="asterisk"> * </span>
 			</div>
 			<input type="text" name="ctg_name">
 		</div>

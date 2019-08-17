@@ -173,6 +173,19 @@ form {
   color: #f44336;
 }
 
+.seev-close {
+  user-select: none;
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  position: absolute;
+  right: 1.5rem;
+  top: 1.5rem;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
 .form-sub-title {
   font-size: 28px;
   text-align: center;

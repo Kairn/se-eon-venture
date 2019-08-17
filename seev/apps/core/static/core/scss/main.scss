@@ -529,9 +529,9 @@ $card-width: 300px;
     height: 72px;
     display: flex;
     flex-flow: row wrap;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
-    padding: 1rem 2rem;
+    padding: 1rem 2rem 1rem 4rem;
     font-family: "Titillium Web", sans-serif;
     font-size: 26px;
     width: 800px;
@@ -546,7 +546,7 @@ $card-width: 300px;
     transition-duration: 0.54s;
     transition-property: transform, margin, box-shadow;
     @include mobile {
-      font-size: 20px;
+      font-size: 22px;
     }
     &:hover {
       transform: scale(1.05) skewX(-18deg);
@@ -581,7 +581,7 @@ $card-width: 300px;
 #admin-action-panel {
   width: 60%;
   height: 90%;
-  padding: 3rem;
+  padding: 4.5rem 6rem 2rem 6rem;
   z-index: 10;
   position: fixed;
   left: 50%;
@@ -590,4 +590,32 @@ $card-width: 300px;
   overflow-y: scroll;
   overflow-x: hidden;
   background-color: white;
+  box-shadow: 0 4px 8px 0 #424242;
+  #client-details {
+    div {
+      &:first-child {
+        margin-top: 0.5rem;
+      }
+      margin: 2rem 0;
+      font-size: 20px;
+      color: #4527a0;
+      font-weight: 600;
+      span {
+        font-size: 18px;
+        color: black;
+        font-weight: normal;
+      }
+    }
+  }
+  form#approval-form {
+    .form-ti-wrapper {
+      input,
+      select {
+        font-size: 16px;
+      }
+      .form-label-wrapper {
+        font-size: 18px;
+      }
+    }
+  }
 }

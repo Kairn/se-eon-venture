@@ -268,7 +268,8 @@ class ApprovalForm(forms.Form):
         widget=forms.Textarea(
             attrs={
                 'placeholder': 'Write your justification here',
-                'maxlength': 500,
+                'rows': 5,
+                'maxlength': 300,
             }
         )
     )
