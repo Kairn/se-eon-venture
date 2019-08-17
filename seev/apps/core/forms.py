@@ -161,8 +161,8 @@ class RegisterForm(forms.Form):
     )
 
     signature_letter = forms.FileField(
-        required=True,
-        label='Signed Request Letter',
+        required=False,
+        label='Signed Request Letter (Deprecated)',
         label_suffix='',
         allow_empty_file=False,
         widget=forms.FileInput()

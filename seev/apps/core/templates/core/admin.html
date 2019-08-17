@@ -26,7 +26,7 @@
 		<div class="contact_phone">{{ client.contact_phone }}</div>
 		<div class="website">{{ client.website }}</div>
 		<div class="summary">{{ client.summary }}</div>
-		<div class="signature_letter">{{ client.signature_letter }}</div>
+		<div class="status">{{ client.status }}</div>
 	</div>
 	{% endfor %}
 </div>
@@ -41,17 +41,16 @@
 <!-- Popup Panel -->
 <aside id="admin-action-panel" class="no-scroll-bar show">
 	<img class="seev-close" src="{% static 'icon-99.svg' %}" alt="close-icon">
-	<div id="client-details" class="no-show">
+	<div id="client-details" class="show">
 		<div>Client Name: <span>Client ???</span></div>
 		<div>Country: <span>UK</span></div>
 		<div>Email: <span>abc@example.com</span></div>
 		<div>Phone: <span>8885009200</span></div>
 		<div>Summary: <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus vero nesciunt voluptatem a
 				fugit consectetur.</span></div>
-		<div>Letter: <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores in aperiam recusandae
-				consequatur, exercitationem veritatis tempore voluptatibus! Repudiandae, molestiae optio?</span></div>
+		<div>Status: Pending</div>
 	</div>
-	<form id="approval-form" action="" method="post" class="show" novalidate>
+	<form id="approval-form" action="" method="post" class="no-show" novalidate>
 		{% csrf_token %}
 		{% if client.ctg_name is None or client.ctg_name == '' %}
 		<div class="form-ti-wrapper">

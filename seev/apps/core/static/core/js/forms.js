@@ -123,7 +123,6 @@ const validateRegisterForm = function(form) {
       }
     } else if (fe.id === 'id_signature_letter') {
       if (!fe.value) {
-        valid = false;
         displayValidationError(fe.name, VE_NOFILE);
       } else {
         removeValidationError(fe.name);

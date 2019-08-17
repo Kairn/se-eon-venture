@@ -102,14 +102,17 @@ def do_register(request):
                 recovery_email = request.POST['recovery_email']
                 pin = request.POST['pin']
 
-                signature_letter = request.FILES['signature_letter']
+                # Obtain binary data (deprecated but doable)
                 sl_bin = b''
+                try:
+                    signature_letter = request.FILES['signature_letter']
+                    for chunk in signature_letter.chunks():
+                        sl_bin += chunk
+                except KeyError:
+                    sl_bin = b''
+                    pass
 
                 password_salt = getRandomSalt(8)
-
-                # Obtain binary data
-                for chunk in signature_letter.chunks():
-                    sl_bin += chunk
 
                 if len(trade_ticker) == 0:
                     trade_ticker = None
@@ -194,6 +197,7 @@ def go_admin(request, context=None):
     pagedList = Paginator(clientList, ITEMS_PER_PAGE)
     clients = pagedList.get_page(requestPage)
 
+    # Deprecated but usable
     for client in clients:
         tempBytes = client.signature_letter
         if tempBytes:
