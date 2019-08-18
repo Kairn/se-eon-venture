@@ -16,13 +16,15 @@
 </div>
 <div id="clients-wrapper">
 	{% for client in clients %}
-	<div class="client-row-wrapper" data-status="{{ client.status }}">
+	<div class="client-row-wrapper" data-id="{{ client.client_id }}" data-status="{{ client.status }}">
 		<div class="client-name">{{ client.entity_name }}</div>
 	</div>
 	<div id="client_{{ client.client_id }}" class="no-show">
-		<div class="ctg_name">{{ client.ctg_name }}</div>
-		<div class="contact_email">{{ client.contact_email }}</div>
-		<div class="contact_phone">{{ client.contact_phone }}</div>
+		<div class="client-name">{{ client.entity_name }}</div>
+		<div class="ctg-name">{{ client.ctg_name }}</div>
+		<div class="country">{{ client.country }}</div>
+		<div class="contact-email">{{ client.contact_email }}</div>
+		<div class="contact-phone">{{ client.contact_phone }}</div>
 		<div class="summary">{{ client.summary }}</div>
 		<div class="status">{{ client.status }}</div>
 	</div>
@@ -40,13 +42,13 @@
 <aside id="admin-action-panel" class="no-scroll-bar no-show">
 	<img class="seev-close" src="{% static 'icon-99.svg' %}" alt="close-icon">
 	<div id="client-details" class="show">
-		<div>Client Name: <span></span></div>
-		<div>Country: <span></span></div>
-		<div>Email: <span></span></div>
-		<div>Phone: <span></span></div>
-		<div>Summary: <p></p>
+		<div>Client Name: <span class="client-name"></span></div>
+		<div>Country: <span class="country"></span></div>
+		<div>Email: <span class="contact-email"></span></div>
+		<div>Phone: <span class="contact-phone"></span></div>
+		<div>Summary: <p class="summary"></p>
 		</div>
-		<div>Status: <span></span></div>
+		<div>Status: <span class="status"></span></div>
 	</div>
 	<form id="approval-form" action="" method="post" class="no-show" novalidate>
 		{% csrf_token %}
@@ -76,9 +78,10 @@
 	</form>
 	<img class="seev-switch" src="{% static 'icon-98.svg' %}" alt="switch-icon">
 </aside>
-<div class="black-overlay no-show"></div>
+<div id="admin-overlay" class="black-overlay no-show"></div>
 {% endblock content %}
 
 {% block js %}
 <script src="{% static 'core/js/main.js' %}"></script>
+<script src="{% static 'core/js/admin.js' %}"></script>
 {% endblock js %}

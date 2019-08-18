@@ -42,6 +42,7 @@ map.addEventListener('mousemove', (e) => {
   if (!translateUpdate || isSmallWindow()) {
     return;
   }
+
   let height = window.innerHeight;
   let width = window.innerWidth;
   let offsetX = Math.min(((e.pageX - width / 2) / width) * maxOffsetXAbs, maxOffsetXAbs);
@@ -55,5 +56,6 @@ map.addEventListener('mousemove', (e) => {
   for (let i = 0; i < sideIconList.length; ++i) {
     applyTranslate(sideIconList[i], makeTranslate2D(offsetX, offsetY));
   }
+
   translateUpdate = false;
 });

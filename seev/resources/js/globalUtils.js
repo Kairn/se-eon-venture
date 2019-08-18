@@ -3,7 +3,7 @@
 window.onload = () => {
   console.log('Running application in DEBUG mode...');
   showSnackMessage('Testing snack bar', 2500);
-}
+};
 
 // All global variables
 var snackBarTimer;
@@ -24,7 +24,7 @@ const showSnackMessage = function(message, duration) {
   snackBar.classList.remove('invisible');
   snackBar.classList.add('visible');
   dismissSnackMessage(duration);
-}
+};
 
 // Function to dismiss snack-bar message
 const dismissSnackMessage = function(delay, force) {
@@ -42,4 +42,21 @@ const dismissSnackMessage = function(delay, force) {
       snackBar.classList.add('invisible');
     }, delay);
   }
-}
+};
+
+// Function to replace all substrings with another one in a string
+const replaceAllInString = function(source, target, desired) {
+  if (!source) {
+    return source;
+  }
+
+  if (!target) {
+    target = '';
+  }
+
+  if (!desired) {
+    desired = '';
+  }
+
+  return source.split(target).join(desired);
+};
