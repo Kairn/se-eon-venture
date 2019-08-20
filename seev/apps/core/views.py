@@ -214,3 +214,10 @@ def go_logout(request):
         request.session.clear()
 
     return redirect('go_landing')
+
+
+def do_approve(request):
+    if request.method == 'POST':
+        pass
+    else:
+        return redirect('go_admin')

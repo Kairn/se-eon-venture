@@ -1,6 +1,16 @@
 // For controlling cpadmin page related functionalities
 
 // Attribute constants
+const PE = 'Pending';
+const AP = 'Approved';
+const DE = 'Denied';
+const RV = 'Revoked';
+
+const ACT_AP = 'AP';
+const ACT_DE = 'DE';
+const ACT_RV = 'RV';
+const ACT_RI = 'RI';
+
 const CLIENT_NAME = 'client-name';
 const CATALOG_NAME = 'ctg_name';
 const COUNTRY = 'country';
@@ -25,6 +35,7 @@ const CLOSE_BTN = document.querySelector(`#admin-action-panel .seev-close`);
 const SWITCH_BTN = document.querySelector(`#admin-action-panel .seev-switch`);
 const DETAILS_SECT = document.getElementById('client-details');
 const FORM_SECT = document.getElementById('approval-form');
+const SAVE_BTN = document.getElementById('admin-save-btn');
 
 // Show popup
 const showPopup = function() {
@@ -69,7 +80,45 @@ const switchPopup = function() {
   formToggled = !formToggled;
 };
 
+// Validate approval form
+const triggerFormValidation = function(form) {
+  let valid = true;
+  let cn = null;
+  let isAp = false;
+
+  for (let i = 0; i < form.length; ++i) {
+    let field = form[i];
+
+    if (field.name === CATALOG_NAME) {
+      cn = field.value;
+    }
+
+    if (field.name === 'action') {
+      isAp = field.value === ACT_AP ? true : false;
+
+      if (!currentStatus) {
+        return false;
+      } else if (currentStatus === PE && (field.value === ACT_RV || field.value === ACT_RI)) {
+        valid = false;
+      } else if (currentStatus === DE) {
+        valid = false;
+      } else if (currentStatus === RV && field.value !== ACT_RI) {
+        valid = false;
+      } else if (currentStatus == AP && field.value !== ACT_RV) {
+        valid = false;
+      }
+    }
+  }
+
+  if (isAp && !cn) {
+    valid = false;
+  }
+
+  disEnaButton(SAVE_BTN, valid);
+};
+
 var formToggled = false;
+var currentStatus = null;
 
 // Fill specific client data when clicked
 for (let i = 0; i < ALL_CLIENT_TABS.length; ++i) {
@@ -89,6 +138,11 @@ for (let i = 0; i < ALL_CLIENT_TABS.length; ++i) {
       let dataCell = document.querySelector(`#client_${_cid} .${ALL_DATA_ATTRIBUTES[j]}`);
       let targetCell = document.querySelector(`#client-details .${ALL_DATA_ATTRIBUTES[j]}`);
       targetCell.innerHTML = dataCell.innerHTML;
+
+      // Set status
+      if (ALL_DATA_ATTRIBUTES[j] === STATUS) {
+        currentStatus = targetCell.innerHTML;
+      }
     }
 
     // Populate form ID
@@ -106,4 +160,13 @@ CLOSE_BTN.addEventListener('click', () => {
 // Switch popup trigger
 SWITCH_BTN.addEventListener('click', () => {
   switchPopup();
+});
+
+// Disable save button on approval form initially
+SAVE_BTN.disabled = true;
+SAVE_BTN.classList.add('form-btn-dis');
+
+// Detect approval form change
+FORM_SECT.addEventListener('change', (e) => {
+  triggerFormValidation(e.target.form);
 });
