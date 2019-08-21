@@ -8,6 +8,8 @@ def get_app_message(key):
         'register_success': 'We will be working hard to process your request.',
         'register_error': 'Invalid Data',
         'register_error_message': 'Sorry, we are unable to process your request. Please make sure you fill out all required fields and try again.',
+        'approval_error': 'Management Error',
+        'approval_error_message': 'There is an issue with your approval request. Please contact a system administrator.',
         '': '',
     }
 

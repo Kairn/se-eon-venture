@@ -12,4 +12,5 @@ urlpatterns = [
     re_path(r'^do-reg/$', views.do_register, name='do_register'),
     re_path(r'^cpadmin/$', views.go_admin, name='go_admin'),
     re_path(r'^logout/$', views.go_logout, name='go_logout'),
+    re_path(r'^do-approve/$', views.do_approve, name='do_approve'),
 ]

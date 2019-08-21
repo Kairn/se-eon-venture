@@ -10,11 +10,12 @@ from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
 
 from seev.apps.utils.generators import (getRandomSalt, getSha384Hash,
-                                        getSha224Hash, getAdminCredentials, getCpAdminId)
+                                        getSha224Hash, getAdminCredentials, getCpAdminId,
+                                        getClientStates)
 from seev.apps.utils.validations import isValidRegisterRequest
 from seev.apps.utils.messages import get_app_message
 
-from .models import UnoClient, UnoCredentials
+from .models import UnoClient, UnoCredentials, UnoApproval
 from .forms import LoginForm, PasswordResetForm, RegisterForm, ApprovalForm
 
 # Create your views here.
@@ -218,6 +219,54 @@ def go_logout(request):
 
 def do_approve(request):
     if request.method == 'POST':
-        pass
+        try:
+            if request.session['id'] != getCpAdminId():
+                request.session.clear()
+                return redirect('go_login')
+
+            # Retrieve form data
+            clientId = request.POST['client_id']
+            catalogName = request.POST['ctg_name']
+            action = request.POST['action']
+            comment = request.POST['message']
+
+            # Get client data
+            client = UnoClient.objects.get(client_id=clientId)
+
+            # Validate action
+            valid = False
+            tempStatus = ''
+            if client.status == getClientStates('PE'):
+                if action == 'AP' and catalogName:
+                    valid = True
+                    tempStatus = getClientStates('AP')
+                elif action == 'DE':
+                    valid = True
+                    tempStatus = getClientStates('DE')
+            elif client.status == getClientStates('AP'):
+                if action == 'RV':
+                    valid = True
+                    tempStatus = getClientStates('RV')
+            elif client.status == getClientStates('RV'):
+                if action == 'RI':
+                    valid = True
+                    tempStatus = getClientStates('AP')
+            else:
+                valid = False
+
+            if not valid:
+                raise RuntimeError
+
+            newApproval = UnoApproval(
+                client=client,
+                action=action,
+                message=comment
+            )
+
+            print(newApproval.__dict__)
+            return redirect('go_admin')
+        except RuntimeError:
+            traceback.print_exc()
+            return go_error(HttpRequest(), {'error': get_app_message('approval_error'), 'message': get_app_message('approval_error_message')})
     else:
         return redirect('go_admin')

@@ -26,6 +26,17 @@ def getCpAdminId():
     return '-777'
 
 
+def getClientStates(key):
+    if (key == 'Approved' or key == 'AP'):
+        return 'Approved'
+    elif (key == 'Pending' or key == 'PE'):
+        return 'Pending'
+    elif (key == 'Denied' or key == 'DE'):
+        return 'Denied'
+    elif (key == 'Revoked' or key == 'RV'):
+        return 'Revoked'
+
+
 def getRandomSalt(length):
     """
     Generate a random salt of specified length
