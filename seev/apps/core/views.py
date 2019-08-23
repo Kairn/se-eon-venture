@@ -217,6 +217,7 @@ def go_logout(request):
     return redirect('go_landing')
 
 
+@transaction.atomic
 def do_approve(request):
     if request.method == 'POST':
         try:
@@ -257,13 +258,23 @@ def do_approve(request):
             if not valid:
                 raise RuntimeError
 
+            # Create approval data
             newApproval = UnoApproval(
                 client=client,
                 action=action,
                 message=comment
             )
+            newApproval.save()
 
-            print(newApproval.__dict__)
+            # Update client data
+            if (tempStatus == getClientStates('AP')):
+                client.active = 1
+                client.ctg_name = catalogName
+            else:
+                client.active = 0
+            client.status = tempStatus
+            client.save()
+
             return redirect('go_admin')
         except RuntimeError:
             traceback.print_exc()

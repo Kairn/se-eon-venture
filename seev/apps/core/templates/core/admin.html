@@ -52,15 +52,13 @@
 	</div>
 	<form id="approval-form" action="/do-approve/" method="post" class="no-show" novalidate>
 		{% csrf_token %}
-		{% if client.ctg_name is None or client.ctg_name == '' %}
 		<div class="form-ti-wrapper">
 			<div class="form-label-wrapper">
 				<label>Catalog Namespace</label>
 				<span class="asterisk"> * </span>
 			</div>
-			<input type="text" name="ctg_name">
+			<input id="client-ctg" type="text" name="ctg_name">
 		</div>
-		{% endif %}
 		{% for field in approvalForm.hidden_fields %}
 		{{ field }}
 		{% endfor %}

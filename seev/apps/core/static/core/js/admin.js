@@ -12,7 +12,7 @@ const ACT_RV = 'RV';
 const ACT_RI = 'RI';
 
 const CLIENT_NAME = 'client-name';
-const CATALOG_NAME = 'ctg_name';
+const CATALOG_NAME = 'ctg-name';
 const COUNTRY = 'country';
 const CONTACT_EMAIL = 'contact-email';
 const CONTACT_PHONE = 'contact-phone';
@@ -20,6 +20,7 @@ const SUMMARY = 'summary';
 const STATUS = 'status';
 const ALL_DATA_ATTRIBUTES = [
   CLIENT_NAME,
+  CATALOG_NAME,
   COUNTRY,
   CONTACT_EMAIL,
   CONTACT_PHONE,
@@ -36,6 +37,7 @@ const SWITCH_BTN = document.querySelector(`#admin-action-panel .seev-switch`);
 const DETAILS_SECT = document.getElementById('client-details');
 const FORM_SECT = document.getElementById('approval-form');
 const SAVE_BTN = document.getElementById('admin-save-btn');
+const CLIENT_CTG = document.getElementById('client-ctg');
 
 // Show popup
 const showPopup = function() {
@@ -89,7 +91,7 @@ const triggerFormValidation = function(form) {
   for (let i = 0; i < form.length; ++i) {
     let field = form[i];
 
-    if (field.name === CATALOG_NAME) {
+    if (field.name === 'ctg_name') {
       cn = field.value;
     }
 
@@ -137,7 +139,12 @@ for (let i = 0; i < ALL_CLIENT_TABS.length; ++i) {
     for (let j = 0; j < ALL_DATA_ATTRIBUTES.length; ++j) {
       let dataCell = document.querySelector(`#client_${_cid} .${ALL_DATA_ATTRIBUTES[j]}`);
       let targetCell = document.querySelector(`#client-details .${ALL_DATA_ATTRIBUTES[j]}`);
-      targetCell.innerHTML = dataCell.innerHTML;
+
+      if (ALL_DATA_ATTRIBUTES[j] === CATALOG_NAME) {
+        CLIENT_CTG.value = dataCell.innerHTML;
+      } else {
+        targetCell.innerHTML = dataCell.innerHTML;
+      }
 
       // Set status
       if (ALL_DATA_ATTRIBUTES[j] === STATUS) {
