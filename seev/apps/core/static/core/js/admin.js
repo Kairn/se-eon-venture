@@ -119,12 +119,60 @@ const triggerFormValidation = function(form) {
   disEnaButton(SAVE_BTN, valid);
 };
 
+// Get client status on tabs
+const getClientTabStatus = function(tab) {
+  let _cid = tab.getAttribute('data-id');
+  let statusCell = document.querySelector(`#client_${_cid} .${STATUS}`);
+
+  return statusCell.innerHTML;
+};
+
+// Remove class status classes
+const clearClientStatus = function(tab) {
+  if (!tab) {
+    return;
+  }
+
+  let c_list = tab.classList;
+
+  if (c_list) {
+    c_list.remove('sta-de');
+    c_list.remove('sta-ap');
+    c_list.remove('sta-rv');
+  }
+};
+
+// Update client status style class
+const updateClientStatus = function() {
+  for (let i = 0; i < ALL_CLIENT_TABS.length; ++i) {
+    let tab = ALL_CLIENT_TABS[i];
+
+    clearClientStatus(tab);
+
+    let status = getClientTabStatus(tab)
+    if (status === AP) {
+      tab.classList.add('sta-ap');
+    } else if (status === DE) {
+      tab.classList.add('sta-de');
+    } else if (status === RV) {
+      tab.classList.add('sta-rv');
+    }
+  }
+};
+
 var formToggled = false;
 var currentStatus = null;
+
+updateClientStatus();
 
 // Fill specific client data when clicked
 for (let i = 0; i < ALL_CLIENT_TABS.length; ++i) {
   let tab = ALL_CLIENT_TABS[i];
+
+  // Skip clients that are denied
+  if (getClientTabStatus(tab) === DE) {
+    continue;
+  }
 
   tab.addEventListener('click', () => {
     // Show details first
