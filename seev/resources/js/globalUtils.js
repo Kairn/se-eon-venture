@@ -1,10 +1,5 @@
 // All constants and shared functions used by the application
 
-window.onload = () => {
-  console.log('Running application in DEBUG mode...');
-  showSnackMessage('Testing snack bar', 2500);
-};
-
 // All global variables
 var snackBarTimer;
 
@@ -59,4 +54,26 @@ const replaceAllInString = function(source, target, desired) {
   }
 
   return source.split(target).join(desired);
+};
+
+// Grab snack bar data
+const getSnackData = function() {
+  let snackEle = document.getElementById('snack-data');
+  let text = snackEle.innerText;
+
+  if (text) {
+    text = text.trim();
+  }
+
+  if (text) {
+    return text;
+  } else {
+    return null;
+  }
+};
+
+// Onload behavior
+window.onload = () => {
+  console.log('Running application in DEBUG mode...');
+  showSnackMessage(getSnackData(), 2500);
 };

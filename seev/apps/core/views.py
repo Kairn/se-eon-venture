@@ -13,7 +13,7 @@ from seev.apps.utils.generators import (getRandomSalt, getSha384Hash,
                                         getSha224Hash, getAdminCredentials, getCpAdminId,
                                         getClientStates)
 from seev.apps.utils.validations import isValidRegisterRequest
-from seev.apps.utils.messages import get_app_message
+from seev.apps.utils.messages import get_app_message, addSnackDataToContext
 
 from .models import UnoClient, UnoCredentials, UnoApproval
 from .forms import LoginForm, PasswordResetForm, RegisterForm, ApprovalForm
@@ -29,9 +29,16 @@ def go_landing(request):
 
 
 def go_login(request, context=None):
-    if request and request.session.test_cookie_worked():
-        print('Django session is working')
-        request.session.delete_test_cookie()
+    try:
+        if request and request.session and request.session.test_cookie_worked():
+            print('Django session is working')
+            request.session.delete_test_cookie()
+    except AttributeError:
+        pass
+
+    if request and request.session and 'context' in request.session:
+        context = request.session['context']
+        del request.session['context']
 
     context = context
     if context is None:
@@ -47,6 +54,8 @@ def go_login(request, context=None):
 
 
 def auth_login(request):
+    context = {}
+
     if request.method == 'POST':
         try:
             unHash = getSha224Hash(request.POST['username'])
@@ -57,12 +66,17 @@ def auth_login(request):
                 return redirect('go_admin')
             else:
                 request.session.clear()
+                request.session['context'] = addSnackDataToContext(
+                    context, 'Invalid credentials')
                 return redirect('go_login')
         except RuntimeError:
             traceback.print_exc()
             request.session.clear()
+            request.session['context'] = addSnackDataToContext(
+                context, 'ERR01')
             return redirect('go_login')
     else:
+        request.session['context'] = addSnackDataToContext(context, 'ERR01')
         return redirect('go_login')
 
 

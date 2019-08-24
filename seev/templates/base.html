@@ -91,6 +91,12 @@
 		<div id="sb-act" onclick="dismissSnackMessage(null, true)">Close</div>
 	</aside>
 
+	<!-- Snack Bar Data -->
+	<div id="snack-data">
+		{% block snackData %}
+		{% endblock snackData %}
+	</div>
+
 	<!-- JavaScripts -->
 	<div>
 		<script src="{% static 'globalUtils.js' %}"></script>

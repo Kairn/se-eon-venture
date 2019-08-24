@@ -19,3 +19,17 @@ def get_app_message(key):
         return 'Message not found'
     else:
         return message
+
+
+def addSnackDataToContext(context, message):
+    if context is None:
+        context = {}
+
+    if (message == 'ERR01'):
+        context['snack_data'] = 'Internal server failure'
+    elif (message == 'ERR02'):
+        pass
+    else:
+        context['snack_data'] = message
+
+    return context
