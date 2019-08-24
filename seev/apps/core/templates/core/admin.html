@@ -79,6 +79,12 @@
 <div id="admin-overlay" class="black-overlay no-show"></div>
 {% endblock content %}
 
+{% block snackData %}
+{% if snack_data is not None and snack_data != '' %}
+{{ snack_data }}
+{% endif %}
+{% endblock snackData %}
+
 {% block js %}
 <script src="{% static 'core/js/main.js' %}"></script>
 <script src="{% static 'core/js/admin.js' %}"></script>

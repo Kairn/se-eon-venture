@@ -6,7 +6,7 @@ import traceback
 
 from django.http import HttpRequest
 from django.db import transaction
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from django.core.paginator import Paginator
 
 from seev.apps.utils.generators import (getRandomSalt, getSha384Hash,
@@ -14,6 +14,7 @@ from seev.apps.utils.generators import (getRandomSalt, getSha384Hash,
                                         getClientStates)
 from seev.apps.utils.validations import isValidRegisterRequest
 from seev.apps.utils.messages import get_app_message, addSnackDataToContext
+from seev.apps.utils.session import store_context_in_session, get_context_in_session
 
 from .models import UnoClient, UnoCredentials, UnoApproval
 from .forms import LoginForm, PasswordResetForm, RegisterForm, ApprovalForm
@@ -36,11 +37,9 @@ def go_login(request, context=None):
     except AttributeError:
         pass
 
-    if request and request.session and 'context' in request.session:
-        context = request.session['context']
-        del request.session['context']
+    # Retrieve session context if passed
+    context = get_context_in_session(request)
 
-    context = context
     if context is None:
         context = {}
 
@@ -66,17 +65,18 @@ def auth_login(request):
                 return redirect('go_admin')
             else:
                 request.session.clear()
-                request.session['context'] = addSnackDataToContext(
-                    context, 'Invalid credentials')
+                store_context_in_session(request, addSnackDataToContext(
+                    context, 'Invalid credentials'))
                 return redirect('go_login')
         except RuntimeError:
             traceback.print_exc()
             request.session.clear()
-            request.session['context'] = addSnackDataToContext(
-                context, 'ERR01')
+            store_context_in_session(
+                request, addSnackDataToContext(context, 'ERR01'))
             return redirect('go_login')
     else:
-        request.session['context'] = addSnackDataToContext(context, 'ERR01')
+        store_context_in_session(
+            request, addSnackDataToContext(context, 'ERR01'))
         return redirect('go_login')
 
 
@@ -195,7 +195,8 @@ def go_admin(request, context=None):
     except KeyError:
         return redirect('go_login')
 
-    context = context
+    context = get_context_in_session(request)
+
     if context is None:
         context = {}
 
@@ -211,6 +212,9 @@ def go_admin(request, context=None):
     clientList = UnoClient.objects.all().order_by('-creation_time', 'client_id')
     pagedList = Paginator(clientList, ITEMS_PER_PAGE)
     clients = pagedList.get_page(requestPage)
+
+    # Store the current page in temp session variable
+    request.session['admin_page'] = requestPage
 
     # Deprecated but usable
     for client in clients:
@@ -289,7 +293,16 @@ def do_approve(request):
             client.status = tempStatus
             client.save()
 
-            return redirect('go_admin')
+            # Retrieve the current page
+            redirectPage = 1
+            if 'admin_page' in request.session:
+                redirectPage = request.session['admin_page']
+
+            # Success message
+            store_context_in_session(request, addSnackDataToContext(
+                {}, 'Your action has been applied'))
+
+            return redirect(reverse('go_admin') + '?request_page=' + redirectPage)
         except RuntimeError:
             traceback.print_exc()
             return go_error(HttpRequest(), {'error': get_app_message('approval_error'), 'message': get_app_message('approval_error_message')})
