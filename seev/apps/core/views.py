@@ -57,12 +57,28 @@ def auth_login(request):
 
     if request.method == 'POST':
         try:
-            unHash = getSha224Hash(request.POST['username'])
-            psHash = getSha224Hash(request.POST['password'])
+            username = request.POST['username']
+            password = request.POST['password']
+            unHash = getSha224Hash(username)
+            psHash = getSha224Hash(password)
+
+            # Get client credentials data
+            credObj = UnoCredentials.objects.get(username=username)
 
             if unHash == getAdminCredentials()[0] and psHash == getAdminCredentials()[1]:
                 request.session['id'] = getCpAdminId()
                 return redirect('go_admin')
+            elif credObj and credObj.password_hash == getSha384Hash(password + credObj.password_salt):
+                client = UnoClient.objects.get(client_id=credObj.client_id)
+
+                if client.active:
+                    request.session['id'] = str(
+                        credObj.client_id).replace('-', '')
+                    return redirect('go_client')
+                else:
+                    store_context_in_session(
+                        request, addSnackDataToContext(context, 'Access denied'))
+                    return redirect('go_login')
             else:
                 request.session.clear()
                 store_context_in_session(request, addSnackDataToContext(
@@ -229,7 +245,7 @@ def go_admin(request, context=None):
 
 
 def go_logout(request):
-    if request:
+    if request and hasattr(request, 'session') and request.session:
         request.session.clear()
 
     return redirect('go_landing')
@@ -308,3 +324,19 @@ def do_approve(request):
             return go_error(HttpRequest(), {'error': get_app_message('approval_error'), 'message': get_app_message('approval_error_message')})
     else:
         return redirect('go_admin')
+
+
+def go_client(request, context=None):
+    if request and hasattr(request, 'session') and request.session and 'id' in request.session:
+        if len(request.session['id']) != 32:
+            request.session.clear()
+            return redirect('go_login')
+        else:
+            if context is None:
+                context = {}
+
+            # Customer form
+
+            return render(request, 'core/client.html', context=context)
+    else:
+        return redirect('go_login')
