@@ -7,11 +7,11 @@
 {% endblock css %}
 
 {% block content %}
+<h1 id="client-header">Welcome to Business Management</h1>
 <div id="client-sect-wrapper">
 	<div id="customer-form-wrapper"></div>
 	<div id="client-main-panel">
-		<h1>Welcome to business management,</h1>
-		<h2>Sample Client Name</h2>
+		<h2>{{ client.entity_name }}</h2>
 		<div id="client-action-wrapper">
 			<div class="client-action">
 				<img src="{% static 'core/images/icon-36.svg' %}" alt="catalog-act">
@@ -23,7 +23,7 @@
 			</div>
 		</div>
 		<div id="client-logout">
-			<a href="/logout/" class="seev-btn">Logout</a>
+			<a href="/logout/" class="seev-btn logout-btn">Logout</a>
 		</div>
 	</div>
 </div>

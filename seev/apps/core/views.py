@@ -335,6 +335,8 @@ def go_client(request, context=None):
             if context is None:
                 context = {}
 
+            client = UnoClient.objects.get(client_id=request.session['id'])
+            context['client'] = client
             # Customer form
 
             return render(request, 'core/client.html', context=context)
