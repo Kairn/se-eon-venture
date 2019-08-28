@@ -14,4 +14,5 @@ urlpatterns = [
     re_path(r'^logout/$', views.go_logout, name='go_logout'),
     re_path(r'^do-approve/$', views.do_approve, name='do_approve'),
     re_path(r'^client/$', views.go_client, name='go_client'),
+    re_path(r'^enroll/$', views.do_enroll, name='do_enroll'),
 ]

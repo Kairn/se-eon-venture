@@ -346,3 +346,10 @@ def go_client(request, context=None):
             return render(request, 'core/client.html', context=context)
     else:
         return redirect('go_login')
+
+
+def do_enroll(request):
+    if request and request.method == 'POST':
+        pass
+    else:
+        return redirect('go_client')

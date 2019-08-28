@@ -1,4 +1,4 @@
-<!-- Administrator page of the application -->
+<!-- Client main page of the application -->
 {% extends 'base.html' %}
 {% load static %}
 
@@ -9,7 +9,33 @@
 {% block content %}
 <h1 id="client-header">Welcome to Business Management</h1>
 <div id="client-sect-wrapper">
-	<div id="customer-form-wrapper"></div>
+	<div id="customer-form-wrapper">
+		<div class="form-title font-title">Customer Portal</div>
+
+		<!-- Form Instance -->
+		<form id="customer-form" action="/enroll/" method="post" novalidate>
+			<div class="form-sub-title font-mont">Enrollment</div>
+			{% csrf_token %}
+			{% for field in customerForm %}
+			<div class="form-ti-wrapper">
+				<div class="form-label-wrapper">
+					<label>{{ field.label }}</label>
+					{% if field.field.required %}
+					<span class="asterisk"> * </span>
+					{% endif %}
+				</div>
+				{{ field }}
+				<div class="form-ie-wrapper">
+					<span id="ie_{{ field.name }}" class="ie-msg"></span><span class="invisible">I</span>
+				</div>
+			</div>
+			{% endfor %}
+			<div class="form-action-wrapper">
+				<button class="form-action-btn" type="submit">Submit</button>
+				<button class="form-action-btn reset-btn" type="reset">Clear</button>
+			</div>
+		</form>
+	</div>
 	<div id="client-main-panel">
 		<h2>{{ client.entity_name }}</h2>
 		<div id="client-action-wrapper">
