@@ -63,13 +63,14 @@ def auth_login(request):
             unHash = getSha224Hash(username)
             psHash = getSha224Hash(password)
 
-            # Get client credentials data
-            credObj = UnoCredentials.objects.get(username=username)
-
             if unHash == getAdminCredentials()[0] and psHash == getAdminCredentials()[1]:
                 request.session['id'] = getCpAdminId()
                 return redirect('go_admin')
-            elif credObj and credObj.password_hash == getSha384Hash(password + credObj.password_salt):
+
+            # Get client credentials data
+            credObj = UnoCredentials.objects.get(username=username)
+
+            if credObj and credObj.password_hash == getSha384Hash(password + credObj.password_salt):
                 client = UnoClient.objects.get(client_id=credObj.client_id)
 
                 if client.active:
@@ -85,7 +86,7 @@ def auth_login(request):
                 store_context_in_session(request, addSnackDataToContext(
                     context, 'Invalid credentials'))
                 return redirect('go_login')
-        except RuntimeError:
+        except Exception:
             traceback.print_exc()
             request.session.clear()
             store_context_in_session(
@@ -179,7 +180,7 @@ def do_register(request):
 
                     newClient.save()
                     newCredentials.save()
-                except RuntimeError:
+                except Exception:
                     traceback.print_exc()
                     return go_error(HttpRequest(), {'error': get_app_message('register_error'), 'message': get_app_message('register_error_message')})
 
@@ -320,7 +321,7 @@ def do_approve(request):
                 {}, 'Your action has been applied'))
 
             return redirect(reverse('go_admin') + '?request_page=' + redirectPage)
-        except RuntimeError:
+        except Exception:
             traceback.print_exc()
             return go_error(HttpRequest(), {'error': get_app_message('approval_error'), 'message': get_app_message('approval_error_message')})
     else:
