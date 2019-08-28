@@ -17,7 +17,8 @@ from seev.apps.utils.messages import get_app_message, addSnackDataToContext
 from seev.apps.utils.session import store_context_in_session, get_context_in_session
 
 from .models import UnoClient, UnoCredentials, UnoApproval
-from .forms import LoginForm, PasswordResetForm, RegisterForm, ApprovalForm
+from .forms import (LoginForm, PasswordResetForm, RegisterForm,
+                    ApprovalForm, CustomerForm)
 
 # Create your views here.
 
@@ -337,7 +338,9 @@ def go_client(request, context=None):
 
             client = UnoClient.objects.get(client_id=request.session['id'])
             context['client'] = client
+
             # Customer form
+            context['customerForm'] = CustomerForm()
 
             return render(request, 'core/client.html', context=context)
     else:

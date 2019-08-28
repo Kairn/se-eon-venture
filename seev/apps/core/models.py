@@ -77,3 +77,20 @@ class UnoApproval(models.Model):
 
     class Meta:
         db_table = 'UNO_APPROVAL'
+
+
+class UnoCustomer(models.Model):
+    customer_id = models.UUIDField(
+        primary_key=True, default=uuid.uuid4, editable=False)
+    le_id = models.UUIDField('Customer Entity ID',
+                             default=uuid.uuid4, editable=False)
+    client = models.ForeignKey(UnoClient, on_delete=models.CASCADE, null=False)
+    customer_name = models.CharField('Customer Name', max_length=255)
+    contact_email = models.EmailField('Contact Email')
+    country = models.CharField(
+        'Country', max_length=64, default=UnoCountry.get_default_cty, choices=UnoCountry.get_cty_code_list())
+    creation_time = models.DateTimeField(
+        'Timestamp of Creation', default=now, editable=False, null=False)
+
+    class Meta:
+        db_table = 'UNO_CUSTOMER'

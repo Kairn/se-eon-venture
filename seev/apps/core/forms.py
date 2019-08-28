@@ -273,3 +273,43 @@ class ApprovalForm(forms.Form):
             }
         )
     )
+
+
+class CustomerForm(forms.Form):
+    customer_name = forms.CharField(
+        required=True,
+        label='Customer Name',
+        label_suffix='',
+        error_messages={
+            'required': 'Customer name is required',
+        },
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Customer name',
+            }
+        )
+    )
+
+    country = forms.ChoiceField(
+        required=True,
+        label='Country',
+        label_suffix='',
+        error_messages={
+            'required': 'Country is required',
+        },
+        choices=UnoCountry.get_cty_code_list
+    )
+
+    contact_email = forms.EmailField(
+        required=True,
+        label='Contact Email',
+        label_suffix='',
+        error_messages={
+            'required': 'Contact email is required',
+        },
+        widget=forms.EmailInput(
+            attrs={
+                'placeholder': 'Contact email',
+            }
+        )
+    )
