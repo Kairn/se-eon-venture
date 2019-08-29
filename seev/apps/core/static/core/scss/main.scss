@@ -733,6 +733,7 @@ $card-width: 300px;
   flex-flow: column wrap;
   justify-content: space-between;
   align-items: left;
+  box-shadow: 0 16px 20px 0 #bdbdbd;
   @include tablet {
     padding: 3rem 0;
   }

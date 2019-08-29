@@ -196,6 +196,45 @@ const validateRegisterForm = function(form) {
   disEnaButton(submitBtn, valid);
 };
 
+// Validate enrollment form
+const validateEnrollForm = function(form) {
+  let valid = true;
+  let submitBtn;
+
+  for (let i = 0; i < form.length; ++i) {
+    let fe = form[i];
+
+    if (fe.type === 'submit') {
+      submitBtn = fe;
+    } else if (fe.id === 'id_customer_name') {
+      if (fe.required && !fe.value) {
+        valid = false;
+        if (fe.touched) {
+          displayValidationError(fe.name, VE_REQUIRED);
+        }
+      } else {
+        removeValidationError(fe.name);
+      }
+    } else if (fe.id === 'id_contact_email') {
+      if (fe.required && !fe.value) {
+        valid = false;
+        if (fe.touched) {
+          displayValidationError(fe.name, VE_REQUIRED);
+        }
+      } else if (fe.value && !isValidEmail(fe.value)) {
+        valid = false;
+        if (fe.touched && fe.dirty) {
+          displayValidationError(fe.name, VE_EMAIL);
+        }
+      } else {
+        removeValidationError(fe.name);
+      }
+    }
+  }
+
+  disEnaButton(submitBtn, valid);
+};
+
 // Show field error message after validation
 const displayValidationError = function(name, errMsg) {
   let errId = `ie_${name}`;
@@ -226,6 +265,8 @@ const triggerFormValidation = function(event) {
     validateResetForm(e.target.form);
   } else if (e.target.form.id === 'register-form') {
     validateRegisterForm(e.target.form);
+  } else if (e.target.form.id === 'customer-form') {
+    validateEnrollForm(e.target.form);
   }
 };
 
