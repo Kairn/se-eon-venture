@@ -94,3 +94,40 @@ class UnoCustomer(models.Model):
 
     class Meta:
         db_table = 'UNO_CUSTOMER'
+
+
+class UnoOpportunity(models.Model):
+    opportunity_id = models.UUIDField(
+        primary_key=True, default=uuid.uuid4, editable=False)
+    opportunity_number = models.UUIDField(
+        'Opportunity Number', default=uuid.uuid4, editable=False)
+    client = models.ForeignKey(UnoClient, on_delete=models.CASCADE, null=False)
+    customer = models.ForeignKey(
+        UnoCustomer, on_delete=models.CASCADE, null=False)
+    active = models.BooleanField(default=True, editable=False)
+    discount_nrc = models.CharField('Non-recurring Discount', max_length=16, choices=[
+        ('0', 'No Discount'),
+        ('5', '5% Discount'),
+        ('10', '10% Discount'),
+        ('15', '15% Discount'),
+        ('20', '20% Discount'),
+        ('25', '25% Discount'),
+        ('30', '30% Discount'),
+    ], null=False, blank=False)
+    discount_mrc = models.CharField('Monthly Discount', max_length=16, choices=[
+        ('0', 'No Discount'),
+        ('5', '5% Discount'),
+        ('10', '10% Discount'),
+        ('15', '15% Discount'),
+        ('20', '20% Discount'),
+        ('25', '25% Discount'),
+        ('30', '30% Discount'),
+    ], null=False, blank=False)
+    deal_count = models.PositiveSmallIntegerField(
+        'Deal Count', editable=False, default=0)
+    deal_limit = models.PositiveSmallIntegerField('Deal Limit', default=1)
+    creation_time = models.DateTimeField(
+        'Timestamp of Creation', default=now, editable=False, null=False)
+
+    class Meta:
+        db_table = 'UNO_OPPORTUNITY'

@@ -313,3 +313,63 @@ class CustomerForm(forms.Form):
             }
         )
     )
+
+
+class OpportunityForm(forms.Form):
+    client_id = forms.CharField(
+        label=None,
+        label_suffix=None,
+        widget=forms.HiddenInput()
+    )
+
+    customer = forms.ChoiceField(
+        required=True,
+        label='Customer',
+        label_suffix='',
+        error_messages={
+            'required': 'Customer is required',
+        },
+        choices=[]
+    )
+
+    discount_nrc = forms.ChoiceField(
+        required=False,
+        label='Non-recurring Discount',
+        label_suffix='',
+        choices=[
+            ('0', 'No Discount'),
+            ('5', '5% Discount'),
+            ('10', '10% Discount'),
+            ('15', '15% Discount'),
+            ('20', '20% Discount'),
+            ('25', '25% Discount'),
+            ('30', '30% Discount'),
+        ]
+    )
+
+    discount_mrc = forms.ChoiceField(
+        required=False,
+        label='Monthly Discount',
+        label_suffix='',
+        choices=[
+            ('0', 'No Discount'),
+            ('5', '5% Discount'),
+            ('10', '10% Discount'),
+            ('15', '15% Discount'),
+            ('20', '20% Discount'),
+            ('25', '25% Discount'),
+            ('30', '30% Discount'),
+        ]
+    )
+
+    deal_limit = forms.IntegerField(
+        required=True,
+        label='Deal Limit',
+        label_suffix='',
+        min_value=1,
+        widget=forms.NumberInput(
+            attrs={
+                'placeholder': 'Maximum orders',
+            }
+        )
+    )
