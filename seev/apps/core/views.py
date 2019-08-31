@@ -4,6 +4,7 @@ View logic used in core app
 
 import traceback
 
+from django.conf import settings
 from django.http import HttpRequest
 from django.db import transaction
 from django.shortcuts import render, redirect, reverse
@@ -193,13 +194,29 @@ def do_register(request):
         return redirect('go_register')
 
 
-def go_success(request, context):
+def go_success(request, context=None):
     context = context
+
+    if not context and not settings.DEBUG:
+        return redirect('go_landing')
+
+    if context is None:
+        context = {}
+
+    if 'return_link' in context:
+        pass
+    else:
+        context['return_link'] = reverse('go_landing')
+
     return render(request, 'core/success.html', context=context)
 
 
-def go_error(request, context):
+def go_error(request, context=None):
     context = context
+
+    if not context and not settings.DEBUG:
+        return redirect('go_landing')
+
     return render(request, 'core/error.html', context=context)
 
 
@@ -320,7 +337,7 @@ def do_approve(request):
             store_context_in_session(request, addSnackDataToContext(
                 {}, 'Your action has been applied'))
 
-            return redirect(reverse('go_admin') + '?request_page=' + redirectPage)
+            return redirect(reverse('go_admin') + '?request_page=' + str(redirectPage))
         except Exception:
             traceback.print_exc()
             return go_error(HttpRequest(), {'error': get_app_message('approval_error'), 'message': get_app_message('approval_error_message')})
@@ -376,7 +393,7 @@ def do_enroll(request):
                 )
 
                 newCustomer.save()
-                return go_success(HttpRequest(), {'message': get_app_message('enroll_success')})
+                return go_success(HttpRequest(), {'message': get_app_message('enroll_success'), 'return_link': reverse('go_client')})
             else:
                 store_context_in_session(request, addSnackDataToContext(
                     context, 'Invalid form data'))
