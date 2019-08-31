@@ -16,7 +16,7 @@ from seev.apps.utils.validations import isValidRegisterRequest
 from seev.apps.utils.messages import get_app_message, addSnackDataToContext
 from seev.apps.utils.session import store_context_in_session, get_context_in_session
 
-from .models import UnoClient, UnoCredentials, UnoApproval
+from .models import UnoClient, UnoCredentials, UnoApproval, UnoCustomer
 from .forms import (LoginForm, PasswordResetForm, RegisterForm,
                     ApprovalForm, CustomerForm)
 
@@ -348,8 +348,47 @@ def go_client(request, context=None):
         return redirect('go_login')
 
 
+@transaction.atomic
 def do_enroll(request):
     if request and request.method == 'POST':
-        pass
+        try:
+            context = {}
+
+            # Verify client
+            client = None
+            if request.session:
+                client = UnoClient.objects.get(client_id=request.session['id'])
+
+            if not client:
+                raise RuntimeError
+
+            # Retrieve form values
+            customer_name = request.POST['customer_name']
+            contact_email = request.POST['contact_email']
+            country = request.POST['country']
+
+            if customer_name and contact_email and country:
+                newCustomer = UnoCustomer(
+                    client=client,
+                    customer_name=customer_name,
+                    contact_email=contact_email,
+                    country=country
+                )
+
+                newCustomer.save()
+                return go_success(HttpRequest(), {'message': get_app_message('enroll_success')})
+            else:
+                store_context_in_session(request, addSnackDataToContext(
+                    context, 'Invalid form data'))
+            return redirect('go_login')
+        except RuntimeError:
+            if hasattr(request, 'session') and request.session:
+                request.session.clear()
+
+            store_context_in_session(request, addSnackDataToContext(
+                context, 'Invalid client session'))
+            return redirect('go_login')
+        except Exception:
+            return go_error(HttpRequest(), {'error': get_app_message('enroll_error'), 'message': get_app_message('enroll_error_message')})
     else:
         return redirect('go_client')

@@ -10,6 +10,9 @@ def get_app_message(key):
         'register_error_message': 'Sorry, we are unable to process your request. Please make sure you fill out all required fields and try again.',
         'approval_error': 'Management Error',
         'approval_error_message': 'There is an issue with your approval request. Please contact a system administrator.',
+        'enroll_error': 'Enrollment Failure',
+        'enroll_error_message': 'An error occurred during customer enrollment. Please contact a system administrator.',
+        'enroll_success': 'A new customer has been successfully enrolled. We look forward to taking their orders.',
         '': '',
     }
 
