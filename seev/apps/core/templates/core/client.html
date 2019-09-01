@@ -41,8 +41,8 @@
 			</div>
 		</form>
 	</div>
-	{% endif %}
 	<div class="gap" style="height: 6rem"></div>
+	{% endif %}
 	<!-- Enrollment -->
 	<div id="customer-form-wrapper">
 		<div class="form-title font-title">Customer Portal</div>
@@ -79,8 +79,16 @@
 				<a href="#" class="seev-btn large-btn">Configure Catalog</a>
 			</div>
 			<div class="client-action">
+				<img src="{% static 'core/images/icon-38.svg' %}" alt="oppo-act">
+				<a href="#customer-form-wrapper" class="seev-btn large-btn">Sign Customer</a>
+			</div>
+			<div class="client-action">
 				<img src="{% static 'core/images/icon-37.svg' %}" alt="oppo-act">
-				<a href="#" class="seev-btn large-btn">Create Opportunity</a>
+				<a href="#oppo-form-wrapper" class="seev-btn large-btn" onclick="checkCustomerExist()">Create Opportunity</a>
+			</div>
+			<div class="client-action">
+				<img src="{% static 'core/images/icon-39.svg' %}" alt="oppo-act">
+				<a href="#" class="seev-btn large-btn">View Records</a>
 			</div>
 		</div>
 		<div id="client-logout">

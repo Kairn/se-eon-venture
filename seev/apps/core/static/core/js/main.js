@@ -22,6 +22,12 @@ const applyTranslate = function(element, style) {
   element.style.transform = style;
 };
 
+const checkCustomerExist = function() {
+  if (!document.getElementById('oppo-form-wrapper')) {
+    showSnackMessage('Please sign a customer', 2000);
+  }
+};
+
 let translateUpdate = true;
 setInterval(() => {
   translateUpdate = true;
