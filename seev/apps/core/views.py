@@ -19,7 +19,7 @@ from seev.apps.utils.session import store_context_in_session, get_context_in_ses
 
 from .models import UnoClient, UnoCredentials, UnoApproval, UnoCustomer
 from .forms import (LoginForm, PasswordResetForm, RegisterForm,
-                    ApprovalForm, CustomerForm)
+                    ApprovalForm, CustomerForm, OpportunityForm)
 
 # Create your views here.
 
@@ -359,6 +359,22 @@ def go_client(request, context=None):
 
             # Customer form
             context['customerForm'] = CustomerForm()
+
+            # Opportunity form
+            oppoForm = OpportunityForm(initial={'client_id': client.client_id})
+
+            customerList = UnoCustomer.objects.filter(client=client)
+            custChoice = []
+
+            for cust in customerList:
+                choice = (cust.customer_id, cust.customer_name)
+                custChoice.append(choice)
+
+            if len(custChoice) > 0:
+                oppoForm.fields['customer'].choices = custChoice
+                context['oppoForm'] = oppoForm
+            else:
+                context['oppoForm'] = None
 
             return render(request, 'core/client.html', context=context)
     else:
