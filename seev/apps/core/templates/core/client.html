@@ -15,7 +15,7 @@
 		<div class="form-title font-title">Opportunity Portal</div>
 
 		<!-- Form Instance -->
-		<form id="oppo-form" action="#" method="post" novalidate>
+		<form id="oppo-form" action="/do-oppo/" method="post" novalidate>
 			<div class="form-sub-title font-mont">Create Deal</div>
 			{% csrf_token %}
 			{% for field in approvalForm.hidden_fields %}

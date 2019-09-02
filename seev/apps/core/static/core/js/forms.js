@@ -235,6 +235,45 @@ const validateEnrollForm = function(form) {
   disEnaButton(submitBtn, valid);
 };
 
+// Validate opportunity form
+const validateOppoForm = function(form) {
+  let valid = true;
+  let submitBtn;
+
+  for (let i = 0; i < form.length; ++i) {
+    let fe = form[i];
+
+    if (fe.type === 'submit') {
+      submitBtn = fe;
+    } else if (fe.id === 'id_customer') {
+      if (fe.required && !fe.value) {
+        valid = false;
+        if (fe.touched) {
+          displayValidationError(fe.name, VE_REQUIRED);
+        }
+      } else {
+        removeValidationError(fe.name);
+      }
+    } else if (fe.id === 'id_deal_limit') {
+      if (fe.required && !fe.value) {
+        valid = false;
+        if (fe.touched) {
+          displayValidationError(fe.name, VE_REQUIRED);
+        }
+      } else if (fe.value && !isValidAmount(fe.value, 1, 32)) {
+        valid = false;
+        if (fe.touched && fe.dirty) {
+          displayValidationError(fe.name, VE_BAD_DEAL_LIMIT);
+        }
+      } else {
+        removeValidationError(fe.name);
+      }
+    }
+  }
+
+  disEnaButton(submitBtn, valid);
+};
+
 // Show field error message after validation
 const displayValidationError = function(name, errMsg) {
   let errId = `ie_${name}`;
@@ -267,6 +306,8 @@ const triggerFormValidation = function(event) {
     validateRegisterForm(e.target.form);
   } else if (e.target.form.id === 'customer-form') {
     validateEnrollForm(e.target.form);
+  } else if (e.target.form.id === 'oppo-form') {
+    validateOppoForm(e.target.form);
   }
 };
 

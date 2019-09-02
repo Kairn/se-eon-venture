@@ -13,6 +13,8 @@ def get_app_message(key):
         'enroll_error': 'Enrollment Failure',
         'enroll_error_message': 'An error occurred during customer enrollment. Please contact a system administrator.',
         'enroll_success': 'A new customer has been successfully enrolled. We look forward to taking their orders.',
+        'oppo_error': 'Acknowledgment Failed',
+        'oppo_error_message': 'Sorry, we are unable to create this opportunity. Please contact a system administrator.',
         '': '',
     }
 
@@ -36,3 +38,12 @@ def addSnackDataToContext(context, message):
         context['snack_data'] = message
 
     return context
+
+
+def getNewOppoMessage(oppo_number):
+    if not oppo_number:
+        return ''
+
+    oppo_number = str(oppo_number).replace('-', '')
+
+    return 'Opportunity number <span class="imp-num">{0}</span> has been created successfully. Please share this number with the customer.'.format(oppo_number)

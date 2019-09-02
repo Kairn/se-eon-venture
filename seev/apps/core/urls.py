@@ -17,4 +17,5 @@ urlpatterns = [
     re_path(r'^do-approve/$', views.do_approve, name='do_approve'),
     re_path(r'^client/$', views.go_client, name='go_client'),
     re_path(r'^enroll/$', views.do_enroll, name='do_enroll'),
+    re_path(r'^do-oppo/$', views.do_oppo, name='do_oppo'),
 ]

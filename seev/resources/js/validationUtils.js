@@ -9,6 +9,7 @@ const VE_PSWEAK = 'Password is too weak';
 const VE_PSCONFIRM = 'Passwords do not match';
 const VE_NOFILE = 'Only .txt file is supported';
 const VE_PIN = 'Must be between 1000 and 9999';
+const VE_BAD_DEAL_LIMIT = 'Must be between 1 and 32';
 
 // Disbale or enable a button
 const disEnaButton = function(button, valid) {
@@ -134,4 +135,33 @@ const isValidCredentials = function(input) {
   }
 
   return true;
+};
+
+// Validate amount unit
+const isValidAmount = function(input, min, max) {
+  let amount;
+
+  if (!input || !parseInt(input)) {
+    return false;
+  } else {
+    amount = parseInt(input);
+  }
+
+  if (!min || !parseInt(min)) {
+    min = Number.NEGATIVE_INFINITY;
+  } else {
+    min = parseInt(min);
+  }
+
+  if (!max || !parseInt(max)) {
+    max = Number.POSITIVE_INFINITY;
+  } else {
+    max = parseInt(max);
+  }
+
+  if (amount >= min && amount <= max) {
+    return true;
+  }
+
+  return false;
 };

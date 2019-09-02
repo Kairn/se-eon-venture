@@ -14,10 +14,10 @@ from seev.apps.utils.generators import (getRandomSalt, getSha384Hash,
                                         getSha224Hash, getAdminCredentials, getCpAdminId,
                                         getClientStates)
 from seev.apps.utils.validations import isValidRegisterRequest
-from seev.apps.utils.messages import get_app_message, addSnackDataToContext
+from seev.apps.utils.messages import get_app_message, addSnackDataToContext, getNewOppoMessage
 from seev.apps.utils.session import store_context_in_session, get_context_in_session
 
-from .models import UnoClient, UnoCredentials, UnoApproval, UnoCustomer
+from .models import UnoClient, UnoCredentials, UnoApproval, UnoCustomer, UnoOpportunity
 from .forms import (LoginForm, PasswordResetForm, RegisterForm,
                     ApprovalForm, CustomerForm, OpportunityForm)
 
@@ -279,19 +279,19 @@ def do_approve(request):
                 return redirect('go_login')
 
             # Retrieve form data
-            clientId = request.POST['client_id']
-            catalogName = request.POST['ctg_name']
+            client_id = request.POST['client_id']
+            ctg_name = request.POST['ctg_name']
             action = request.POST['action']
             comment = request.POST['message']
 
             # Get client data
-            client = UnoClient.objects.get(client_id=clientId)
+            client = UnoClient.objects.get(client_id=client_id)
 
             # Validate action
             valid = False
             tempStatus = ''
             if client.status == getClientStates('PE'):
-                if action == 'AP' and catalogName:
+                if action == 'AP' and ctg_name:
                     valid = True
                     tempStatus = getClientStates('AP')
                 elif action == 'DE':
@@ -322,7 +322,7 @@ def do_approve(request):
             # Update client data
             if (tempStatus == getClientStates('AP')):
                 client.active = 1
-                client.ctg_name = catalogName
+                client.ctg_name = ctg_name
             else:
                 client.active = 0
             client.status = tempStatus
@@ -423,5 +423,61 @@ def do_enroll(request):
             return redirect('go_login')
         except Exception:
             return go_error(HttpRequest(), {'error': get_app_message('enroll_error'), 'message': get_app_message('enroll_error_message')})
+    else:
+        return redirect('go_client')
+
+
+@transaction.atomic
+def do_oppo(request, context=None):
+    if request and request.method == 'POST':
+        try:
+            if not context:
+                context = {}
+
+            client = None
+            if request.session:
+                client = UnoClient.objects.get(client_id=request.session['id'])
+
+            if not client:
+                raise RuntimeError
+
+            # Get opportunity details
+            customer_id = request.POST['customer']
+            discount_nrc = request.POST['discount_nrc']
+            discount_mrc = request.POST['discount_mrc']
+            deal_limit = int(request.POST['deal_limit'])
+
+            if deal_limit < 1 or deal_limit > 32:
+                raise AssertionError
+
+            customer_id = str(customer_id).replace('-', '')
+            customer = UnoCustomer.objects.get(customer_id=customer_id)
+
+            newOpportunity = UnoOpportunity(
+                client=client,
+                customer=customer,
+                discount_nrc=discount_nrc,
+                discount_mrc=discount_mrc,
+                deal_limit=deal_limit
+            )
+
+            newOpportunity.save()
+            return go_success(HttpRequest(), {'message': getNewOppoMessage(newOpportunity.opportunity_number), 'return_link': reverse('go_client')})
+        except AssertionError:
+            if hasattr(request, 'session') and request.session:
+                request.session.clear()
+
+            store_context_in_session(request, addSnackDataToContext(
+                context, 'Invalid data encountered'))
+            return redirect('go_client')
+        except RuntimeError:
+            if hasattr(request, 'session') and request.session:
+                request.session.clear()
+
+            store_context_in_session(request, addSnackDataToContext(
+                context, 'Invalid client session'))
+            return redirect('go_login')
+        except Exception:
+            return go_error(HttpRequest(), {'error': get_app_message('oppo_error'), 'message': get_app_message('oppo_error_message')})
     else:
         return redirect('go_client')
