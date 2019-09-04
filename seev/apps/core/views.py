@@ -481,3 +481,18 @@ def do_oppo(request, context=None):
             return go_error(HttpRequest(), {'error': get_app_message('oppo_error'), 'message': get_app_message('oppo_error_message')})
     else:
         return redirect('go_client')
+
+
+def go_records(request):
+    try:
+        client = UnoClient.objects.get(client_id=request.session['id'])
+
+        context = {}
+        context['client'] = client
+
+        return render(request, 'core/records.html', context=context)
+    except Exception:
+        if request and hasattr(request, 'session'):
+            request.session.clear()
+
+        return redirect('go_login')
