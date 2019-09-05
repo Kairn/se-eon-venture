@@ -8,7 +8,17 @@
 
 {% block content %}
 <h1>Records is working!</h1>
-<h2>{{ client.entity_name }}</h2>
+<h2>{{ entity_name }}</h2>
+<!-- Record List -->
+{% for cust_name, oppoList in records.items %}
+<h3>{{ cust_name }}</h3>
+{% if oppoList is None %}
+<em>No opportunities found</em>
+{% endif %}
+{% for oppo in oppoList %}
+<div><span>{{ oppo.0 }} </span><span> {{ oppo.1 }}</span></div>
+{% endfor %}
+{% endfor %}
 {% endblock content %}
 
 {% block snackData %}

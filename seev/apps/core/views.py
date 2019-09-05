@@ -351,6 +351,8 @@ def go_client(request, context=None):
             request.session.clear()
             return redirect('go_login')
         else:
+            context = get_context_in_session(request)
+
             if context is None:
                 context = {}
 
@@ -422,6 +424,7 @@ def do_enroll(request):
                 context, 'Invalid client session'))
             return redirect('go_login')
         except Exception:
+            traceback.print_exc()
             return go_error(HttpRequest(), {'error': get_app_message('enroll_error'), 'message': get_app_message('enroll_error_message')})
     else:
         return redirect('go_client')
@@ -464,9 +467,6 @@ def do_oppo(request, context=None):
             newOpportunity.save()
             return go_success(HttpRequest(), {'message': getNewOppoMessage(newOpportunity.opportunity_number), 'return_link': reverse('go_client')})
         except AssertionError:
-            if hasattr(request, 'session') and request.session:
-                request.session.clear()
-
             store_context_in_session(request, addSnackDataToContext(
                 context, 'Invalid data encountered'))
             return redirect('go_client')
@@ -478,6 +478,7 @@ def do_oppo(request, context=None):
                 context, 'Invalid client session'))
             return redirect('go_login')
         except Exception:
+            traceback.print_exc()
             return go_error(HttpRequest(), {'error': get_app_message('oppo_error'), 'message': get_app_message('oppo_error_message')})
     else:
         return redirect('go_client')
@@ -488,10 +489,33 @@ def go_records(request):
         client = UnoClient.objects.get(client_id=request.session['id'])
 
         context = {}
-        context['client'] = client
+        context['entity_name'] = client.entity_name
+
+        customerList = UnoCustomer.objects.filter(client=client)
+
+        if len(customerList) == 0:
+            store_context_in_session(
+                request, addSnackDataToContext(context, 'No customer found'))
+            return redirect('go_client')
+
+        records = {}
+        for customer in customerList:
+            oppoList = UnoOpportunity.objects.filter(
+                client=client, customer=customer)
+
+            if len(oppoList) > 0:
+                records[customer.customer_name] = []
+                for oppo in oppoList:
+                    records[customer.customer_name].append(
+                        (oppo.opportunity_number, oppo.creation_time))
+            else:
+                records[customer.customer_name] = None
+
+        context['records'] = records
 
         return render(request, 'core/records.html', context=context)
     except Exception:
+        traceback.print_exc()
         if request and hasattr(request, 'session'):
             request.session.clear()
 
