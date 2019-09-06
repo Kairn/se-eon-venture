@@ -491,25 +491,18 @@ def go_records(request):
         context = {}
         context['entity_name'] = client.entity_name
 
-        customerList = UnoCustomer.objects.filter(client=client)
+        records = []
 
-        if len(customerList) == 0:
-            store_context_in_session(
-                request, addSnackDataToContext(context, 'No customer found'))
+        oppoList = UnoOpportunity.objects.filter(client=client)
+        if len(oppoList) < 1:
+            store_context_in_session(request, addSnackDataToContext(
+                context, 'No opportunity found'))
             return redirect('go_client')
 
-        records = {}
-        for customer in customerList:
-            oppoList = UnoOpportunity.objects.filter(
-                client=client, customer=customer)
-
-            if len(oppoList) > 0:
-                records[customer.customer_name] = []
-                for oppo in oppoList:
-                    records[customer.customer_name].append(
-                        (oppo.opportunity_number, oppo.creation_time))
-            else:
-                records[customer.customer_name] = None
+        for oppo in oppoList:
+            customer = UnoCustomer.objects.get(customer_id=oppo.customer_id)
+            records.append(
+                (oppo.opportunity_number, oppo.creation_time, customer.customer_name))
 
         context['records'] = records
 

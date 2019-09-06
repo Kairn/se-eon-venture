@@ -7,18 +7,29 @@
 {% endblock css %}
 
 {% block content %}
-<h1>Records is working!</h1>
-<h2>{{ entity_name }}</h2>
+<div id="rec-head">
+	<h1>Client Records</h1>
+	<h2>{{ entity_name }}</h2>
+</div>
 <!-- Record List -->
-{% for cust_name, oppoList in records.items %}
-<h3>{{ cust_name }}</h3>
-{% if oppoList is None %}
-<em>No opportunities found</em>
-{% endif %}
-{% for oppo in oppoList %}
-<div><span>{{ oppo.0 }} </span><span> {{ oppo.1 }}</span></div>
-{% endfor %}
-{% endfor %}
+<div id="rec-wrapper">
+	<div id="rec-table">
+		<div id="rec-title-row">
+			<span>Oppor. #</span>
+			<span>Created at</span>
+			<span>Customer</span>
+			<span class="rec-del-btn">Action</span>
+		</div>
+		{% for oppo in records %}
+		<div class="rec-row">
+			<span>{{ oppo.0 }}</span>
+			<span>{{ oppo.1|date:"Y-M-d" }}</span>
+			<span>{{ oppo.2 }}</span>
+			<span class="rec-del-btn">Annul</span>
+		</div>
+		{% endfor %}
+	</div>
+</div>
 {% endblock content %}
 
 {% block snackData %}
