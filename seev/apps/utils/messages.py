@@ -15,6 +15,8 @@ def get_app_message(key):
         'enroll_success': 'A new customer has been successfully enrolled. We look forward to taking their orders.',
         'oppo_error': 'Acknowledgment Failed',
         'oppo_error_message': 'Sorry, we are unable to create this opportunity. Please contact a system administrator.',
+        'oppo_can_error': 'Annulment Failure',
+        'oppo_can_message': 'Internal error occurred for the request opportunity. Please contact a system administrator.',
         '': '',
     }
 

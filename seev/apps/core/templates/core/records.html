@@ -9,6 +9,7 @@
 {% block content %}
 <div id="rec-head">
 	<h1>Client Opportunity Records</h1>
+	<a href="/client/" class="seev-btn">Back</a>
 </div>
 <!-- Record List -->
 <div id="rec-wrapper">
@@ -30,7 +31,7 @@
 			<span>{{ oppo.1|date:"Y-M-d" }}</span>
 			<span>{{ oppo.2 }}</span>
 			{% if oppo.3 %}
-			<span class="rec-del"><img src="{% static 'icon-40.svg' %}" alt="can"></span>
+			<span class="rec-del"><img onclick="canOppo('{{ oppo.0 }}')" src="{% static 'icon-40.svg' %}" alt="can"></span>
 			{% else %}
 			<span><img src="{% static 'icon-41.svg' %}" alt="no-can"></span>
 			{% endif %}
@@ -39,8 +40,9 @@
 	</div>
 </div>
 <!-- Hidden Form -->
-<form action="#" id="rec-del-form" class="invisible">
-	<input type="text" name="oppoNb">
+<form action="/can-oppo/" id="rec-del-form" class="invisible" method="POST">
+	{% csrf_token %}
+	<input type="text" name="oppoNb" id="rec-del-field">
 </form>
 {% endblock content %}
 

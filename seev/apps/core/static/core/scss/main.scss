@@ -890,15 +890,20 @@ $card-width: 300px;
   font-family: "Nunito", sans-serif;
   @include tablet {
     padding: 0 0 4rem 0;
+    text-align: center;
   }
   h1 {
     color: #880e4f;
     font-size: 36px;
+    margin: 0 0 1.5rem 0;
     @include tablet {
       font-size: 30px;
       text-align: center;
       padding: 0 2rem;
     }
+  }
+  a.seev-btn {
+    background-color: #607d8b;
   }
 }
 
@@ -935,6 +940,9 @@ $card-width: 300px;
     display: flex;
     flex-flow: row nowrap;
     padding: 0.75rem;
+    &:nth-child(2n + 3) {
+      background-color: #eceff1;
+    }
     &#rec-title-row {
       user-select: none;
       color: #ad1457;
@@ -970,6 +978,7 @@ $card-width: 300px;
   }
   @include tablet {
     font-size: 16px;
+    width: 90%;
     .rec-row {
       &#rec-title-row {
         font-size: 18px;

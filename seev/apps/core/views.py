@@ -488,7 +488,10 @@ def go_records(request):
     try:
         client = UnoClient.objects.get(client_id=request.session['id'])
 
-        context = {}
+        context = get_context_in_session(request)
+        if not context:
+            context = {}
+
         context['entity_name'] = client.entity_name
 
         records = []
@@ -513,3 +516,43 @@ def go_records(request):
             request.session.clear()
 
         return redirect('go_login')
+
+
+@transaction.atomic
+def can_oppo(request, context=None):
+    if request and request.method == 'POST':
+        try:
+            if not context:
+                context = {}
+
+            client = None
+            if request.session:
+                client = UnoClient.objects.get(client_id=request.session['id'])
+
+            if not client:
+                raise RuntimeError
+
+            opportunity = UnoOpportunity.objects.get(
+                opportunity_number=request.POST['oppoNb'])
+
+            if not opportunity.active:
+                raise Exception
+
+            opportunity.active = False
+            opportunity.save()
+
+            store_context_in_session(request, addSnackDataToContext(
+                context, 'Opportunity annulled'))
+            return redirect('go_records')
+        except RuntimeError:
+            if hasattr(request, 'session') and request.session:
+                request.session.clear()
+
+            store_context_in_session(request, addSnackDataToContext(
+                context, 'Invalid client session'))
+            return redirect('go_login')
+        except Exception:
+            traceback.print_exc()
+            return go_error(HttpRequest(), {'error': get_app_message('oppo_can_error'), 'message': get_app_message('oppo_can_message')})
+    else:
+        return redirect('go_records')

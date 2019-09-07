@@ -28,6 +28,15 @@ const checkCustomerExist = function() {
   }
 };
 
+// Annul opportunity
+const canOppo = function(oppoNb) {
+  let form = document.getElementById('rec-del-form');
+  let field = document.getElementById('rec-del-field');
+
+  field.value = oppoNb;
+  form.submit();
+};
+
 let translateUpdate = true;
 setInterval(() => {
   translateUpdate = true;
