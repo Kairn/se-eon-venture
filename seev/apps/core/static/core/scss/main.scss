@@ -946,6 +946,9 @@ $card-width: 300px;
       padding: 0.5rem 1rem;
       overflow-wrap: break-word;
       width: 18%;
+      &.rec-no-act {
+        color: #ff5722;
+      }
       &:first-child {
         width: 50%;
       }
@@ -953,6 +956,15 @@ $card-width: 300px;
         user-select: none;
         text-align: center;
         width: 14%;
+        &.rec-del {
+          img {
+            cursor: pointer;
+          }
+        }
+        img {
+          width: 20px;
+          height: 20px;
+        }
       }
     }
   }

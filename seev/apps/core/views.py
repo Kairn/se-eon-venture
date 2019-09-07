@@ -502,7 +502,7 @@ def go_records(request):
         for oppo in oppoList:
             customer = UnoCustomer.objects.get(customer_id=oppo.customer_id)
             records.append(
-                (str(oppo.opportunity_number).replace('-', ''), oppo.creation_time, customer.customer_name))
+                (str(oppo.opportunity_number).replace('-', ''), oppo.creation_time, customer.customer_name, oppo.active))
 
         context['records'] = records
 

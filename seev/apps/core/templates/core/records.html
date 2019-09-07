@@ -18,18 +18,30 @@
 			<span>Oppor. #</span>
 			<span>Created at</span>
 			<span>Customer</span>
-			<span>Action</span>
+			<span>Annul</span>
 		</div>
 		{% for oppo in records %}
 		<div class="rec-row font-data">
+			{% if oppo.3 %}
 			<span>{{ oppo.0 }}</span>
+			{% else %}
+			<span class="rec-no-act">{{ oppo.0 }}</span>
+			{% endif %}
 			<span>{{ oppo.1|date:"Y-M-d" }}</span>
 			<span>{{ oppo.2 }}</span>
-			<span class="rec-del-btn">Annul</span>
+			{% if oppo.3 %}
+			<span class="rec-del"><img src="{% static 'icon-40.svg' %}" alt="can"></span>
+			{% else %}
+			<span><img src="{% static 'icon-41.svg' %}" alt="no-can"></span>
+			{% endif %}
 		</div>
 		{% endfor %}
 	</div>
 </div>
+<!-- Hidden Form -->
+<form action="#" id="rec-del-form" class="invisible">
+	<input type="text" name="oppoNb">
+</form>
 {% endblock content %}
 
 {% block snackData %}
