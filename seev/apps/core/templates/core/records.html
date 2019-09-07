@@ -8,20 +8,20 @@
 
 {% block content %}
 <div id="rec-head">
-	<h1>Client Records</h1>
-	<h2>{{ entity_name }}</h2>
+	<h1>Client Opportunity Records</h1>
 </div>
 <!-- Record List -->
 <div id="rec-wrapper">
+	<h2>{{ entity_name }}</h2>
 	<div id="rec-table">
-		<div id="rec-title-row">
+		<div id="rec-title-row" class="rec-row font-mont">
 			<span>Oppor. #</span>
 			<span>Created at</span>
 			<span>Customer</span>
-			<span class="rec-del-btn">Action</span>
+			<span>Action</span>
 		</div>
 		{% for oppo in records %}
-		<div class="rec-row">
+		<div class="rec-row font-data">
 			<span>{{ oppo.0 }}</span>
 			<span>{{ oppo.1|date:"Y-M-d" }}</span>
 			<span>{{ oppo.2 }}</span>

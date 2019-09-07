@@ -705,9 +705,6 @@ $card-width: 300px;
     text-align: center;
     padding: 0 2rem;
   }
-  @include mobile {
-    font-size: 28px;
-  }
 }
 
 #client-sect-wrapper {
@@ -748,9 +745,6 @@ $card-width: 300px;
     @include tablet {
       margin: auto;
       font-size: 22px;
-    }
-    @include mobile {
-      font-size: 20px;
     }
   }
   #client-logout {
@@ -886,5 +880,97 @@ $card-width: 300px;
   }
   @include mobile {
     width: 90%;
+  }
+}
+
+#rec-head {
+  user-select: none;
+  padding: 0 0 4rem 8rem;
+  margin: 3rem 0 0 0;
+  font-family: "Nunito", sans-serif;
+  @include tablet {
+    padding: 0 0 4rem 0;
+  }
+  h1 {
+    color: #880e4f;
+    font-size: 36px;
+    @include tablet {
+      font-size: 30px;
+      text-align: center;
+      padding: 0 2rem;
+    }
+  }
+}
+
+#rec-wrapper {
+  text-align: center;
+  background-color: #f5f5f5;
+  margin: 0 auto 8rem auto;
+  padding: 3rem 0;
+  border-radius: 16px;
+  box-shadow: 0 16px 20px 0 #bdbdbd;
+  width: 85%;
+  h2 {
+    user-select: none;
+    font-size: 26px;
+    color: #b71c1c;
+    display: inline-block;
+    text-align: center;
+    padding: 0.5rem 2.75em;
+    border: #b71c1c 6px double;
+    @include tablet {
+      font-size: 22px;
+    }
+  }
+}
+
+#rec-table {
+  width: 85%;
+  margin: 4rem auto 3rem auto;
+  text-align: left;
+  font-size: 18px;
+  .rec-row {
+    max-width: 100%;
+    border-bottom: #90a4ae 2px solid;
+    display: flex;
+    flex-flow: row nowrap;
+    padding: 0.75rem;
+    &#rec-title-row {
+      user-select: none;
+      color: #ad1457;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    span {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      overflow-wrap: break-word;
+      width: 18%;
+      &:first-child {
+        width: 50%;
+      }
+      &:last-child {
+        user-select: none;
+        text-align: center;
+        width: 14%;
+      }
+    }
+  }
+  @include tablet {
+    font-size: 16px;
+    .rec-row {
+      &#rec-title-row {
+        font-size: 18px;
+      }
+      span {
+        width: 25%;
+        &:first-child {
+          width: 30%;
+        }
+        &:last-child {
+          width: 20%;
+        }
+      }
+    }
   }
 }
