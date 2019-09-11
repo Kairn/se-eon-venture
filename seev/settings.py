@@ -51,6 +51,7 @@ INSTALLED_APPS = [
 
     # In-project apps
     'seev.apps.core',
+    'seev.apps.catalog',
 ]
 
 MIDDLEWARE = [

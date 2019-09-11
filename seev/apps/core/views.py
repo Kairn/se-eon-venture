@@ -21,8 +21,6 @@ from .models import UnoClient, UnoCredentials, UnoApproval, UnoCustomer, UnoOppo
 from .forms import (LoginForm, PasswordResetForm, RegisterForm,
                     ApprovalForm, CustomerForm, OpportunityForm)
 
-# Create your views here.
-
 
 def go_landing(request):
     request.session.set_test_cookie()

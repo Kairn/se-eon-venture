@@ -19,4 +19,5 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('seev.apps.core.urls')),
+    path('catalog/', include('seev.apps.catalog.urls')),
 ]
