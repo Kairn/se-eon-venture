@@ -38,6 +38,7 @@ class CtgFeature(models.Model):
     itemcode = models.CharField(
         'Feature Code', max_length=32, null=False, unique=True)
     name = models.CharField('Feature Name', max_length=128, null=False)
+    limit = models.PositiveSmallIntegerField(default=1)
     active = models.BooleanField(default=True, editable=False)
     creation_time = models.DateTimeField(
         'Timestamp of Creation', default=now, editable=False, null=False)
@@ -61,8 +62,6 @@ class CtgSpecification(models.Model):
         ('STR', 'String'),
         ('QTY', 'Quantity'),
         ('ENUM', 'Enumeration'),
-        ('SLG', 'Slug'),
-        ('AT', 'Auto'),
     ], null=False, blank=False)
     default_value = models.CharField(
         'Default Value', max_length=512, default='N/A')
@@ -100,6 +99,7 @@ class CtgRestriction(models.Model):
         ('LOLEN', 'Length Lower Limit'),
         ('AO', 'Alphabetical Letters Only'),
         ('NUO', 'Numbers Only'),
+        ('EML', 'Email Format'),
         ('CD', 'Must Be Divisible By'),
     ], null=False, blank=False)
     value = models.CharField(max_length=64, null=True, default='1')
