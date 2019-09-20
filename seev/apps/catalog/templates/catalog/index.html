@@ -1,22 +1,8 @@
 <!-- Catalog home page -->
-{% extends 'base.html' %}
-{% load static %}
+{% extends 'catalog/base.html' %}
 
-{% block css %}
-<link rel="stylesheet" href="{% static 'catalog/css/main.min.css' %}">
-{% endblock css %}
-
-{% block content %}
-<h1>Welcome to Catalog Designer</h1>
-<h2>{{ client.entity_name }}</h2>
-{% endblock content %}
-
-{% block snackData %}
-{% if snack_data is not None and snack_data != '' %}
-{{ snack_data }}
-{% endif %}
-{% endblock snackData %}
-
-{% block js %}
-<script src="{% static 'catalog/js/main.js' %}"></script>
-{% endblock js %}
+{% block ctgContent %}
+<div id="ctg-pr-wrapper">
+	<h3>Add Product</h3>
+</div>
+{% endblock ctgContent %}

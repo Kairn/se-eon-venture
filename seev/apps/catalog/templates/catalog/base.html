@@ -1,0 +1,32 @@
+<!-- Catalog base template -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'catalog/css/main.min.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div id="ctg-main-wrapper">
+	<div id="ctg-base-header">
+		<h1>Catalog Designer</h1>
+		<h2>{{ client.entity_name }}</h2>
+	</div>
+	{% block ctgContent %}
+	{% endblock ctgContent %}
+	<div id="ctg-base-end">
+		<a href="/client/" class="seev-btn exit-btn">Exit</a>
+		<a href="/logout/" class="seev-btn logout-btn">Logout</a>
+	</div>
+</div>
+{% endblock content %}
+
+{% block snackData %}
+{% if snack_data is not None and snack_data != '' %}
+{{ snack_data }}
+{% endif %}
+{% endblock snackData %}
+
+{% block js %}
+<script src="{% static 'catalog/js/main.js' %}"></script>
+{% endblock js %}

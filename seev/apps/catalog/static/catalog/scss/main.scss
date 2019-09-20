@@ -1,6 +1,58 @@
 @import "../../../../../resources/scss/theme.scss";
 @import "../../../../../resources/scss/media.scss";
 
-h1 {
-  color: salmon;
+#ctg-main-wrapper {
+  padding: 2rem 4rem 5rem 2rem;
+  div:nth-child(2) {
+    min-height: 50vh;
+  }
+}
+
+#ctg-base-header {
+  padding: 1rem 0 3rem 4rem;
+  h1 {
+    font-family: "Nunito", sans-serif;
+    color: #d32f2f;
+    font-size: 36px;
+    margin-bottom: 2rem;
+  }
+  h2 {
+    font-size: 26px;
+    font-family: "Nunito", sans-serif;
+    color: #b71c1c;
+    display: inline-block;
+    text-align: center;
+    padding: 0.5rem 2.75em;
+    border: #b71c1c 6px double;
+  }
+  @include tablet {
+    padding: 1rem;
+    text-align: center;
+    h1 {
+      font-size: 30px;
+    }
+    h2 {
+      font-size: 22px;
+    }
+  }
+}
+
+#ctg-base-end {
+  padding: 1rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  a {
+    margin: 0 1.5rem;
+  }
+  @include mobile {
+    flex-flow: column wrap;
+    a {
+      margin: 1rem 0;
+    }
+  }
+}
+
+#ctg-pr-wrapper {
+  padding: 2rem 4rem;
 }
