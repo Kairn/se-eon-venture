@@ -3,6 +3,33 @@
 
 {% block ctgContent %}
 <div id="ctg-pr-wrapper">
-	<h3>Add Product</h3>
+	<section id="ctg-add-pr">
+		<h3>Define New Product</h3>
+		<form id="ctg-add-pr-form" class="ctg-def-form" action="/catalog/add-pr/" method="post" novalidate>
+			{% csrf_token %}
+			{% for field in approvalForm.hidden_fields %}
+			{{ field }}
+			{% endfor %}
+			<div class="ctg-field-box">
+				{% for field in addPrForm.visible_fields %}
+				<div class="ctg-ti-wrapper">
+					<div class="ctg-label-wrapper">
+						<label>{{ field.label }}</label>
+						{% if field.field.required %}
+						<span class="asterisk"> * </span>
+						{% endif %}
+					</div>
+					{{ field }}
+				</div>
+				{% endfor %}
+			</div>
+			<div class="ctg-form-action-wrapper">
+				<button id="add-pr-btn" class="ctg-action-btn add" type="submit">Add</button>
+			</div>
+		</form>
+	</section>
+	<section id="ctg-pr-list">
+		<h3>Catalog Product List</h3>
+	</section>
 </div>
 {% endblock ctgContent %}
