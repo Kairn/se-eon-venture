@@ -1,4 +1,4 @@
-// Handles all form related functionalities
+// Handles all form related functionalities in core app
 
 // General DOM element references
 var allForms = document.querySelectorAll('form');
@@ -272,22 +272,6 @@ const validateOppoForm = function(form) {
   }
 
   disEnaButton(submitBtn, valid);
-};
-
-// Show field error message after validation
-const displayValidationError = function(name, errMsg) {
-  let errId = `ie_${name}`;
-  let me = document.getElementById(errId);
-  me.innerText = errMsg;
-  me.classList.remove('ie-hide-up');
-};
-
-// Remove field error message
-const removeValidationError = function(name) {
-  let errId = `ie_${name}`;
-  let me = document.getElementById(errId);
-  me.innerText = '';
-  me.classList.add('ie-hide-up');
 };
 
 // Trigger form validation based on input event

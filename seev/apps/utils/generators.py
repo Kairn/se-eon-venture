@@ -6,6 +6,8 @@ import string
 import random
 import hashlib
 
+from seev.apps.core.models import UnoClient
+
 
 def getAdminCredentials():
     """
@@ -70,4 +72,17 @@ def getSha224Hash(message):
 
         return hashlib.sha224(_m).hexdigest()
     else:
+        return ''
+
+
+def getFullCatalogCode(code, client=None, client_id=None):
+    if not code or (not client and not client_id):
+        return ''
+
+    try:
+        if not client:
+            client = UnoClient.objects.get(client_id=client_id)
+
+        return (str(client.ctg_name) + '_' + str(code)).upper()
+    except Exception:
         return ''

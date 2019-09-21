@@ -13,6 +13,7 @@ NON_DIGIT_PATTERN = r'\D'
 LOWER_CASE_PATTERN = r'[a-z]'
 UPPER_CASE_PATTERN = r'[A-Z]'
 SPECIAL_PATTERN = r'[\W_]'
+PR_CODE_PATTERN = r'^PR(_[A-Z0-9]+)+$'
 
 
 # Simple validations
@@ -71,6 +72,19 @@ def isValidPhone(input):
         return False
 
     if re.search(NON_DIGIT_PATTERN, input) != None:
+        return False
+
+    return True
+
+
+def isValidPrCode(input):
+    if not input:
+        return False
+
+    if re.search(PR_CODE_PATTERN, input) == None:
+        return False
+
+    if len(input) > 32:
         return False
 
     return True

@@ -5,6 +5,7 @@
 <div id="ctg-pr-wrapper">
 	<section id="ctg-add-pr">
 		<h3>Define New Product</h3>
+		<em>Note: Product code must use the format PR_FOO_BAR.</em>
 		<form id="ctg-add-pr-form" class="ctg-def-form" action="/catalog/add-pr/" method="post" novalidate>
 			{% csrf_token %}
 			{% for field in approvalForm.hidden_fields %}
@@ -20,6 +21,9 @@
 						{% endif %}
 					</div>
 					{{ field }}
+					<div class="form-ie-wrapper">
+						<span id="ie_{{ field.name }}" class="ie-msg"></span><span class="invisible">I</span>
+					</div>
 				</div>
 				{% endfor %}
 			</div>

@@ -13,6 +13,7 @@ class AddPrForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 'placeholder': 'Product Code',
+                'maxlength': '32'
             }
         )
     )
@@ -24,6 +25,7 @@ class AddPrForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 'placeholder': 'Product Name',
+                'maxlength': '128'
             }
         )
     )

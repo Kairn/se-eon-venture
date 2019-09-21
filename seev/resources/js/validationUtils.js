@@ -10,6 +10,11 @@ const VE_PSCONFIRM = 'Passwords do not match';
 const VE_NOFILE = 'Only .txt file is supported';
 const VE_PIN = 'Must be between 1000 and 9999';
 const VE_BAD_DEAL_LIMIT = 'Must be between 1 and 32';
+const VE_CTG_PR = 'Invalid product code format';
+
+// Dynamic error messages
+const VE_MIN = min => `Minimum of ${min} characters required`;
+const VE_MAX = max => `Maximum length of ${max} characters exceeded`;
 
 // Disbale or enable a button
 const disEnaButton = function(button, valid) {
@@ -26,9 +31,30 @@ const disEnaButton = function(button, valid) {
   }
 };
 
+// Show field error message after validation
+const displayValidationError = function(name, errMsg) {
+  let errId = `ie_${name}`;
+  let me = document.getElementById(errId);
+  me.innerText = errMsg;
+  me.classList.remove('ie-hide-up');
+};
+
+// Remove field error message
+const removeValidationError = function(name) {
+  let errId = `ie_${name}`;
+  let me = document.getElementById(errId);
+  me.innerText = '';
+  me.classList.add('ie-hide-up');
+};
+
 // Validate if an input meets length requirement
 const isSuffLength = function(input, length) {
   return input.length >= length;
+};
+
+// Validate if an input has exceeded length limit
+const isOverLength = function(input, length) {
+  return input.length <= length;
 };
 
 // Validate an email address
@@ -164,4 +190,15 @@ const isValidAmount = function(input, min, max) {
   }
 
   return false;
+};
+
+// Validate product code format
+const isValidPrCode = function(input) {
+  if (!input) {
+    return false;
+  }
+
+  let prRegex = new RegExp(`^PR(_[A-Z0-9]+)+$`);
+
+  return prRegex.test(input);
 };
