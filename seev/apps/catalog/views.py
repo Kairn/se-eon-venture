@@ -30,6 +30,19 @@ def go_cat_home(request, context=None):
         context['client'] = client
         context['addPrForm'] = AddPrForm()
 
+        # Get all products
+        prList = []
+        prResult = CtgProduct.objects.filter(
+            client_id=client.client_id, active=True).order_by('-creation_time')
+
+        for pr in prResult:
+            item = (str(pr.product_id).replace('-', ''), pr.itemcode, pr.name)
+            prList.append(item)
+
+        context['products'] = prList
+        if len(prResult):
+            print(prList)
+
         return render(request, 'catalog/index.html', context=context)
     except Exception:
         if request and hasattr(request, 'session'):
