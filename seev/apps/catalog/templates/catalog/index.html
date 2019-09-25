@@ -1,5 +1,6 @@
 <!-- Catalog home page -->
 {% extends 'catalog/base.html' %}
+{% load static %}
 
 {% block ctgContent %}
 <div id="ctg-pr-wrapper">
@@ -32,26 +33,33 @@
 			</div>
 		</form>
 	</section>
-	<section id="ctg-pr-list">
+	<section>
 		<h3>Catalog Product List</h3>
 		{% if products and prCount > 0 %}
 		<div class="ctg-def-table">
+			<div class="ctg-tb-row ctg-tb-head">
+				<span>Code</span>
+				<span>Configure</span>
+				<span>Remove</span>
+			</div>
 			{% for pr in products %}
 			<div class="ctg-tb-row" data-id="{{ pr.product_id }}">
-				<span class="ctg-code-cell">{{ pr.itemcode }}</span>, <span>Config</span>, <span>End</span>
+				<span class="ctg-code-cell">{{ pr.itemcode }}</span>
+				<span><img src="{% static 'icon-42.svg' %}" alt="conf-icon"></span>
+				<span><img src="{% static 'icon-43.svg' %}" alt="rm-icon"></span>
 			</div>
 			{% endfor %}
 		</div>
 		<div id="ctg-pr-paginator">
 			{% if products.has_previous %}
-			<a href="?pr_page={{ products.previous_page_number }}" class="ctg-pg-btn">Previous</a>
+			<a href="?pr_page={{ products.previous_page_number }}" class="ctg-pg-btn btn-prev">Previous</a>
 			{% endif %}
 			{% if products.has_next %}
-			<a href="?pr_page={{ products.next_page_number }}" class="ctg-pg-btn">Next</a>
+			<a href="?pr_page={{ products.next_page_number }}" class="ctg-pg-btn btn-next">Next</a>
 			{% endif %}
 		</div>
 		{% else %}
-		<h4>No active product definition found.</h4>
+		<h4 style="font-weight: 400; font-size: 18px; color: #616161;">No active product definition found.</h4>
 		{% endif %}
 	</section>
 </div>
