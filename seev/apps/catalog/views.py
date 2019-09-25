@@ -6,6 +6,7 @@ import traceback
 
 from django.db import transaction
 from django.shortcuts import render, redirect, reverse
+from django.core.paginator import Paginator
 
 from seev.apps.utils.generators import (getFullCatalogCode)
 from seev.apps.utils.messages import get_app_message, addSnackDataToContext
@@ -26,25 +27,33 @@ def go_cat_home(request, context=None):
         if not context:
             context = {}
 
+        ITEMS_PER_PAGE = 3
+
+        productPage = None
+        if request.GET.get('pr_page'):
+            productPage = request.GET.get('pr_page')
+        else:
+            productPage = 1
+
         client = UnoClient.objects.get(client_id=request.session['id'])
         context['client'] = client
         context['addPrForm'] = AddPrForm()
 
         # Get all products
-        prList = []
         prResult = CtgProduct.objects.filter(
-            client_id=client.client_id, active=True).order_by('-creation_time')
+            client_id=client.client_id, active=True).order_by('-creation_time', 'itemcode')
+        pagedList = Paginator(prResult, ITEMS_PER_PAGE)
+        products = pagedList.get_page(productPage)
 
-        for pr in prResult:
-            item = (str(pr.product_id).replace('-', ''), pr.itemcode, pr.name)
-            prList.append(item)
+        for pr in products:
+            pr.product_id = str(pr.product_id).replace('-', '')
 
-        context['products'] = prList
-        if len(prResult):
-            print(prList)
+        context['products'] = products
+        context['prCount'] = len(products)
 
         return render(request, 'catalog/index.html', context=context)
     except Exception:
+        traceback.print_exc()
         if request and hasattr(request, 'session'):
             request.session.clear()
         return redirect('go_login')
