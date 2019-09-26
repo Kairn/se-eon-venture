@@ -8,7 +8,7 @@ from django.db import transaction
 from django.shortcuts import render, redirect, reverse
 from django.core.paginator import Paginator
 
-from seev.apps.utils.generators import (getFullCatalogCode)
+from seev.apps.utils.generators import (getFullCatalogCode, getDefCatalogCode)
 from seev.apps.utils.messages import get_app_message, addSnackDataToContext
 from seev.apps.utils.session import store_context_in_session, get_context_in_session
 from seev.apps.utils.validations import isValidPrCode
@@ -47,6 +47,7 @@ def go_cat_home(request, context=None):
 
         for pr in products:
             pr.product_id = str(pr.product_id).replace('-', '')
+            pr.itemcode = getDefCatalogCode(pr.itemcode)
 
         context['products'] = products
         context['prCount'] = len(products)

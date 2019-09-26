@@ -377,6 +377,36 @@ input[type="file"] + label.form-inp-label {
   }
 }
 
+.tooltip-source {
+  display: inline-block;
+  position: relative;
+  .tooltip-text {
+    user-select: none;
+    position: absolute;
+    display: inline-block;
+    text-align: center;
+    color: white;
+    background-color: #555555;
+    padding: 0.75rem 1rem;
+    visibility: hidden;
+    opacity: 0;
+    z-index: 100;
+    transition-property: opacity;
+    transition-duration: 0.65s;
+    top: -1.6rem;
+    left: 0%;
+    border-radius: 4px;
+    word-break: normal;
+    white-space: nowrap;
+  }
+  &:hover {
+    .tooltip-text {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+}
+
 .font-rob {
   font-family: "Roboto", sans-serif;
 }

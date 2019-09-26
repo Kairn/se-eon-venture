@@ -44,7 +44,9 @@
 			</div>
 			{% for pr in products %}
 			<div class="ctg-tb-row" data-id="{{ pr.product_id }}">
-				<span class="ctg-code-cell">{{ pr.itemcode }}</span>
+				<span class="ctg-code-cell tooltip-source">{{ pr.itemcode }}
+					<span class="tooltip-text">{{ pr.name }}</span>
+				</span>
 				<span><img src="{% static 'icon-42.svg' %}" alt="conf-icon"></span>
 				<span><img src="{% static 'icon-43.svg' %}" alt="rm-icon"></span>
 			</div>

@@ -184,7 +184,7 @@ section#ctg-add-pr {
 }
 
 .ctg-tb-row {
-  width: 100%;
+  // width: 100%;
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
@@ -192,7 +192,7 @@ section#ctg-add-pr {
   &:nth-child(even) {
     background-color: #e0e0e0;
   }
-  span {
+  & > span:not(.tooltip-text) {
     display: inline-block;
     flex: 1 1 20%;
     padding: 1.25rem 0;

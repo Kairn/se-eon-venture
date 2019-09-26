@@ -86,3 +86,10 @@ def getFullCatalogCode(code, client=None, client_id=None):
         return (str(client.ctg_name) + '_' + str(code)).upper()
     except Exception:
         return ''
+
+
+def getDefCatalogCode(fullCode):
+    if not fullCode:
+        return ''
+    else:
+        return '_'.join(fullCode.split('_')[1:])
