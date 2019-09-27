@@ -43,12 +43,12 @@
 				<span>Remove</span>
 			</div>
 			{% for pr in products %}
-			<div class="ctg-tb-row" data-id="{{ pr.product_id }}">
+			<div class="ctg-tb-row">
 				<span class="ctg-code-cell tooltip-source">{{ pr.itemcode }}
 					<span class="tooltip-text">{{ pr.name }}</span>
 				</span>
 				<span><img src="{% static 'icon-42.svg' %}" alt="conf-icon"></span>
-				<span><img src="{% static 'icon-43.svg' %}" alt="rm-icon"></span>
+				<span><img onclick="rmProduct('{{ pr.product_id }}')" src="{% static 'icon-43.svg' %}" alt="rm-icon"></span>
 			</div>
 			{% endfor %}
 		</div>
@@ -63,6 +63,11 @@
 		{% else %}
 		<h4 style="font-weight: 400; font-size: 18px; color: #616161;">No active product definition found.</h4>
 		{% endif %}
+		<!-- Remove Form -->
+		<form action="/catalog/rm-pr/" id="ctg-pr-rm-form" class="invisible" method="POST">
+			{% csrf_token %}
+			<input type="text" name="productId" id="ctg-pr-rm-field">
+		</form>
 	</section>
 </div>
 {% endblock ctgContent %}

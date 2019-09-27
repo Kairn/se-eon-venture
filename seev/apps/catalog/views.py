@@ -105,3 +105,37 @@ def add_ctg_pr(request, context=None):
             return redirect('go_cat_home')
     else:
         return redirect('go_cat_home')
+
+
+@transaction.atomic
+def rm_ctg_pr(request, context=None):
+    if request.method == 'POST':
+        try:
+            productId = request.POST['productId']
+
+            # Client session verification
+            client = UnoClient.objects.get(client_id=request.session['id'])
+
+            # Product verification
+            product = CtgProduct.objects.filter(
+                client_id=client.client_id, product_id=productId, active=True)
+            if not product or len(product) < 1:
+                raise AssertionError
+
+            product = product[0]
+            product.active = False
+
+            product.save()
+            store_context_in_session(
+                request, addSnackDataToContext(context, 'Product removed'))
+            return redirect('go_cat_home')
+        except AssertionError:
+            store_context_in_session(request, addSnackDataToContext(
+                context, 'Product does not exist'))
+            return redirect('go_cat_home')
+        except Exception:
+            store_context_in_session(
+                request, addSnackDataToContext(context, 'Unexpected error'))
+            return redirect('go_cat_home')
+    else:
+        return redirect('go_cat_home')
