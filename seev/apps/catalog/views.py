@@ -16,7 +16,7 @@ from seev.apps.utils.validations import isValidPrCode
 from seev.apps.core.models import UnoClient
 
 from .models import CtgProduct, CtgFeature, CtgSpecification, CtgValue, CtgRestriction, CtgPrice
-from .forms import AddPrForm
+from .forms import (AddPrForm, editPrForm)
 
 
 # Also the add product UI
@@ -27,7 +27,7 @@ def go_cat_home(request, context=None):
         if not context:
             context = {}
 
-        ITEMS_PER_PAGE = 3
+        ITEMS_PER_PAGE = 10
 
         productPage = None
         if request.GET.get('pr_page'):
@@ -138,4 +138,30 @@ def rm_ctg_pr(request, context=None):
                 request, addSnackDataToContext(context, 'Unexpected error'))
             return redirect('go_cat_home')
     else:
+        return redirect('go_cat_home')
+
+
+def go_pr_config(request, context=None):
+    try:
+        context = get_context_in_session(request)
+
+        if not context:
+            context = {}
+
+        # Get client and product
+        client = UnoClient.objects.get(client_id=request.session['id'])
+        product = CtgProduct.objects.get(
+            ctg_doc_id=request.GET.get('doc_id'), client_id=client.client_id, active=True)
+
+        product.itemcode = getDefCatalogCode(product.itemcode)
+        context['client'] = client
+        context['product'] = product
+
+        # Load features
+        # Load Specs
+
+        context['editPrForm'] = editPrForm()
+        return render(request, 'catalog/product.html', context=context)
+    except Exception:
+        traceback.print_exc()
         return redirect('go_cat_home')

@@ -29,3 +29,30 @@ class AddPrForm(forms.Form):
             }
         )
     )
+
+
+class editPrForm(forms.Form):
+    product_code = forms.CharField(
+        label='Product Code',
+        label_suffix='',
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Product Code',
+                'maxlength': '32',
+                'disabled': 'true',
+                'class': 'form-inp-dis'
+            }
+        )
+    )
+
+    product_name = forms.CharField(
+        required=True,
+        label='Product Name',
+        label_suffix='',
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Product Name',
+                'maxlength': '128'
+            }
+        )
+    )
