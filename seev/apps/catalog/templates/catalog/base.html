@@ -9,7 +9,10 @@
 {% block content %}
 <div id="ctg-main-wrapper">
 	<div id="ctg-base-header">
-		<h1>Catalog Designer</h1>
+		<h1>
+			<img onclick="goCtgHome()" src="{% static 'catalog/images/icon-44.svg' %}" alt="catalog-logo">
+			<span>Catalog Designer</span>
+		</h1>
 		<h2>{{ client.entity_name }}</h2>
 	</div>
 	{% block ctgContent %}

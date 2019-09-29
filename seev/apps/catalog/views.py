@@ -16,7 +16,7 @@ from seev.apps.utils.validations import isValidPrCode
 from seev.apps.core.models import UnoClient
 
 from .models import CtgProduct, CtgFeature, CtgSpecification, CtgValue, CtgRestriction, CtgPrice
-from .forms import (AddPrForm, editPrForm)
+from .forms import (AddPrForm, EditPrForm)
 
 
 # Also the add product UI
@@ -160,7 +160,11 @@ def go_pr_config(request, context=None):
         # Load features
         # Load Specs
 
-        context['editPrForm'] = editPrForm()
+        editPrForm = EditPrForm()
+        editPrForm.fields['product_code'].widget.attrs['value'] = product.itemcode
+        editPrForm.fields['product_name'].widget.attrs['value'] = product.name
+        context['editPrForm'] = editPrForm
+
         return render(request, 'catalog/product.html', context=context)
     except Exception:
         traceback.print_exc()

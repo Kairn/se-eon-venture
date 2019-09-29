@@ -31,7 +31,7 @@ class AddPrForm(forms.Form):
     )
 
 
-class editPrForm(forms.Form):
+class EditPrForm(forms.Form):
     product_code = forms.CharField(
         label='Product Code',
         label_suffix='',

@@ -3,16 +3,16 @@
 {% load static %}
 
 {% block ctgContent %}
-<div id="ctg-pr-wrapper">
-	<section id="ctg-add-pr">
+<div class="ctg-config-wrapper">
+	<section class="ctg-form-sect">
 		<h3>Define New Product</h3>
 		<em>Note: Product code must use the format PR_FOO_BAR.</em>
 		<form id="ctg-add-pr-form" class="ctg-def-form" action="/catalog/add-pr/" method="post" novalidate>
 			{% csrf_token %}
-			{% for field in approvalForm.hidden_fields %}
+			{% for field in addPrForm.hidden_fields %}
 			{{ field }}
 			{% endfor %}
-			<div class="ctg-field-box">
+			<div class="form-flex-row">
 				{% for field in addPrForm.visible_fields %}
 				<div class="ctg-ti-wrapper">
 					<div class="ctg-label-wrapper">

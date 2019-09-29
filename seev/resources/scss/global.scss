@@ -136,6 +136,10 @@ form {
   background-color: #757575;
 }
 
+.back-btn {
+  background-color: #607d8b;
+}
+
 #gsb {
   user-select: none;
   z-index: 100;
@@ -329,6 +333,10 @@ form {
     box-shadow: 0 5px 12px 0 #9e9e9e;
     transition-duration: 0.3s;
   }
+}
+
+.form-inp-dis {
+  background-color: #eeeeee !important;
 }
 
 .form-btn-dis {

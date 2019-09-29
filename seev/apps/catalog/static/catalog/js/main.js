@@ -2,6 +2,11 @@
 
 console.log('Catalog app is launching...');
 
+// Navigate to catalog home
+const goCtgHome = function() {
+  window.location.href = '/catalog/';
+};
+
 // Navigate to product config page
 const goPrConfig = function(docId) {
   if (!docId) {
