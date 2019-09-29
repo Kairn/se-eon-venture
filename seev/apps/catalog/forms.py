@@ -32,6 +32,12 @@ class AddPrForm(forms.Form):
 
 
 class EditPrForm(forms.Form):
+    product_id = forms.CharField(
+        label=None,
+        label_suffix=None,
+        widget=forms.HiddenInput()
+    )
+
     product_code = forms.CharField(
         label='Product Code',
         label_suffix='',

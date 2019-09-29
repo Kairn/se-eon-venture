@@ -111,7 +111,7 @@ def add_ctg_pr(request, context=None):
 def rm_ctg_pr(request, context=None):
     if request.method == 'POST':
         try:
-            productId = request.POST['productId']
+            productId = request.POST['product_id']
 
             # Client session verification
             client = UnoClient.objects.get(client_id=request.session['id'])
@@ -161,11 +161,49 @@ def go_pr_config(request, context=None):
         # Load Specs
 
         editPrForm = EditPrForm()
+        editPrForm.fields['product_id'].widget.attrs['value'] = str(
+            product.product_id).replace('-', '')
         editPrForm.fields['product_code'].widget.attrs['value'] = product.itemcode
         editPrForm.fields['product_name'].widget.attrs['value'] = product.name
+        editPrForm.fields['product_name'].widget.attrs['data-name'] = product.name
         context['editPrForm'] = editPrForm
 
         return render(request, 'catalog/product.html', context=context)
     except Exception:
         traceback.print_exc()
         return redirect('go_cat_home')
+
+
+@transaction.atomic
+def chg_pr_name(request, context=None):
+    if request.method == 'POST':
+        try:
+            productId = request.POST['product_id']
+            newPrName = request.POST['product_name']
+
+            # Verification
+            clientId = request.session['id']
+            product = CtgProduct.objects.filter(
+                client_id=clientId, product_id=productId, active=True)
+            if not product or len(product) < 1:
+                raise AssertionError
+
+            product = product[0]
+            product.name = newPrName
+            docId = str(product.ctg_doc_id).replace('-', '')
+            redir = reverse('go_pr_config') + '?doc_id=' + docId
+
+            product.save()
+            store_context_in_session(
+                request, addSnackDataToContext(context, 'Product updated'))
+            return redirect(redir)
+        except AssertionError:
+            store_context_in_session(request, addSnackDataToContext(
+                context, 'Product does not exist'))
+            return redirect('go_cat_home')
+        except Exception:
+            store_context_in_session(
+                request, addSnackDataToContext(context, 'Unexpected error'))
+            return redirect('go_cat_home')
+    else:
+        return redirect(redir)

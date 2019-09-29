@@ -44,6 +44,30 @@ const validateAddPrForm = function(form) {
   disEnaButton(submitBtn, valid);
 };
 
+// Validate edit product form
+const validateEditPrForm = function(form) {
+  let valid = true;
+  let submitBtn;
+
+  for (let i = 0; i < form.length; ++i) {
+    let fe = form[i];
+
+    if (fe.type === 'submit') {
+      submitBtn = fe;
+    } else if (fe.id === 'id_product_name') {
+      if (fe.required && !fe.value) {
+        valid = false;
+      } else if (fe.value === fe.getAttribute('data-name')) {
+        valid = false;
+      } else {
+        removeValidationError(fe.name);
+      }
+    }
+  }
+
+  disEnaButton(submitBtn, valid);
+};
+
 // Trigger form validation based on input event
 const triggerFormValidation = function(event) {
   let e = event;
@@ -54,6 +78,8 @@ const triggerFormValidation = function(event) {
 
   if (e.target.form.id === 'ctg-add-pr-form') {
     validateAddPrForm(e.target.form);
+  } else if (e.target.form.id === 'ctg-edit-pr-form') {
+    validateEditPrForm(e.target.form);
   } else if (e.target.form.id === '?') {
     //
   }

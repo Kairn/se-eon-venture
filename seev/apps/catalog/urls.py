@@ -7,4 +7,5 @@ urlpatterns = [
     re_path(r'^add-pr/$', views.add_ctg_pr, name='add_ctg_pr'),
     re_path(r'^rm-pr/$', views.rm_ctg_pr, name='rm_ctg_pr'),
     re_path(r'^pr-config/$', views.go_pr_config, name='go_pr_config'),
+    re_path(r'^pr-chg/$', views.chg_pr_name, name='chg_pr_name'),
 ]

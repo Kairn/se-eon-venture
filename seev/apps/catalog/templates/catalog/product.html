@@ -6,7 +6,7 @@
 <div class="ctg-config-wrapper">
 	<section class="ctg-form-sect">
 		<h3>Edit Product</h3>
-		<form id="ctg-edit-pr-form" class="ctg-def-form" action="#" method="post" novalidate>
+		<form id="ctg-edit-pr-form" class="ctg-def-form" action="/catalog/pr-chg/" method="post" novalidate>
 			{% csrf_token %}
 			{% for field in editPrForm.hidden_fields %}
 			{{ field }}
