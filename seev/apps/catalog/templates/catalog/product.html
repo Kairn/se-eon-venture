@@ -34,7 +34,7 @@
 	</section>
 	<section class="ctg-form-sect">
 		<h3>Add Specification</h3>
-		<em>Note: Specification code must use the format SP_FOO_BAR.</em>
+		<em>Note: Specification code must use the format SP_FOO_BAR. Boolean value must be 0 or 1.</em>
 		<form id="ctg-add-spec-form" class="ctg-def-form" action="#" method="post" novalidate>
 			{% csrf_token %}
 			{% for field in addSpecForm.hidden_fields %}
@@ -50,15 +50,9 @@
 						{% endif %}
 					</div>
 					{{ field }}
-					{% if field.label == "Default Value" %}
-					<div class="form-ie-wrapper">
-						<span class="ie-msg"></span><span>Boolean value must be 0 or 1</span>
-					</div>
-					{% else %}
 					<div class="form-ie-wrapper">
 						<span id="ie_{{ field.name }}" class="ie-msg"></span><span class="invisible">I</span>
 					</div>
-					{% endif %}
 				</div>
 				{% endfor %}
 			</div>

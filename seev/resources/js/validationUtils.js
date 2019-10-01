@@ -11,6 +11,9 @@ const VE_NOFILE = 'Only .txt file is supported';
 const VE_PIN = 'Must be between 1000 and 9999';
 const VE_BAD_DEAL_LIMIT = 'Must be between 1 and 32';
 const VE_CTG_PR = 'Invalid product code format';
+const VE_CTG_SPEC = 'Invalid specification code format';
+const VE_INV_BOOL = 'Invalid boolean value';
+const VE_INV_QUAN = 'Invalid quantity value';
 
 // Dynamic error messages
 const VE_MIN = min => `Minimum of ${min} characters required`;
@@ -202,3 +205,61 @@ const isValidPrCode = function(input) {
 
   return prRegex.test(input);
 };
+
+// Validate specification code format
+const isValidSpecCode = function(input) {
+  if (!input) {
+    return false;
+  }
+
+  let prRegex = new RegExp(`^SP(_[A-Z0-9]+)+$`);
+
+  return prRegex.test(input);
+};
+
+// Validate boolean value
+const isValidBoolean = function(value) {
+  if ((!value && value !== 0) || parseFloat(value) === NaN) {
+    return false;
+  }
+
+  if (value.length !== 1) {
+    return false;
+  }
+
+  value = parseFloat(value);
+  if (!Number.isInteger(value)) {
+    return false;
+  }
+
+  value = parseInt(value);
+  if (value === 0 || value === 1) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+// Validate quantity value
+const isValidQuantity = function(value) {
+  let nonDigRegex = new RegExp(`\\D`);
+
+  if ((!value && value !== 0) || parseFloat(value) === NaN) {
+    return false;
+  }
+
+  if (value.length > 1 && value[0] === '0') {
+    return false;
+  }
+
+  if (value.includes('_') || nonDigRegex.test(value)) {
+    return false;
+  }
+
+  value = parseFloat(value);
+  if (Number.isInteger(value) && value >= 0) {
+    return true;
+  } else {
+    return false;
+  }
+}

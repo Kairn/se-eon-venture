@@ -19,6 +19,9 @@ const validateAddPrForm = function(form) {
     } else if (fe.id === 'id_product_code') {
       if (fe.required && !fe.value) {
         valid = false;
+        if (fe.touched) {
+          displayValidationError(fe.name, VE_REQUIRED);
+        }
       } else if (fe.value && !isValidPrCode(fe.value)) {
         valid = false;
         if (fe.touched && fe.dirty) {
@@ -30,6 +33,9 @@ const validateAddPrForm = function(form) {
     } else if (fe.id === 'id_product_name') {
       if (fe.required && !fe.value) {
         valid = false;
+        if (fe.touched) {
+          displayValidationError(fe.name, VE_REQUIRED);
+        }
       } else if (fe.value && !isOverLength(fe.value, 128)) {
         valid = false;
         if (fe.touched && fe.dirty) {
@@ -57,8 +63,12 @@ const validateEditPrForm = function(form) {
     } else if (fe.id === 'id_product_name') {
       if (fe.required && !fe.value) {
         valid = false;
+        if (fe.touched) {
+          displayValidationError(fe.name, VE_REQUIRED);
+        }
       } else if (fe.value === fe.getAttribute('data-name')) {
         valid = false;
+        removeValidationError(fe.name);
       } else {
         removeValidationError(fe.name);
       }
@@ -67,6 +77,61 @@ const validateEditPrForm = function(form) {
 
   disEnaButton(submitBtn, valid);
 };
+
+// Validate add spec form
+const validateAddSpForm = function(form) {
+  let valid = true;
+  let submitBtn;
+
+  for (let i = 0; i < form.length; ++i) {
+    let fe = form[i];
+
+    if (fe.type === 'submit') {
+      submitBtn = fe;
+    } else if (fe.id === 'id_leaf_name') {
+      if (fe.required && !fe.value) {
+        valid = false;
+        if (fe.touched) {
+          displayValidationError(fe.name, VE_REQUIRED);
+        }
+      } else if (fe.value && !isValidSpecCode(fe.value)) {
+        valid = false;
+        if (fe.touched && fe.dirty) {
+          displayValidationError(fe.name, VE_CTG_SPEC);
+        }
+      } else {
+        removeValidationError(fe.name);
+      }
+    } else if (fe.id === 'id_spec_label') {
+      if (fe.required && !fe.value) {
+        valid = false;
+        if (fe.touched) {
+          displayValidationError(fe.name, VE_REQUIRED);
+        }
+      } else {
+        removeValidationError(fe.name);
+      }
+    } else if (fe.id === 'id_default_value') {
+      let dt = document.getElementById('id_data_type').value;
+
+      if (dt === 'BO' && fe.value && !isValidBoolean(fe.value)) {
+        valid = false;
+        if (fe.touched && fe.dirty) {
+          displayValidationError(fe.name, VE_INV_BOOL);
+        }
+      } else if (dt === 'QTY' && fe.value && !isValidQuantity(fe.value)) {
+        valid = false;
+        if (fe.touched && fe.dirty) {
+          displayValidationError(fe.name, VE_INV_QUAN);
+        }
+      } else {
+        removeValidationError(fe.name);
+      }
+    }
+  }
+
+  disEnaButton(submitBtn, valid);
+}
 
 // Trigger form validation based on input event
 const triggerFormValidation = function(event) {
@@ -80,6 +145,8 @@ const triggerFormValidation = function(event) {
     validateAddPrForm(e.target.form);
   } else if (e.target.form.id === 'ctg-edit-pr-form') {
     validateEditPrForm(e.target.form);
+  } else if (e.target.form.id === 'ctg-add-spec-form') {
+    validateAddSpForm(e.target.form)
   } else if (e.target.form.id === '?') {
     //
   }
