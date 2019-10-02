@@ -11,7 +11,8 @@ from django.core.paginator import Paginator
 from seev.apps.utils.generators import (getFullCatalogCode, getDefCatalogCode)
 from seev.apps.utils.messages import get_app_message, addSnackDataToContext
 from seev.apps.utils.session import store_context_in_session, get_context_in_session
-from seev.apps.utils.validations import isValidPrCode
+from seev.apps.utils.validations import (
+    isValidPrCode, isValidSpecCode, isValidBoolean, isValidQuantity)
 
 from seev.apps.core.models import UnoClient
 
@@ -89,7 +90,7 @@ def add_ctg_pr(request, context=None):
 
             newProduct.save()
             store_context_in_session(
-                request, addSnackDataToContext(context, 'Product added'))
+                request, addSnackDataToContext(context, 'Product created'))
             return redirect('go_cat_home')
         except AssertionError:
             store_context_in_session(
@@ -212,4 +213,76 @@ def chg_pr_name(request, context=None):
                 request, addSnackDataToContext(context, 'Unexpected error'))
             return redirect('go_cat_home')
     else:
-        return redirect(redir)
+        return redirect('go_cat_home')
+
+
+@transaction.atomic
+def add_ctg_spec(request, context=None):
+    if request.method == 'POST':
+        try:
+            docId = request.POST['parent_ctg_id']
+            leafName = request.POST['leaf_name']
+            specName = request.POST['spec_label']
+            dt = request.POST['data_type']
+            defVal = request.POST['default_value']
+
+            clientId = request.session['id']
+
+            # Verification
+            flag = ''
+            parentItem = None
+            product = CtgProduct.objects.filter(
+                client_id=clientId, ctg_doc_id=docId, active=True)
+            if (product and len(product) > 0):
+                flag = 'PR'
+                parentItem = product[0]
+            else:
+                feature = CtgFeature.objects.filter(
+                    client_id=clientId, ctg_doc_id=docId, active=True)
+                if (feature and len(feature) > 0):
+                    flag = 'FET'
+                    parentItem = feature[0]
+                else:
+                    raise AssertionError
+
+            redir = '?doc_id=' + docId
+            if (flag == 'PR'):
+                redir = reverse('go_pr_config') + redir
+            else:
+                redir = reverse('go_fet_config') + redir
+
+            # Validation
+            if (not leafName or not specName or not dt or not isValidSpecCode(leafName)):
+                raise ValueError
+            if (len(leafName) > 32 or len(specName) > 128):
+                raise ValueError
+            if (defVal):
+                if (dt == 'BO' and not isValidBoolean(defVal)) or (dt == 'QTY' and not isValidQuantity(defVal)):
+                    raise ValueError
+
+            newSpec = CtgSpecification(
+                parent_ctg_id=docId,
+                leaf_name=leafName,
+                label=specName,
+                data_type=dt,
+                default_value=defVal
+            )
+
+            newSpec.save()
+            store_context_in_session(request, addSnackDataToContext(
+                context, 'Specification created'))
+            return redirect(redir)
+        except ValueError:
+            store_context_in_session(request, addSnackDataToContext(
+                context, 'Invalid value encountered'))
+            return redirect(redir)
+        except AssertionError:
+            store_context_in_session(request, addSnackDataToContext(
+                context, 'Product/Feature does not exist'))
+            return redirect('go_cat_home')
+        except Exception:
+            store_context_in_session(
+                request, addSnackDataToContext(context, 'Unexpected error'))
+            return redirect('go_cat_home')
+    else:
+        return redirect('go_cat_home')

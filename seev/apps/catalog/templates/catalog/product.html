@@ -35,7 +35,7 @@
 	<section class="ctg-form-sect">
 		<h3>Add Specification</h3>
 		<em>Note: Specification code must use the format SP_FOO_BAR. Boolean value must be 0 or 1.</em>
-		<form id="ctg-add-spec-form" class="ctg-def-form" action="#" method="post" novalidate>
+		<form id="ctg-add-spec-form" class="ctg-def-form" action="/catalog/add-spec/" method="post" novalidate>
 			{% csrf_token %}
 			{% for field in addSpecForm.hidden_fields %}
 			{{ field }}
