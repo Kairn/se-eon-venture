@@ -119,3 +119,56 @@ class AddSpecForm(forms.Form):
             }
         )
     )
+
+
+class AddFetForm(forms.Form):
+    product_id = forms.CharField(
+        label=None,
+        label_suffix=None,
+        widget=forms.HiddenInput()
+    )
+
+    feature_code = forms.CharField(
+        required=True,
+        label='Feature Code',
+        label_suffix='',
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Feature Code',
+                'maxlength': '32'
+            }
+        )
+    )
+
+    feature_name = forms.CharField(
+        required=True,
+        label='Feature Name',
+        label_suffix='',
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Feature Name',
+                'maxlength': '128'
+            }
+        )
+    )
+
+    limit = forms.IntegerField(
+        required=False,
+        label='Limit',
+        label_suffix='',
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': '1'
+            }
+        )
+    )
+
+    is_extended = forms.ChoiceField(
+        required=True,
+        label='Extended Only',
+        label_suffix='',
+        choices=[
+            ('N', 'No'),
+            ('Y', 'Yes'),
+        ]
+    )

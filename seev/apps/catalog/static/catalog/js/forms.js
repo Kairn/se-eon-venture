@@ -131,7 +131,55 @@ const validateAddSpForm = function(form) {
   }
 
   disEnaButton(submitBtn, valid);
-}
+};
+
+// Validate add feature form
+const validateAddFetForm = function(form) {
+  let valid = true;
+  let submitBtn;
+
+  for (let i = 0; i < form.length; ++i) {
+    let fe = form[i];
+
+    if (fe.type === 'submit') {
+      submitBtn = fe;
+    } else if (fe.id === 'id_feature_code') {
+      if (fe.required && !fe.value) {
+        valid = false;
+        if (fe.touched) {
+          displayValidationError(fe.name, VE_REQUIRED);
+        }
+      } else if (fe.value && !isValidFetCode(fe.value)) {
+        valid = false;
+        if (fe.touched && fe.dirty) {
+          displayValidationError(fe.name, VE_CTG_FET);
+        }
+      } else {
+        removeValidationError(fe.name);
+      }
+    } else if (fe.id === 'id_feature_name') {
+      if (fe.required && !fe.value) {
+        valid = false;
+        if (fe.touched) {
+          displayValidationError(fe.name, VE_REQUIRED);
+        }
+      } else {
+        removeValidationError(fe.name);
+      }
+    } else if (fe.id === 'id_limit') {
+      if (fe.value && !isValidQuantity(fe.value)) {
+        valid = false;
+        if (fe.touched && fe.dirty) {
+          displayValidationError(fe.name, VE_INV_LMT);
+        }
+      } else {
+        removeValidationError(fe.name);
+      }
+    }
+  }
+
+  disEnaButton(submitBtn, valid);
+};
 
 // Trigger form validation based on input event
 const triggerFormValidation = function(event) {
@@ -146,7 +194,9 @@ const triggerFormValidation = function(event) {
   } else if (e.target.form.id === 'ctg-edit-pr-form') {
     validateEditPrForm(e.target.form);
   } else if (e.target.form.id === 'ctg-add-spec-form') {
-    validateAddSpForm(e.target.form)
+    validateAddSpForm(e.target.form);
+  } else if (e.target.form.id === 'ctg-add-fet-form') {
+    validateAddFetForm(e.target.form);
   } else if (e.target.form.id === '?') {
     //
   }

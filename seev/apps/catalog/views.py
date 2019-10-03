@@ -17,7 +17,7 @@ from seev.apps.utils.validations import (
 from seev.apps.core.models import UnoClient
 
 from .models import CtgProduct, CtgFeature, CtgSpecification, CtgValue, CtgRestriction, CtgPrice
-from .forms import (AddPrForm, EditPrForm, AddSpecForm)
+from .forms import (AddPrForm, EditPrForm, AddSpecForm, AddFetForm)
 
 
 # Also the add product UI
@@ -174,6 +174,11 @@ def go_pr_config(request, context=None):
         addSpecForm.fields['parent_ctg_id'].widget.attrs['value'] = request.GET.get(
             'doc_id')
         context['addSpecForm'] = addSpecForm
+
+        addFetForm = AddFetForm()
+        addFetForm.fields['product_id'].widget.attrs['value'] = str(
+            product.product_id).replace('-', '')
+        context['addFetForm'] = addFetForm
 
         return render(request, 'catalog/product.html', context=context)
     except Exception:

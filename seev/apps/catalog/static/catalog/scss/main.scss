@@ -326,3 +326,12 @@ section.ctg-form-sect {
     }
   }
 }
+
+#ctg-add-fet-form {
+  .form-flex-row {
+    & > * {
+      width: $field-wrapper-width-default;
+      margin: 1rem 1rem;
+    }
+  }
+}
