@@ -155,7 +155,6 @@ class AddFetForm(forms.Form):
     limit = forms.IntegerField(
         required=False,
         label='Limit',
-        label_suffix='',
         widget=forms.TextInput(
             attrs={
                 'placeholder': '1'

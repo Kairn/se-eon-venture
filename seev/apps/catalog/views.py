@@ -12,7 +12,7 @@ from seev.apps.utils.generators import (getFullCatalogCode, getDefCatalogCode)
 from seev.apps.utils.messages import get_app_message, addSnackDataToContext
 from seev.apps.utils.session import store_context_in_session, get_context_in_session
 from seev.apps.utils.validations import (
-    isValidPrCode, isValidSpecCode, isValidBoolean, isValidQuantity)
+    isValidPrCode, isValidSpecCode, isValidFetCode, isValidBoolean, isValidQuantity)
 
 from seev.apps.core.models import UnoClient
 
@@ -101,6 +101,7 @@ def add_ctg_pr(request, context=None):
                 context, 'Code already exists'))
             return redirect('go_cat_home')
         except Exception:
+            traceback.print_exc()
             store_context_in_session(
                 request, addSnackDataToContext(context, 'Unexpected error'))
             return redirect('go_cat_home')
@@ -135,6 +136,7 @@ def rm_ctg_pr(request, context=None):
                 context, 'Product does not exist'))
             return redirect('go_cat_home')
         except Exception:
+            traceback.print_exc()
             store_context_in_session(
                 request, addSnackDataToContext(context, 'Unexpected error'))
             return redirect('go_cat_home')
@@ -179,6 +181,7 @@ def go_pr_config(request, context=None):
         addFetForm.fields['product_id'].widget.attrs['value'] = str(
             product.product_id).replace('-', '')
         context['addFetForm'] = addFetForm
+        context['limit_suffix'] = '(0 for unlimited)'
 
         return render(request, 'catalog/product.html', context=context)
     except Exception:
@@ -214,6 +217,7 @@ def chg_pr_name(request, context=None):
                 context, 'Product does not exist'))
             return redirect('go_cat_home')
         except Exception:
+            traceback.print_exc()
             store_context_in_session(
                 request, addSnackDataToContext(context, 'Unexpected error'))
             return redirect('go_cat_home')
@@ -238,30 +242,30 @@ def add_ctg_spec(request, context=None):
             parentItem = None
             product = CtgProduct.objects.filter(
                 client_id=clientId, ctg_doc_id=docId, active=True)
-            if (product and len(product) > 0):
+            if product and len(product) > 0:
                 flag = 'PR'
                 parentItem = product[0]
             else:
                 feature = CtgFeature.objects.filter(
                     client_id=clientId, ctg_doc_id=docId, active=True)
-                if (feature and len(feature) > 0):
+                if feature and len(feature) > 0:
                     flag = 'FET'
                     parentItem = feature[0]
                 else:
                     raise AssertionError
 
             redir = '?doc_id=' + docId
-            if (flag == 'PR'):
+            if flag == 'PR':
                 redir = reverse('go_pr_config') + redir
             else:
                 redir = reverse('go_fet_config') + redir
 
             # Validation
-            if (not leafName or not specName or not dt or not isValidSpecCode(leafName)):
+            if not leafName or not specName or not dt or not isValidSpecCode(leafName):
                 raise ValueError
-            if (len(leafName) > 32 or len(specName) > 128):
+            if len(leafName) > 32 or len(specName) > 128:
                 raise ValueError
-            if (defVal):
+            if defVal:
                 if (dt == 'BO' and not isValidBoolean(defVal)) or (dt == 'QTY' and not isValidQuantity(defVal)):
                     raise ValueError
 
@@ -286,6 +290,78 @@ def add_ctg_spec(request, context=None):
                 context, 'Product/Feature does not exist'))
             return redirect('go_cat_home')
         except Exception:
+            traceback.print_exc()
+            store_context_in_session(
+                request, addSnackDataToContext(context, 'Unexpected error'))
+            return redirect('go_cat_home')
+    else:
+        return redirect('go_cat_home')
+
+
+@transaction.atomic
+def add_ctg_fet(request, context=None):
+    if request.method == 'POST':
+        try:
+            productId = request.POST['product_id']
+            fetCode = request.POST['feature_code']
+            fetName = request.POST['feature_name']
+            limit = request.POST['limit']
+            extOnly = request.POST['is_extended']
+
+            clientId = request.session['id']
+
+            # Verification
+            docId = ''
+            pr = None
+            product = CtgProduct.objects.filter(
+                client_id=clientId, product_id=productId, active=True)
+            if not product or len(product) != 1:
+                raise AssertionError
+            else:
+                pr = product[0]
+                docId = str(pr.ctg_doc_id).replace('-', '')
+
+            redir = reverse('go_pr_config') + '?doc_id=' + docId
+
+            # Validation
+            if not fetCode or not isValidFetCode(fetCode) or not fetName:
+                raise ValueError
+
+            fetCode = getFullCatalogCode(fetCode, None, clientId)
+            feature = CtgFeature.objects.filter(itemcode=fetCode)
+            if (feature and len(feature) > 0):
+                raise TabError
+
+            if not limit or not isValidQuantity(limit):
+                limit = 0
+
+            newFeature = CtgFeature(
+                product=pr,
+                client_id=clientId,
+                itemcode=fetCode,
+                name=fetName,
+                limit=limit,
+                extended=extOnly
+            )
+
+            newFeature.save()
+            store_context_in_session(
+                request, addSnackDataToContext(context, 'Feature created'))
+            return redirect(redir)
+        except ValueError:
+            store_context_in_session(request, addSnackDataToContext(
+                context, 'Invalid value encountered'))
+            return redirect(redir)
+        except TabError:
+            store_context_in_session(request, addSnackDataToContext(
+                context, 'Code already exists'))
+            return redirect(redir)
+        except AssertionError:
+            store_context_in_session(request, addSnackDataToContext(
+                context, 'Product does not exist'))
+            return redirect('go_cat_home')
+        except Exception:
+            traceback.print_exc()
             store_context_in_session(
                 request, addSnackDataToContext(context, 'Unexpected error'))
             return redirect('go_cat_home')

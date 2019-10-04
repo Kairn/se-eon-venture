@@ -64,7 +64,7 @@
 	<section class="ctg-form-sect">
 		<h3>Add Feature</h3>
 		<em>Note: Feature code must use the format FET_FOO_BAR. They must also be unique across a business.</em>
-		<form id="ctg-add-fet-form" class="ctg-def-form" action="#" method="post" novalidate>
+		<form id="ctg-add-fet-form" class="ctg-def-form" action="/catalog/add-fet/" method="post" novalidate>
 			{% csrf_token %}
 			{% for field in addFetForm.hidden_fields %}
 			{{ field }}
@@ -76,7 +76,11 @@
 						{% if field.label == "Extended Only" %}
 						<label>{{ field.label }} <em style="color: #0D47A1; display: inline">(Beta)</em></label>
 						{% else %}
-						<label>{{ field.label }}</label>
+						<label>{{ field.label }}
+							{% if field.label == "Limit" %}
+							<span style="font-weight: 500; font-size: 14px;">{{ limit_suffix }}</span>
+							{% endif %}
+						</label>
 						{% endif %}
 						{% if field.field.required %}
 						<span class="asterisk"> * </span>

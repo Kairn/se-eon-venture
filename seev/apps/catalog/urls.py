@@ -9,4 +9,5 @@ urlpatterns = [
     re_path(r'^pr-config/$', views.go_pr_config, name='go_pr_config'),
     re_path(r'^pr-chg/$', views.chg_pr_name, name='chg_pr_name'),
     re_path(r'^add-spec/$', views.add_ctg_spec, name='add_ctg_spec'),
+    re_path(r'^add-fet/$', views.add_ctg_fet, name='add_ctg_fet'),
 ]

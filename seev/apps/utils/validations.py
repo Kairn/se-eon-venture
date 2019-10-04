@@ -16,6 +16,7 @@ UPPER_CASE_PATTERN = r'[A-Z]'
 SPECIAL_PATTERN = r'[\W_]'
 PR_CODE_PATTERN = r'^PR(_[A-Z0-9]+)+$'
 SPEC_CODE_PATTERN = r'^SP(_[A-Z0-9]+)+$'
+FET_CODE_PATTERN = r'^FET(_[A-Z0-9]+)+$'
 
 
 # Simple validations
@@ -105,6 +106,19 @@ def isValidSpecCode(input):
     return True
 
 
+def isValidFetCode(input):
+    if not input:
+        return False
+
+    if re.search(FET_CODE_PATTERN, input) == None:
+        return False
+
+    if len(input) > 32:
+        return False
+
+    return True
+
+
 def isValidBoolean(input):
     input = str(input)
 
@@ -117,7 +131,7 @@ def isValidBoolean(input):
 def isValidQuantity(input):
     input = str(input)
 
-    if (len(input) < 1 or (input[0] == '0' and len(input > 1)) or re.search(NON_DIGIT_PATTERN, input) != None):
+    if (len(input) < 1 or (input[0] == '0' and len(input) > 1) or re.search(NON_DIGIT_PATTERN, input) != None):
         return False
 
     input = int(input)

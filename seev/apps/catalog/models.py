@@ -32,13 +32,14 @@ class CtgFeature(models.Model):
         primary_key=True, default=uuid.uuid4, editable=False)
     ctg_doc_id = models.UUIDField(
         'Catalog Obect ID', default=uuid.uuid4, editable=False)
-    product_id = models.ForeignKey(
+    product = models.ForeignKey(
         CtgProduct, on_delete=models.CASCADE, null=False)
     client = models.ForeignKey(UnoClient, on_delete=models.CASCADE, null=False)
     itemcode = models.CharField(
         'Feature Code', max_length=32, null=False, unique=True)
     name = models.CharField('Feature Name', max_length=128, null=False)
     limit = models.PositiveSmallIntegerField(default=1)
+    extended = models.CharField('Extended Only', max_length=8, null=True)
     active = models.BooleanField(default=True, editable=False)
     creation_time = models.DateTimeField(
         'Timestamp of Creation', default=now, editable=False, null=False)
