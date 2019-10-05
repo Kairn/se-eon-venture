@@ -25,3 +25,19 @@ const rmProduct = function(productId) {
   field.value = productId;
   form.submit();
 };
+
+// Navigate to specification config page
+const goSpecConfig = function(docId) {
+  //
+};
+
+// Remove product specification
+const rmPrSpec = function(specificationId) {
+  let form = document.getElementById('pr-spec-rm-form');
+  let flag = document.getElementById('pr-spec-rm-flag');
+  let field = document.getElementById('pr-spec-rm-field');
+
+  flag.value = 'PR';
+  field.value = specificationId;
+  form.submit();
+};

@@ -10,4 +10,5 @@ urlpatterns = [
     re_path(r'^pr-chg/$', views.chg_pr_name, name='chg_pr_name'),
     re_path(r'^add-spec/$', views.add_ctg_spec, name='add_ctg_spec'),
     re_path(r'^add-fet/$', views.add_ctg_fet, name='add_ctg_fet'),
+    re_path(r'^rm-spec/$', views.rm_ctg_spec, name='rm_ctg_spec'),
 ]

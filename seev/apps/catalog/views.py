@@ -280,6 +280,17 @@ def add_ctg_spec(request, context=None):
                 if (dt == 'BO' and not isValidBoolean(defVal)) or (dt == 'QTY' and not isValidQuantity(defVal)):
                     raise ValueError
 
+            # Set default values
+            if dt == 'BO' and not defVal:
+                defVal = 0
+            elif dt == 'QTY' and not defVal and defVal != 0:
+                defVal = 1
+
+            spec = CtgSpecification.objects.filter(
+                parent_ctg_id=docId, leaf_name=leafName)
+            if spec and len(spec) > 0:
+                raise TabError
+
             newSpec = CtgSpecification(
                 parent_ctg_id=docId,
                 leaf_name=leafName,
@@ -295,6 +306,10 @@ def add_ctg_spec(request, context=None):
         except ValueError:
             store_context_in_session(request, addSnackDataToContext(
                 context, 'Invalid value encountered'))
+            return redirect(redir)
+        except TabError:
+            store_context_in_session(request, addSnackDataToContext(
+                context, 'Leaf already exists'))
             return redirect(redir)
         except AssertionError:
             store_context_in_session(request, addSnackDataToContext(
@@ -371,6 +386,39 @@ def add_ctg_fet(request, context=None):
             store_context_in_session(request, addSnackDataToContext(
                 context, 'Product does not exist'))
             return redirect('go_cat_home')
+        except Exception:
+            traceback.print_exc()
+            store_context_in_session(
+                request, addSnackDataToContext(context, 'Unexpected error'))
+            return redirect('go_cat_home')
+    else:
+        return redirect('go_cat_home')
+
+
+@transaction.atomic
+def rm_ctg_spec(request, context=None):
+    if request.method == 'POST':
+        try:
+            flag = request.POST['flag']
+            specId = request.POST['specification_id']
+
+            # Verification
+            client = UnoClient.objects.get(client_id=request.session['id'])
+            spec = CtgSpecification.objects.get(
+                specification_id=specId, active=True)
+
+            redir = '?doc_id=' + str(spec.parent_ctg_id).replace('-', '')
+            if flag == 'PR':
+                redir = reverse('go_pr_config') + redir
+            else:
+                redir = reverse('go_fet_config') + redir
+
+            spec.active = False
+
+            spec.save()
+            store_context_in_session(request, addSnackDataToContext(
+                context, 'Specification removed'))
+            return redirect(redir)
         except Exception:
             traceback.print_exc()
             store_context_in_session(

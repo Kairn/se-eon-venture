@@ -78,7 +78,8 @@
 					<span class="tooltip-text">{{ sp.label }}</span>
 				</span>
 				<span><img onclick="console.log('{{ sp.ctg_doc_id }}')" src="{% static 'icon-42.svg' %}" alt="conf-icon"></span>
-				<span><img onclick="console.log('{{ sp.ctg_doc_id }}')" src="{% static 'icon-43.svg' %}" alt="rm-icon"></span>
+				<span><img onclick="rmPrSpec('{{ sp.specification_id }}')" src="{% static 'icon-43.svg' %}"
+						alt="rm-icon"></span>
 			</div>
 			{% endfor %}
 		</div>
@@ -86,8 +87,9 @@
 		<h4 style="font-weight: 400; font-size: 18px; color: #616161;">No active specification found.</h4>
 		{% endif %}
 		<!-- Remove Form -->
-		<form action="#" id="pr-spec-rm-form" class="invisible" method="POST">
+		<form action="/catalog/rm-spec/" id="pr-spec-rm-form" class="invisible" method="POST">
 			{% csrf_token %}
+			<input type="text" name="flag" id="pr-spec-rm-flag">
 			<input type="text" name="specification_id" id="pr-spec-rm-field">
 		</form>
 	</section>
