@@ -4,6 +4,7 @@
 
 {% block ctgContent %}
 <div class="ctg-config-wrapper">
+	<!-- Product -->
 	<section class="ctg-form-sect">
 		<h3>Edit Product</h3>
 		<form id="ctg-edit-pr-form" class="ctg-def-form" action="/catalog/pr-chg/" method="post" novalidate>
@@ -32,6 +33,7 @@
 			</div>
 		</form>
 	</section>
+	<!-- Specifications -->
 	<section class="ctg-form-sect">
 		<h3>Add Specification</h3>
 		<em>Note: Specification code must use the format SP_FOO_BAR. Boolean value must be 0 or 1.</em>
@@ -61,6 +63,35 @@
 			</div>
 		</form>
 	</section>
+	<section style="margin-bottom: 3rem;">
+		<h3>List of Specifications</h3>
+		{% if specs and spCount > 0 %}
+		<div class="ctg-def-table">
+			<div class="ctg-tb-row ctg-tb-head">
+				<span>Code</span>
+				<span>Configure</span>
+				<span>Remove</span>
+			</div>
+			{% for sp in specs %}
+			<div class="ctg-tb-row">
+				<span class="ctg-code-cell tooltip-source">{{ sp.leaf_name }}
+					<span class="tooltip-text">{{ sp.label }}</span>
+				</span>
+				<span><img onclick="console.log('{{ sp.ctg_doc_id }}')" src="{% static 'icon-42.svg' %}" alt="conf-icon"></span>
+				<span><img onclick="console.log('{{ sp.ctg_doc_id }}')" src="{% static 'icon-43.svg' %}" alt="rm-icon"></span>
+			</div>
+			{% endfor %}
+		</div>
+		{% else %}
+		<h4 style="font-weight: 400; font-size: 18px; color: #616161;">No active specification found.</h4>
+		{% endif %}
+		<!-- Remove Form -->
+		<form action="#" id="pr-spec-rm-form" class="invisible" method="POST">
+			{% csrf_token %}
+			<input type="text" name="specification_id" id="pr-spec-rm-field">
+		</form>
+	</section>
+	<!-- Features -->
 	<section class="ctg-form-sect">
 		<h3>Add Feature</h3>
 		<em>Note: Feature code must use the format FET_FOO_BAR. They must also be unique across a business.</em>
@@ -96,6 +127,35 @@
 			<div class="ctg-form-action-wrapper">
 				<button id="add-fet-btn" class="ctg-action-btn add" type="submit">Add</button>
 			</div>
+		</form>
+	</section>
+	<section>
+		<h3>List of Features</h3>
+		{% if features and fetCount > 0 %}
+		<div class="ctg-def-table">
+			<div class="ctg-tb-row ctg-tb-head">
+				<span>Code</span>
+				<span>Configure</span>
+				<span>Remove</span>
+			</div>
+			{% for fet in features %}
+			<div class="ctg-tb-row">
+				<span class="ctg-code-cell tooltip-source">{{ fet.itemcode }}
+					<span class="tooltip-text">{{ fet.name }}</span>
+				</span>
+				<span><img onclick="console.log('{{ fet.ctg_doc_id }}')" src="{% static 'icon-42.svg' %}"
+						alt="conf-icon"></span>
+				<span><img onclick="console.log('{{ fet.ctg_doc_id }}')" src="{% static 'icon-43.svg' %}" alt="rm-icon"></span>
+			</div>
+			{% endfor %}
+		</div>
+		{% else %}
+		<h4 style="font-weight: 400; font-size: 18px; color: #616161;">No active feature found.</h4>
+		{% endif %}
+		<!-- Remove Form -->
+		<form action="#" id="ctg-fet-rm-form" class="invisible" method="POST">
+			{% csrf_token %}
+			<input type="text" name="feature_id" id="ctg-fet-rm-field">
 		</form>
 	</section>
 </div>

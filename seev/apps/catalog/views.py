@@ -160,8 +160,19 @@ def go_pr_config(request, context=None):
         context['client'] = client
         context['product'] = product
 
-        # Load features
         # Load specs
+        specs = CtgSpecification.objects.filter(
+            parent_ctg_id=product.ctg_doc_id, active=True).order_by('-creation_time', 'leaf_name')
+        context['specs'] = specs
+        context['spCount'] = len(specs)
+
+        # Load features
+        features = CtgFeature.objects.filter(
+            client=client, product=product, active=True).order_by('-creation_time', 'itemcode')
+        for fet in features:
+            fet.itemcode = getDefCatalogCode(fet.itemcode)
+        context['features'] = features
+        context['fetCount'] = len(features)
 
         # Initialize forms
         editPrForm = EditPrForm()
