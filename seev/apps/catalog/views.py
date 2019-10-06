@@ -426,3 +426,34 @@ def rm_ctg_spec(request, context=None):
             return redirect('go_cat_home')
     else:
         return redirect('go_cat_home')
+
+
+@transaction.atomic
+def rm_ctg_fet(request, context=None):
+    if request.method == 'POST':
+        try:
+            fetId = request.POST['feature_id']
+            clientId = request.session['id']
+
+            # Verification
+            feature = CtgFeature.objects.get(
+                client_id=clientId, feature_id=fetId, active=True)
+            product = CtgProduct.objects.get(
+                product_id=feature.product_id, active=True)
+
+            redir = reverse('go_pr_config') + '?doc_id=' + \
+                str(product.ctg_doc_id).replace('-', '')
+
+            feature.active = False
+
+            feature.save()
+            store_context_in_session(
+                request, addSnackDataToContext(context, 'Feature removed'))
+            return redirect(redir)
+        except Exception:
+            traceback.print_exc()
+            store_context_in_session(
+                request, addSnackDataToContext(context, 'Unexpected error'))
+            return redirect('go_cat_home')
+    else:
+        return redirect('go_cat_home')

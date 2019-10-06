@@ -147,7 +147,7 @@
 				</span>
 				<span><img onclick="console.log('{{ fet.ctg_doc_id }}')" src="{% static 'icon-42.svg' %}"
 						alt="conf-icon"></span>
-				<span><img onclick="console.log('{{ fet.ctg_doc_id }}')" src="{% static 'icon-43.svg' %}" alt="rm-icon"></span>
+				<span><img onclick="rmFeature('{{ fet.feature_id }}')" src="{% static 'icon-43.svg' %}" alt="rm-icon"></span>
 			</div>
 			{% endfor %}
 		</div>
@@ -155,7 +155,7 @@
 		<h4 style="font-weight: 400; font-size: 18px; color: #616161;">No active feature found.</h4>
 		{% endif %}
 		<!-- Remove Form -->
-		<form action="#" id="ctg-fet-rm-form" class="invisible" method="POST">
+		<form action="/catalog/rm-fet/" id="ctg-fet-rm-form" class="invisible" method="POST">
 			{% csrf_token %}
 			<input type="text" name="feature_id" id="ctg-fet-rm-field">
 		</form>

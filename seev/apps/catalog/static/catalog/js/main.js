@@ -41,3 +41,12 @@ const rmPrSpec = function(specificationId) {
   field.value = specificationId;
   form.submit();
 };
+
+// Remove catalog feature
+const rmFeature = function(featureId) {
+  let form = document.getElementById('ctg-fet-rm-form');
+  let field = document.getElementById('ctg-fet-rm-field');
+
+  field.value = featureId;
+  form.submit();
+};
