@@ -1,4 +1,4 @@
-<!-- Catalog home page -->
+<!-- Product configuration page -->
 {% extends 'catalog/base.html' %}
 {% load static %}
 
@@ -145,7 +145,7 @@
 				<span class="ctg-code-cell tooltip-source">{{ fet.itemcode }}
 					<span class="tooltip-text">{{ fet.name }}</span>
 				</span>
-				<span><img onclick="console.log('{{ fet.ctg_doc_id }}')" src="{% static 'icon-42.svg' %}"
+				<span><img onclick="goFetConfig('{{ fet.ctg_doc_id }}')" src="{% static 'icon-42.svg' %}"
 						alt="conf-icon"></span>
 				<span><img onclick="rmFeature('{{ fet.feature_id }}')" src="{% static 'icon-43.svg' %}" alt="rm-icon"></span>
 			</div>

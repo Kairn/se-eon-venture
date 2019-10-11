@@ -457,3 +457,39 @@ def rm_ctg_fet(request, context=None):
             return redirect('go_cat_home')
     else:
         return redirect('go_cat_home')
+
+
+def go_fet_config(request, context=None):
+    try:
+        context = get_context_in_session(request)
+
+        if not context:
+            context = {}
+
+        # Get client and feature
+        client = UnoClient.objects.get(client_id=request.session['id'])
+        feature = CtgFeature.objects.get(ctg_doc_id=request.GET.get(
+            'doc_id'), client_id=client.client_id, active=True)
+
+        feature.itemcode = getDefCatalogCode(feature.itemcode)
+        context['client'] = client
+        context['feature'] = feature
+
+        # Load specs
+        specs = CtgSpecification.objects.filter(
+            parent_ctg_id=feature.ctg_doc_id, active=True).order_by('-creation_time', 'leaf_name')
+        context['specs'] = specs
+        context['spCount'] = len(specs)
+
+        # Initialize forms
+        # Edit feature
+
+        addSpecForm = AddSpecForm()
+        addSpecForm.fields['parent_ctg_id'].widget.attrs['value'] = request.GET.get(
+            'doc_id')
+        context['addSpecForm'] = addSpecForm
+
+        return render(request, 'catalog/feature.html', context=context)
+    except Exception:
+        traceback.print_exc()
+        return redirect('go_cat_home')

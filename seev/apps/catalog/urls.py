@@ -12,4 +12,5 @@ urlpatterns = [
     re_path(r'^add-fet/$', views.add_ctg_fet, name='add_ctg_fet'),
     re_path(r'^rm-spec/$', views.rm_ctg_spec, name='rm_ctg_spec'),
     re_path(r'^rm-fet/$', views.rm_ctg_fet, name='rm_ctg_fet'),
+    re_path(r'^fet-config/$', views.go_fet_config, name='go_fet_config'),
 ]

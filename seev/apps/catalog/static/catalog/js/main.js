@@ -31,6 +31,16 @@ const goSpecConfig = function(docId) {
   //
 };
 
+// Navigate to feature config page
+const goFetConfig = function(docId) {
+  if (!docId) {
+    return;
+  }
+
+  docId = replaceAllInString(docId, '-', '');
+  window.location.href = `/catalog/fet-config/?doc_id=${docId}`;
+};
+
 // Remove product specification
 const rmPrSpec = function(specificationId) {
   let form = document.getElementById('pr-spec-rm-form');
