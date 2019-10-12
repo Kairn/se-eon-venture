@@ -513,3 +513,45 @@ def go_fet_config(request, context=None):
     except Exception:
         traceback.print_exc()
         return redirect('go_cat_home')
+
+
+@transaction.atomic
+def chg_fet(request, context=None):
+    if request.method == 'POST':
+        try:
+            featureId = request.POST['feature_id']
+            newFetName = request.POST['feature_name']
+            newLimit = request.POST['limit']
+            newExt = request.POST['is_extended']
+
+            # Verification
+            clientId = request.session['id']
+            feature = CtgFeature.objects.filter(
+                client_id=clientId, feature_id=featureId, active=True)
+            if not feature or len(feature) < 1:
+                raise AssertionError
+
+            feature = feature[0]
+            docId = str(feature.ctg_doc_id).replace('-', '')
+            redir = reverse('go_fet_config') + '?doc_id=' + docId
+
+            feature.name = newFetName
+            if newLimit and isValidQuantity(newLimit):
+                feature.limit = newLimit
+            feature.extended = newExt
+
+            feature.save()
+            store_context_in_session(
+                request, addSnackDataToContext(context, 'Feature updated'))
+            return redirect(redir)
+        except AssertionError:
+            store_context_in_session(request, addSnackDataToContext(
+                context, 'Feature does not exist'))
+            return redirect('go_cat_home')
+        except Exception:
+            traceback.print_exc()
+            store_context_in_session(
+                request, addSnackDataToContext(context, 'Unexpected error'))
+            return redirect('go_cat_home')
+    else:
+        return redirect('go_cat_home')
