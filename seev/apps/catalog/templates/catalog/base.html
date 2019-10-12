@@ -14,6 +14,15 @@
 			<span>Catalog Designer</span>
 		</h1>
 		<h2>{{ client.entity_name }}</h2>
+		{% if reUrl %}
+		<div></div>
+		<a href="{{ reUrl }}" id="ctg-return-link">
+			<img src="{% static 'icon-97.svg' %}" alt="ctg-re-icon">
+		</a>
+		<div></div>
+		{% else %}
+		<div style="height: 1.5rem;"></div>
+		{% endif %}
 	</div>
 	{% block ctgContent %}
 	{% endblock ctgContent %}

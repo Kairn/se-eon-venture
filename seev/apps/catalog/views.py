@@ -161,6 +161,8 @@ def go_pr_config(request, context=None):
         context['client'] = client
         context['product'] = product
 
+        context['reUrl'] = reverse('go_cat_home')
+
         # Load specs
         specs = CtgSpecification.objects.filter(
             parent_ctg_id=product.ctg_doc_id, active=True).order_by('-creation_time', 'leaf_name')
@@ -475,6 +477,12 @@ def go_fet_config(request, context=None):
         feature.itemcode = getDefCatalogCode(feature.itemcode)
         context['client'] = client
         context['feature'] = feature
+
+        # Get product URL
+        product = CtgProduct.objects.get(product_id=feature.product_id)
+        prUrl = reverse('go_pr_config') + '?doc_id=' + \
+            str(product.ctg_doc_id).replace('-', '')
+        context['reUrl'] = prUrl
 
         # Load specs
         specs = CtgSpecification.objects.filter(
