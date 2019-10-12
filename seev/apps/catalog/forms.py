@@ -171,3 +171,57 @@ class AddFetForm(forms.Form):
             ('Y', 'Yes'),
         ]
     )
+
+
+class EditFetForm(forms.Form):
+    feature_id = forms.CharField(
+        label=None,
+        label_suffix=None,
+        widget=forms.HiddenInput()
+    )
+
+    feature_code = forms.CharField(
+        required=False,
+        label='Feature Code',
+        label_suffix='',
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Feature Code',
+                'maxlength': '32',
+                'disabled': 'true',
+                'class': 'form-inp-dis'
+            }
+        )
+    )
+
+    feature_name = forms.CharField(
+        required=True,
+        label='Feature Name',
+        label_suffix='',
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Feature Name',
+                'maxlength': '128'
+            }
+        )
+    )
+
+    limit = forms.IntegerField(
+        required=False,
+        label='Limit',
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': '1'
+            }
+        )
+    )
+
+    is_extended = forms.ChoiceField(
+        required=True,
+        label='Extended Only',
+        label_suffix='',
+        choices=[
+            ('N', 'No'),
+            ('Y', 'Yes'),
+        ]
+    )

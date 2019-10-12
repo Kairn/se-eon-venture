@@ -17,7 +17,8 @@ from seev.apps.utils.validations import (
 from seev.apps.core.models import UnoClient
 
 from .models import CtgProduct, CtgFeature, CtgSpecification, CtgValue, CtgRestriction, CtgPrice
-from .forms import (AddPrForm, EditPrForm, AddSpecForm, AddFetForm)
+from .forms import (AddPrForm, EditPrForm, AddSpecForm,
+                    AddFetForm, EditFetForm)
 
 
 # Also the add product UI
@@ -483,6 +484,17 @@ def go_fet_config(request, context=None):
 
         # Initialize forms
         # Edit feature
+        editFetForm = EditFetForm()
+        editFetForm.fields['feature_id'].widget.attrs['value'] = str(
+            feature.feature_id).replace('-', '')
+        editFetForm.fields['feature_code'].widget.attrs['value'] = feature.itemcode
+        editFetForm.fields['feature_name'].widget.attrs['value'] = feature.name
+        editFetForm.fields['feature_name'].widget.attrs['data-name'] = feature.name
+        editFetForm.fields['limit'].widget.attrs['value'] = feature.limit
+        editFetForm.fields['limit'].widget.attrs['data-value'] = feature.limit
+        editFetForm.fields['is_extended'].widget.attrs['value'] = feature.extended
+        editFetForm.fields['is_extended'].widget.attrs['data-value'] = feature.extended
+        context['editFetForm'] = editFetForm
 
         addSpecForm = AddSpecForm()
         addSpecForm.fields['parent_ctg_id'].widget.attrs['value'] = request.GET.get(

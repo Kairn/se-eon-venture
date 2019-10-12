@@ -52,6 +52,17 @@ const rmPrSpec = function(specificationId) {
   form.submit();
 };
 
+// Remove feature specification
+const rmFetSpec = function(specificationId) {
+  let form = document.getElementById('fet-spec-rm-form');
+  let flag = document.getElementById('fet-spec-rm-flag');
+  let field = document.getElementById('fet-spec-rm-field');
+
+  flag.value = 'FET';
+  field.value = specificationId;
+  form.submit();
+};
+
 // Remove catalog feature
 const rmFeature = function(featureId) {
   let form = document.getElementById('ctg-fet-rm-form');

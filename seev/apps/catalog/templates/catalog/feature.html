@@ -7,8 +7,31 @@
 	<!-- Feature -->
 	<section class="ctg-form-sect">
 		<h3>Edit Feature</h3>
-		<h3>{{ feature.itemcode }}</h3>
-		<h3>{{ feature.name }}</h3>
+		<form id="ctg-edit-fet-form" class="ctg-def-form" action="#" method="post" novalidate>
+			{% csrf_token %}
+			{% for field in editFetForm.hidden_fields %}
+			{{ field }}
+			{% endfor %}
+			<div class="form-flex-row">
+				{% for field in editFetForm.visible_fields %}
+				<div class="ctg-ti-wrapper">
+					<div class="ctg-label-wrapper">
+						<label>{{ field.label }}</label>
+						{% if field.field.required %}
+						<span class="asterisk"> * </span>
+						{% endif %}
+					</div>
+					{{ field }}
+					<div class="form-ie-wrapper">
+						<span id="ie_{{ field.name }}" class="ie-msg"></span><span class="invisible">I</span>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+			<div class="ctg-form-action-wrapper">
+				<button id="save-fet-btn" class="ctg-action-btn save" type="submit">Save</button>
+			</div>
+		</form>
 	</section>
 	<!-- Specifications -->
 	<section class="ctg-form-sect">
@@ -55,7 +78,7 @@
 					<span class="tooltip-text">{{ sp.label }}</span>
 				</span>
 				<span><img onclick="console.log('{{ sp.ctg_doc_id }}')" src="{% static 'icon-42.svg' %}" alt="conf-icon"></span>
-				<span><img onclick="console.log('{{ sp.specification_id }}')" src="{% static 'icon-43.svg' %}"
+				<span><img onclick="rmFetSpec('{{ sp.specification_id }}')" src="{% static 'icon-43.svg' %}"
 						alt="rm-icon"></span>
 			</div>
 			{% endfor %}

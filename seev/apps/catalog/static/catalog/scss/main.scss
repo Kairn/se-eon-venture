@@ -335,3 +335,12 @@ section.ctg-form-sect {
     }
   }
 }
+
+#ctg-edit-fet-form {
+  .form-flex-row {
+    & > * {
+      width: $field-wrapper-width-default;
+      margin: 1rem 1rem;
+    }
+  }
+}
