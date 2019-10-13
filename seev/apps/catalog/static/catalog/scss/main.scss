@@ -1,7 +1,10 @@
+// Catalog app styles
 @import "../../../../../resources/scss/theme.scss";
 @import "../../../../../resources/scss/media.scss";
 
-$field-wrapper-width-default: 24rem;
+$field-wrapper-width-default: 30rem;
+$field-wrapper-margin-x: 2rem;
+$field-wrapper-margin-y: 1rem;
 
 #ctg-main-wrapper {
   padding: 2rem 4rem 5rem 2rem;
@@ -309,7 +312,7 @@ section.ctg-form-sect {
   .form-flex-row {
     & > * {
       width: $field-wrapper-width-default;
-      margin: 1rem 1rem;
+      margin: $field-wrapper-margin-y $field-wrapper-margin-x;
     }
   }
 }
@@ -323,7 +326,7 @@ section.ctg-form-sect {
   .form-flex-row {
     & > * {
       width: $field-wrapper-width-default;
-      margin: 1rem 1rem;
+      margin: $field-wrapper-margin-y $field-wrapper-margin-x;
     }
   }
 }
@@ -332,7 +335,7 @@ section.ctg-form-sect {
   .form-flex-row {
     & > * {
       width: $field-wrapper-width-default;
-      margin: 1rem 1rem;
+      margin: $field-wrapper-margin-y $field-wrapper-margin-x;
     }
   }
 }
@@ -341,7 +344,7 @@ section.ctg-form-sect {
   .form-flex-row {
     & > * {
       width: $field-wrapper-width-default;
-      margin: 1rem 1rem;
+      margin: $field-wrapper-margin-y $field-wrapper-margin-x;
     }
   }
 }
@@ -350,7 +353,16 @@ section.ctg-form-sect {
   .form-flex-row {
     & > * {
       width: $field-wrapper-width-default;
-      margin: 1rem 1rem;
+      margin: $field-wrapper-margin-y $field-wrapper-margin-x;
+    }
+  }
+}
+
+#ctg-edit-spec-form {
+  .form-flex-row {
+    & > * {
+      width: $field-wrapper-width-default;
+      margin: $field-wrapper-margin-y $field-wrapper-margin-x;
     }
   }
 }

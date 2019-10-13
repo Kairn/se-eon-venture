@@ -234,6 +234,61 @@ const validateEditFetForm = function(form) {
   disEnaButton(submitBtn, valid);
 };
 
+// Validate edit specification form
+const validateEditSpForm = function(form) {
+  let valid = true;
+  let submitBtn;
+
+  // Change flags
+  nameFlag = false;
+  dvFlag = false;
+
+  for (let i = 0; i < form.length; ++i) {
+    let fe = form[i];
+
+    if (fe.type === 'submit') {
+      submitBtn = fe;
+    } else if (fe.id === 'id_spec_label') {
+      if (fe.required && !fe.value) {
+        valid = false;
+        if (fe.touched) {
+          displayValidationError(fe.name, VE_REQUIRED);
+        }
+      } else {
+        removeValidationError(fe.name);
+        if (fe.value !== fe.getAttribute('data-name')) {
+          nameFlag = true;
+        }
+      }
+    } else if (fe.id === 'id_default_value') {
+      let dt = document.getElementById('id_data_type').value;
+
+      if (dt === 'Boolean' && fe.value && !isValidBoolean(fe.value)) {
+        valid = false;
+        if (fe.touched && fe.dirty) {
+          displayValidationError(fe.name, VE_INV_BOOL);
+        }
+      } else if (dt === 'Quantity' && fe.value && !isValidQuantity(fe.value)) {
+        valid = false;
+        if (fe.touched && fe.dirty) {
+          displayValidationError(fe.name, VE_INV_QUAN);
+        }
+      } else {
+        removeValidationError(fe.name);
+        if (fe.value && fe.value !== fe.getAttribute('data-value')) {
+          dvFlag = true;
+        }
+      }
+    }
+  }
+
+  if (!nameFlag && !dvFlag) {
+    valid = false;
+  }
+
+  disEnaButton(submitBtn, valid);
+};
+
 // Trigger form validation based on input event
 const triggerFormValidation = function(event) {
   let e = event;
@@ -252,6 +307,8 @@ const triggerFormValidation = function(event) {
     validateAddFetForm(e.target.form);
   } else if (e.target.form.id === 'ctg-edit-fet-form') {
     validateEditFetForm(e.target.form);
+  } else if (e.target.form.id === 'ctg-edit-spec-form') {
+    validateEditSpForm(e.target.form);
   } else if (e.target.form.id === '?') {
     //
   }

@@ -9,6 +9,7 @@ from django.shortcuts import render, redirect, reverse
 from django.core.paginator import Paginator
 
 from seev.apps.utils.generators import (getFullCatalogCode, getDefCatalogCode)
+from seev.apps.utils.codetable import getGeneralTranslation
 from seev.apps.utils.messages import get_app_message, addSnackDataToContext
 from seev.apps.utils.session import store_context_in_session, get_context_in_session
 from seev.apps.utils.validations import (
@@ -18,7 +19,7 @@ from seev.apps.core.models import UnoClient
 
 from .models import CtgProduct, CtgFeature, CtgSpecification, CtgValue, CtgRestriction, CtgPrice
 from .forms import (AddPrForm, EditPrForm, AddSpecForm,
-                    AddFetForm, EditFetForm)
+                    AddFetForm, EditFetForm, EditSpecForm)
 
 
 # Also the add product UI
@@ -548,6 +549,101 @@ def chg_fet(request, context=None):
             store_context_in_session(request, addSnackDataToContext(
                 context, 'Feature does not exist'))
             return redirect('go_cat_home')
+        except Exception:
+            traceback.print_exc()
+            store_context_in_session(
+                request, addSnackDataToContext(context, 'Unexpected error'))
+            return redirect('go_cat_home')
+    else:
+        return redirect('go_cat_home')
+
+
+def go_spec_config(request, context=None):
+    try:
+        context = get_context_in_session(request)
+
+        if not context:
+            context = {}
+
+        # Load specification
+        client = UnoClient.objects.get(client_id=request.session['id'])
+        specification = CtgSpecification.objects.get(
+            ctg_doc_id=request.GET.get('doc_id'), active=True)
+
+        context['client'] = client
+        context['specification'] = specification
+
+        # Get parent URL
+        flag = ''
+        pntUrl = ''
+        product = CtgProduct.objects.filter(
+            ctg_doc_id=specification.parent_ctg_id, client=client, active=True)
+        if product and len(product) > 0:
+            flag = 'PR'
+            pntUrl = reverse('go_pr_config') + '?doc_id=' + \
+                str(product[0].ctg_doc_id).replace('-', '')
+        else:
+            feature = CtgFeature.objects.filter(
+                ctg_doc_id=specification.parent_ctg_id, client=client, active=True)
+            if feature and len(feature) > 0:
+                flag = 'FET'
+                pntUrl = reverse('go_fet_config') + '?doc_id=' + \
+                    str(feature[0].ctg_doc_id).replace('-', '')
+
+        if not flag:
+            raise Exception
+        context['reUrl'] = pntUrl
+
+        # Spec edit form
+        editSpecForm = EditSpecForm()
+        editSpecForm.fields['specification_id'].widget.attrs['value'] = str(
+            specification.specification_id).replace('-', '')
+        editSpecForm.fields['leaf_name'].widget.attrs['value'] = specification.leaf_name
+        editSpecForm.fields['data_type'].widget.attrs['value'] = getGeneralTranslation(
+            specification.data_type)
+        editSpecForm.fields['spec_label'].widget.attrs['value'] = specification.label
+        editSpecForm.fields['spec_label'].widget.attrs['data-name'] = specification.label
+        editSpecForm.fields['default_value'].widget.attrs['value'] = specification.default_value
+        editSpecForm.fields['default_value'].widget.attrs['data-value'] = specification.default_value
+        context['editSpecForm'] = editSpecForm
+
+        # Other config forms
+
+        return render(request, 'catalog/specification.html', context=context)
+    except Exception:
+        return redirect('go_cat_home')
+
+
+@transaction.atomic
+def chg_spec(request, context=None):
+    if request.method == 'POST':
+        try:
+            specificationId = request.POST['specification_id']
+            newLabel = request.POST['spec_label']
+            newDv = request.POST['default_value']
+
+            # Verification
+            client = UnoClient.objects.get(client_id=request.session['id'])
+            specification = CtgSpecification.objects.get(
+                specification_id=specificationId, active=True)
+            dt = specification.data_type
+
+            redir = reverse('go_spec_config') + '?doc_id=' + \
+                str(specification.ctg_doc_id).replace('-', '')
+
+            # Validation
+            if newLabel and len(newLabel) <= 128:
+                specification.label = newLabel
+            if newDv:
+                if (dt == 'BO' and isValidBoolean(newDv)) or (dt == 'QTY' and isValidQuantity(newDv)):
+                    specification.default_value = newDv
+                elif dt == 'STR' or dt == 'ENUM':
+                    specification.default_value = newDv
+
+            specification.save()
+            store_context_in_session(request, addSnackDataToContext(
+                context, 'Specification updated'))
+            return redirect(redir)
         except Exception:
             traceback.print_exc()
             store_context_in_session(

@@ -225,3 +225,61 @@ class EditFetForm(forms.Form):
             ('Y', 'Yes'),
         ]
     )
+
+
+class EditSpecForm(forms.Form):
+    specification_id = forms.CharField(
+        label=None,
+        label_suffix=None,
+        widget=forms.HiddenInput()
+    )
+
+    leaf_name = forms.CharField(
+        required=False,
+        label='Specification Code',
+        label_suffix='',
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Specification Code',
+                'maxlength': '32',
+                'disabled': 'true',
+                'class': 'form-inp-dis'
+            }
+        )
+    )
+
+    spec_label = forms.CharField(
+        required=True,
+        label='Specification Name',
+        label_suffix='',
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Specification Name',
+                'maxlength': '128'
+            }
+        )
+    )
+
+    data_type = forms.CharField(
+        required=False,
+        label='Data Type',
+        label_suffix='',
+        widget=forms.TextInput(
+            attrs={
+                'disabled': 'true',
+                'class': 'form-inp-dis'
+            }
+        )
+    )
+
+    default_value = forms.CharField(
+        required=False,
+        label='Default Value',
+        label_suffix='',
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Default Value',
+                'maxlength': '512'
+            }
+        )
+    )

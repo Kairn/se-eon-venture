@@ -1,0 +1,37 @@
+<!-- Specification configuration page -->
+{% extends 'catalog/base.html' %}
+{% load static %}
+
+{% block ctgContent %}
+<div class="ctg-config-wrapper">
+	<!-- Specification -->
+	<section class="ctg-form-sect">
+		<h3>Edit Specification</h3>
+		<form id="ctg-edit-spec-form" class="ctg-def-form" action="/catalog/sp-chg/" method="post" novalidate>
+			{% csrf_token %}
+			{% for field in editSpecForm.hidden_fields %}
+			{{ field }}
+			{% endfor %}
+			<div class="form-flex-row">
+				{% for field in editSpecForm.visible_fields %}
+				<div class="ctg-ti-wrapper">
+					<div class="ctg-label-wrapper">
+						<label>{{ field.label }}</label>
+						{% if field.field.required %}
+						<span class="asterisk"> * </span>
+						{% endif %}
+					</div>
+					{{ field }}
+					<div class="form-ie-wrapper">
+						<span id="ie_{{ field.name }}" class="ie-msg"></span><span class="invisible">I</span>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+			<div class="ctg-form-action-wrapper">
+				<button id="save-fet-btn" class="ctg-action-btn save" type="submit">Save</button>
+			</div>
+		</form>
+	</section>
+</div>
+{% endblock ctgContent %}

@@ -77,7 +77,8 @@
 				<span class="ctg-code-cell tooltip-source">{{ sp.leaf_name }}
 					<span class="tooltip-text">{{ sp.label }}</span>
 				</span>
-				<span><img onclick="console.log('{{ sp.ctg_doc_id }}')" src="{% static 'icon-42.svg' %}" alt="conf-icon"></span>
+				<span><img onclick="goSpecConfig('{{ sp.ctg_doc_id }}')" src="{% static 'icon-42.svg' %}"
+						alt="conf-icon"></span>
 				<span><img onclick="rmPrSpec('{{ sp.specification_id }}')" src="{% static 'icon-43.svg' %}"
 						alt="rm-icon"></span>
 			</div>

@@ -28,7 +28,12 @@ const rmProduct = function(productId) {
 
 // Navigate to specification config page
 const goSpecConfig = function(docId) {
-  //
+  if (!docId) {
+    return;
+  }
+
+  docId = replaceAllInString(docId, '-', '');
+  window.location.href = `/catalog/sp-config/?doc_id=${docId}`;
 };
 
 // Navigate to feature config page
