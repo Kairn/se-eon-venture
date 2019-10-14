@@ -19,7 +19,7 @@ from seev.apps.core.models import UnoClient
 
 from .models import CtgProduct, CtgFeature, CtgSpecification, CtgValue, CtgRestriction, CtgPrice
 from .forms import (AddPrForm, EditPrForm, AddSpecForm,
-                    AddFetForm, EditFetForm, EditSpecForm)
+                    AddFetForm, EditFetForm, EditSpecForm, AddValueForm)
 
 
 # Also the add product UI
@@ -608,6 +608,11 @@ def go_spec_config(request, context=None):
         context['editSpecForm'] = editSpecForm
 
         # Other config forms
+        # Value form
+        addValueForm = AddValueForm()
+        addValueForm.fields['specification_id'].widget.attrs['value'] = str(
+            specification.specification_id).replace('-', '')
+        context['addValueForm'] = addValueForm
 
         return render(request, 'catalog/specification.html', context=context)
     except Exception:

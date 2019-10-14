@@ -29,9 +29,47 @@
 				{% endfor %}
 			</div>
 			<div class="ctg-form-action-wrapper">
-				<button id="save-fet-btn" class="ctg-action-btn save" type="submit">Save</button>
+				<button id="save-spec-btn" class="ctg-action-btn save" type="submit">Save</button>
 			</div>
 		</form>
 	</section>
+	<!-- Codes -->
+	{% if specification.data_type == 'ENUM' %}
+	<section class="ctg-form-sect">
+		<h3>Add Enumeration</h3>
+		<form id="ctg-add-value-form" class="ctg-def-form" action="#" method="post" novalidate>
+			{% csrf_token %}
+			{% for field in addValueForm.hidden_fields %}
+			{{ field }}
+			{% endfor %}
+			<div class="form-flex-row">
+				{% for field in addValueForm.visible_fields %}
+				<div class="ctg-ti-wrapper">
+					<div class="ctg-label-wrapper">
+						<label>{{ field.label }}</label>
+						{% if field.field.required %}
+						<span class="asterisk"> * </span>
+						{% endif %}
+					</div>
+					{{ field }}
+					<div class="form-ie-wrapper">
+						<span id="ie_{{ field.name }}" class="ie-msg"></span><span class="invisible">I</span>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+			<div class="ctg-form-action-wrapper">
+				<button id="save-enum-btn" class="ctg-action-btn add" type="submit">Add</button>
+			</div>
+		</form>
+	</section>
+	<section>
+		<h3>Enumeration Table</h3>
+		{% if False %}
+		{% else %}
+		<h4 style="font-weight: 400; font-size: 18px; color: #616161;">No value definition found.</h4>
+		{% endif %}
+	</section>
+	{% endif %}
 </div>
 {% endblock ctgContent %}

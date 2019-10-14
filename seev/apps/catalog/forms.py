@@ -283,3 +283,35 @@ class EditSpecForm(forms.Form):
             }
         )
     )
+
+
+class AddValueForm(forms.Form):
+    specification_id = forms.CharField(
+        label=None,
+        label_suffix=None,
+        widget=forms.HiddenInput()
+    )
+
+    code = forms.CharField(
+        required=True,
+        label='Code Name',
+        label_suffix='',
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Code Name',
+                'maxlength': '32'
+            }
+        )
+    )
+
+    translation = forms.CharField(
+        required=True,
+        label='Code Translation',
+        label_suffix='',
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Code Translation',
+                'maxlength': '128'
+            }
+        )
+    )

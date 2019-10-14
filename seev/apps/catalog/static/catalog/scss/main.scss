@@ -308,57 +308,18 @@ section.ctg-form-sect {
   }
 }
 
-#ctg-add-pr-form {
-  .form-flex-row {
-    & > * {
-      width: $field-wrapper-width-default;
-      margin: $field-wrapper-margin-y $field-wrapper-margin-x;
-    }
-  }
-}
-
 #ctg-pr-paginator {
   margin-bottom: 2rem;
   display: flex;
 }
 
-#ctg-edit-pr-form {
-  .form-flex-row {
-    & > * {
-      width: $field-wrapper-width-default;
-      margin: $field-wrapper-margin-y $field-wrapper-margin-x;
-    }
-  }
-}
-
-#ctg-add-spec-form {
-  .form-flex-row {
-    & > * {
-      width: $field-wrapper-width-default;
-      margin: $field-wrapper-margin-y $field-wrapper-margin-x;
-    }
-  }
-}
-
-#ctg-add-fet-form {
-  .form-flex-row {
-    & > * {
-      width: $field-wrapper-width-default;
-      margin: $field-wrapper-margin-y $field-wrapper-margin-x;
-    }
-  }
-}
-
-#ctg-edit-fet-form {
-  .form-flex-row {
-    & > * {
-      width: $field-wrapper-width-default;
-      margin: $field-wrapper-margin-y $field-wrapper-margin-x;
-    }
-  }
-}
-
-#ctg-edit-spec-form {
+#ctg-add-pr-form,
+#ctg-edit-pr-form,
+#ctg-add-spec-form,
+#ctg-add-fet-form,
+#ctg-edit-fet-form,
+#ctg-edit-spec-form,
+#ctg-add-value-form {
   .form-flex-row {
     & > * {
       width: $field-wrapper-width-default;
