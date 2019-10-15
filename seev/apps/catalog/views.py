@@ -656,3 +656,54 @@ def chg_spec(request, context=None):
             return redirect('go_cat_home')
     else:
         return redirect('go_cat_home')
+
+
+@transaction.atomic
+def add_ctg_val(request, context=None):
+    if request.method == 'POST':
+        try:
+            specificationId = request.POST['specification_id']
+            code = request.POST['code']
+            translation = request.POST['translation']
+
+            # Verification
+            client = UnoClient.objects.get(client_id=request.session['id'])
+            specification = CtgSpecification.objects.get(
+                specification_id=specificationId, active=True)
+
+            redir = reverse('go_spec_config') + '?doc_id=' + \
+                str(specification.ctg_doc_id).replace('-', '')
+
+            # Validation
+            if not code or not transaction:
+                raise AssertionError
+            value = CtgValue.objects.filter(
+                specification=specification, code=code)
+            if value and len(value) > 0:
+                raise TabError
+
+            newValue = CtgValue(
+                specification=specification,
+                code=code,
+                translation=translation
+            )
+
+            newValue.save()
+            store_context_in_session(request, addSnackDataToContext(
+                context, 'Enumeration created'))
+            return redirect(redir)
+        except AssertionError:
+            store_context_in_session(
+                request, addSnackDataToContext(context, 'Invalid data'))
+            return redirect(redir)
+        except TabError:
+            store_context_in_session(request, addSnackDataToContext(
+                context, 'Code already exists'))
+            return redirect(redir)
+        except Exception:
+            traceback.print_exc()
+            store_context_in_session(
+                request, addSnackDataToContext(context, 'Unexpected error'))
+            return redirect('go_cat_home')
+    else:
+        return redirect('go_cat_home')

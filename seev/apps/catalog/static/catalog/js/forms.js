@@ -289,6 +289,40 @@ const validateEditSpForm = function(form) {
   disEnaButton(submitBtn, valid);
 };
 
+// Validate add value form
+const validateAddValForm = function(form) {
+  let valid = true;
+  let submitBtn;
+
+  for (let i = 0; i < form.length; ++i) {
+    let fe = form[i];
+
+    if (fe.type === 'submit') {
+      submitBtn = fe;
+    } else if (fe.id === 'id_code') {
+      if (fe.required && !fe.value) {
+        valid = false;
+        if (fe.touched) {
+          displayValidationError(fe.name, VE_REQUIRED);
+        }
+      } else {
+        removeValidationError(fe.name);
+      }
+    } else if (fe.id === 'id_translation') {
+      if (fe.required && !fe.value) {
+        valid = false;
+        if (fe.touched) {
+          displayValidationError(fe.name, VE_REQUIRED);
+        }
+      } else {
+        removeValidationError(fe.name);
+      }
+    }
+  }
+
+  disEnaButton(submitBtn, valid);
+};
+
 // Trigger form validation based on input event
 const triggerFormValidation = function(event) {
   let e = event;
@@ -309,6 +343,8 @@ const triggerFormValidation = function(event) {
     validateEditFetForm(e.target.form);
   } else if (e.target.form.id === 'ctg-edit-spec-form') {
     validateEditSpForm(e.target.form);
+  } else if (e.target.form.id === 'ctg-add-value-form') {
+    validateAddValForm(e.target.form);
   } else if (e.target.form.id === '?') {
     //
   }

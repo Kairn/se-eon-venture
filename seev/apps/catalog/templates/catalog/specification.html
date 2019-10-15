@@ -37,7 +37,7 @@
 	{% if specification.data_type == 'ENUM' %}
 	<section class="ctg-form-sect">
 		<h3>Add Enumeration</h3>
-		<form id="ctg-add-value-form" class="ctg-def-form" action="#" method="post" novalidate>
+		<form id="ctg-add-value-form" class="ctg-def-form" action="/catalog/add-val/" method="post" novalidate>
 			{% csrf_token %}
 			{% for field in addValueForm.hidden_fields %}
 			{{ field }}
