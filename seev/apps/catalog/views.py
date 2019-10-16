@@ -594,6 +594,13 @@ def go_spec_config(request, context=None):
             raise Exception
         context['reUrl'] = pntUrl
 
+        # Spec config details
+        # Values
+        values = CtgValue.objects.filter(
+            specification=specification).order_by('-creation_time', 'code')
+        context['values'] = values
+        context['valCount'] = len(values)
+
         # Spec edit form
         editSpecForm = EditSpecForm()
         editSpecForm.fields['specification_id'].widget.attrs['value'] = str(
@@ -616,6 +623,7 @@ def go_spec_config(request, context=None):
 
         return render(request, 'catalog/specification.html', context=context)
     except Exception:
+        traceback.print_exc()
         return redirect('go_cat_home')
 
 

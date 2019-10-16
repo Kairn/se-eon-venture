@@ -65,7 +65,21 @@
 	</section>
 	<section>
 		<h3>Enumeration Table</h3>
-		{% if False %}
+		{% if values and valCount > 0 %}
+		<div id="ctg-value-table" class="ctg-def-table">
+			<div class="ctg-tb-row ctg-tb-head">
+				<span class="regular">Code</span>
+				<span class="major">Translation</span>
+				<span>Remove</span>
+			</div>
+			{% for val in values %}
+			<div class="ctg-tb-row">
+				<span class="ctg-code-cell regular">{{ val.code }}</span>
+				<span class="ctg-code-cell major">{{ val.translation }}</span>
+				<span><img onclick="console.log('{{ val.value_id }}')" src="{% static 'icon-44.svg' %}" alt="rm-icon"></span>
+			</div>
+			{% endfor %}
+		</div>
 		{% else %}
 		<h4 style="font-weight: 400; font-size: 18px; color: #616161;">No value definition found.</h4>
 		{% endif %}
