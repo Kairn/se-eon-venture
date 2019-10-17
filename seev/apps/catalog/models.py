@@ -101,7 +101,7 @@ class CtgRestriction(models.Model):
         ('AO', 'Alphabetical Letters Only'),
         ('NUO', 'Numbers Only'),
         ('EML', 'Email Format'),
-        ('CD', 'Must Be Divisible By'),
+        ('NN', 'Not Null')
     ], null=False, blank=False)
     value = models.CharField(max_length=64, null=True, default='1')
     creation_time = models.DateTimeField(

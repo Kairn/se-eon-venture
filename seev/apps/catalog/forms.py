@@ -315,3 +315,99 @@ class AddValueForm(forms.Form):
             }
         )
     )
+
+
+class RestrictionForm(forms.Form):
+    specification_id = forms.CharField(
+        label=None,
+        label_suffix=None,
+        widget=forms.HiddenInput()
+    )
+
+    max_val = forms.CharField(
+        required=False,
+        label='Maximum Value',
+        label_suffix='',
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Maximum Value',
+                'maxlength': '32'
+            }
+        )
+    )
+
+    min_val = forms.CharField(
+        required=False,
+        label='Minimum Value',
+        label_suffix='',
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Minimum Value',
+                'maxlength': '32'
+            }
+        )
+    )
+
+    max_len = forms.CharField(
+        required=False,
+        label='Maximum Length',
+        label_suffix='',
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Maximum Length',
+                'maxlength': '32'
+            }
+        )
+    )
+
+    min_len = forms.CharField(
+        required=False,
+        label='Minimum Length',
+        label_suffix='',
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Minimum Length',
+                'maxlength': '32'
+            }
+        )
+    )
+
+    alpha_only = forms.ChoiceField(
+        required=False,
+        label='Letters Only',
+        label_suffix='',
+        choices=[
+            ('N', 'No'),
+            ('Y', 'Yes'),
+        ]
+    )
+
+    num_only = forms.ChoiceField(
+        required=False,
+        label='Numbers Only',
+        label_suffix='',
+        choices=[
+            ('N', 'No'),
+            ('Y', 'Yes'),
+        ]
+    )
+
+    email_only = forms.ChoiceField(
+        required=False,
+        label='Email Format',
+        label_suffix='',
+        choices=[
+            ('N', 'No'),
+            ('Y', 'Yes'),
+        ]
+    )
+
+    not_null = forms.ChoiceField(
+        required=True,
+        label='Required',
+        label_suffix='',
+        choices=[
+            ('N', 'No'),
+            ('Y', 'Yes'),
+        ]
+    )

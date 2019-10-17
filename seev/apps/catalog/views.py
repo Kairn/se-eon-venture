@@ -19,7 +19,7 @@ from seev.apps.core.models import UnoClient
 
 from .models import CtgProduct, CtgFeature, CtgSpecification, CtgValue, CtgRestriction, CtgPrice
 from .forms import (AddPrForm, EditPrForm, AddSpecForm,
-                    AddFetForm, EditFetForm, EditSpecForm, AddValueForm)
+                    AddFetForm, EditFetForm, EditSpecForm, AddValueForm, RestrictionForm)
 
 
 # Also the add product UI
@@ -614,12 +614,38 @@ def go_spec_config(request, context=None):
         editSpecForm.fields['default_value'].widget.attrs['data-value'] = specification.default_value
         context['editSpecForm'] = editSpecForm
 
+        dt = specification.data_type
+
         # Other config forms
         # Value form
-        addValueForm = AddValueForm()
-        addValueForm.fields['specification_id'].widget.attrs['value'] = str(
-            specification.specification_id).replace('-', '')
-        context['addValueForm'] = addValueForm
+        if dt == 'ENUM':
+            addValueForm = AddValueForm()
+            addValueForm.fields['specification_id'].widget.attrs['value'] = str(
+                specification.specification_id).replace('-', '')
+            context['addValueForm'] = addValueForm
+
+        # Restriction form
+        if dt == 'STR' or dt == 'QTY':
+            resForm = RestrictionForm()
+            # Populate
+            # Disable not applicable rules
+            if dt == 'STR':
+                resForm.fields['max_val'].widget.attrs['disabled'] = 'true'
+                resForm.fields['max_val'].widget.attrs['class'] = 'form-inp-dis'
+                resForm.fields['min_val'].widget.attrs['disabled'] = 'true'
+                resForm.fields['min_val'].widget.attrs['class'] = 'form-inp-dis'
+            elif dt == 'QTY':
+                resForm.fields['max_len'].widget.attrs['disabled'] = 'true'
+                resForm.fields['max_len'].widget.attrs['class'] = 'form-inp-dis'
+                resForm.fields['min_len'].widget.attrs['disabled'] = 'true'
+                resForm.fields['min_len'].widget.attrs['class'] = 'form-inp-dis'
+                resForm.fields['alpha_only'].widget.attrs['disabled'] = 'true'
+                resForm.fields['alpha_only'].widget.attrs['class'] = 'form-inp-dis'
+                resForm.fields['num_only'].widget.attrs['disabled'] = 'true'
+                resForm.fields['num_only'].widget.attrs['class'] = 'form-inp-dis'
+                resForm.fields['email_only'].widget.attrs['disabled'] = 'true'
+                resForm.fields['email_only'].widget.attrs['class'] = 'form-inp-dis'
+            context['resForm'] = resForm
 
         return render(request, 'catalog/specification.html', context=context)
     except Exception:

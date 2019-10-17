@@ -85,5 +85,36 @@
 		{% endif %}
 	</section>
 	{% endif %}
+	<!-- Restrictions -->
+	{% if specification.data_type == 'STR' or specification.data_type == 'QTY' %}
+	<section class="ctg-form-sect">
+		<h3>Configure Rules</h3>
+		<form id="ctg-conf-rule-form" class="ctg-def-form" action="#" method="post" novalidate>
+			{% csrf_token %}
+			{% for field in resForm.hidden_fields %}
+			{{ field }}
+			{% endfor %}
+			<div class="form-flex-row">
+				{% for field in resForm.visible_fields %}
+				<div class="ctg-ti-wrapper">
+					<div class="ctg-label-wrapper">
+						<label>{{ field.label }}</label>
+						{% if field.field.required %}
+						<span class="asterisk"> * </span>
+						{% endif %}
+					</div>
+					{{ field }}
+					<div class="form-ie-wrapper">
+						<span id="ie_{{ field.name }}" class="ie-msg"></span><span class="invisible">I</span>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+			<div class="ctg-form-action-wrapper">
+				<button id="upd-res-btn" class="ctg-action-btn update" type="submit">Update</button>
+			</div>
+		</form>
+	</section>
+	{% endif %}
 </div>
 {% endblock ctgContent %}
