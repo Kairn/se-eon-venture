@@ -741,3 +741,181 @@ def add_ctg_val(request, context=None):
             return redirect('go_cat_home')
     else:
         return redirect('go_cat_home')
+
+
+@transaction.atomic
+def save_ctg_res(request, context=None):
+    if request.method == 'POST':
+        try:
+            specificationId = request.POST['specification_id']
+            maxVal = request.POST['max_val']
+            minVal = request.POST['min_val']
+            maxLen = request.POST['max_len']
+            minLen = request.POST['min_len']
+            alo = request.POST['alpha_only']
+            numo = request.POST['num_only']
+            emlo = request.POST['email_only']
+            nn = request.POST['not_null']
+
+            # Verification
+            client = UnoClient.objects.get(client_id=request.session['id'])
+            specification = CtgSpecification.objects.get(
+                specification_id=specificationId, active=True)
+
+            redir = reverse('go_spec_config') + '?doc_id=' + \
+                str(specification.ctg_doc_id).replace('-', '')
+
+            dt = specification.data_type
+            if dt != 'STR' and dt != 'QTY':
+                raise Exception
+
+            # Get restriction data
+            rMav = None
+            rMiv = None
+            rMal = None
+            rMiL = None
+            rAo = None
+            rNo = None
+            rEo = None
+            rNn = None
+            resList = CtgRestriction.objects.filter(
+                specification_id=specificationId)
+            for res in resList:
+                if res.rule_type == 'MAX':
+                    rMav = res
+                elif res.rule_type == 'MIN':
+                    rMiv = res
+                elif res.rule_type == 'UPLEN':
+                    rMal = res
+                elif res.rule_type == 'LOLEN':
+                    rMiL = res
+                elif res.rule_type == 'AO':
+                    rAo = res
+                elif res.rule_type == 'NUO':
+                    rNo = res
+                elif res.rule_type == 'EML':
+                    rEo = res
+                elif res.rule_type == 'NN':
+                    rNn = res
+
+            if rNn:
+                if rNn.value != nn:
+                    rNn.value = nn
+                    rNn.save()
+            elif nn:
+                nnRule = CtgRestriction(
+                    specification=specification,
+                    rule_type='NN',
+                    value=nn
+                )
+                nnRule.save()
+
+            if dt == 'STR':
+                if maxLen and minLen and maxLen < minLen:
+                    raise AssertionError
+                if alo == 'Y' and (numo == 'Y' or emlo == 'Y'):
+                    raise AssertionError
+                elif numo == 'Y' and (alo == 'Y' or emlo == 'Y'):
+                    raise AssertionError
+                elif emlo == 'Y' and (alo == 'Y' or numo == 'Y'):
+                    raise AssertionError
+
+                if maxLen and isValidQuantity(maxLen) and maxLen != '0':
+                    if rMal and rMal.value != maxLen:
+                        rMal.value = maxLen
+                        rMal.save()
+                    elif not rMal:
+                        uplenRule = CtgRestriction(
+                            specification=specification,
+                            rule_type='UPLEN',
+                            value=maxLen
+                        )
+                        uplenRule.save()
+                if minLen and isValidQuantity(minLen) and minLen != '0':
+                    if rMiL and rMiL.value != minLen:
+                        rMiL.value = minLen
+                        rMiL.save()
+                    elif not rMiL:
+                        lolenRule = CtgRestriction(
+                            specification=specification,
+                            rule_type='LOLEN',
+                            value=minLen
+                        )
+                        rMiL.save()
+
+                if rAo and rAo.value != alo:
+                    rAo.value = alo
+                    rAo.save()
+                elif not rAo and alo == 'Y':
+                    aoRule = CtgRestriction(
+                        specification=specification,
+                        rule_type='AO',
+                        value=alo
+                    )
+                    aoRule.save()
+                if rNo and rNo.value != numo:
+                    rNo.value = numo
+                    rNo.save()
+                elif not rNo and numo == 'Y':
+                    nuoRule = CtgRestriction(
+                        specification=specification,
+                        rule_type='NUO',
+                        value=numo
+                    )
+                    nuoRule.save()
+                if rEo and rEo.value != emlo:
+                    rEo.value = emlo
+                    rEo.save()
+                elif not rEo and emlo == 'Y':
+                    emlRule = CtgRestriction(
+                        specification=specification,
+                        rule_type='EML',
+                        value=emlo
+                    )
+                    emlRule.save()
+
+            if dt == 'QTY':
+                if maxVal and minVal and maxVal < minVal:
+                    raise AssertionError
+
+                if maxVal and isValidQuantity(maxVal) and maxVal != '0':
+                    if rMav and rMav.value != maxVal:
+                        rMav.value = maxVal
+                        rMav.save()
+                    elif not rMav:
+                        maxRule = CtgRestriction(
+                            specification=specification,
+                            rule_type='MAX',
+                            value=maxVal
+                        )
+                        maxRule.save()
+                if minVal and isValidQuantity(minVal) and minVal != '0':
+                    if rMiv and rMiv.value != minVal:
+                        rMiv.value = minVal
+                        rMiv.save()
+                    elif not rMiv:
+                        minRule = CtgRestriction(
+                            specification=specification,
+                            rule_type='MIN',
+                            value=minVal
+                        )
+                        minRule.save()
+
+            store_context_in_session(request, addSnackDataToContext(
+                context, 'Restrictions updated'))
+            return redirect(redir)
+        except ValueError:
+            store_context_in_session(request, addSnackDataToContext(
+                context, 'Invalid value encountered'))
+            return redirect(redir)
+        except AssertionError:
+            store_context_in_session(
+                request, addSnackDataToContext(context, 'Rule conflict'))
+            return redirect(redir)
+        except Exception:
+            traceback.print_exc()
+            store_context_in_session(
+                request, addSnackDataToContext(context, 'Unexpected error'))
+            return redirect('go_cat_home')
+    else:
+        return redirect('go_cat_home')
