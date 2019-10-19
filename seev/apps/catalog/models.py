@@ -114,8 +114,8 @@ class CtgRestriction(models.Model):
 class CtgPrice(models.Model):
     price_id = models.UUIDField(
         primary_key=True, default=uuid.uuid4, editable=False)
-    ctg_doc_id = models.UUIDField(
-        'Catalog Obect ID', default=uuid.uuid4, editable=False)
+    specification = models.ForeignKey(
+        CtgSpecification, on_delete=models.CASCADE, null=False)
     mrc = models.DecimalField(
         max_digits=16, decimal_places=2, default=1.00, null=True)
     nrc = models.DecimalField(

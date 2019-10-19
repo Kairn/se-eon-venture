@@ -202,6 +202,10 @@ $field-wrapper-margin-y: 1rem;
   &.update {
     background-color: #e91e63;
   }
+  &.update-2 {
+    color: #000000;
+    background-color: #ffd600;
+  }
 }
 
 .ctg-def-table {
@@ -322,7 +326,8 @@ section.ctg-form-sect {
 #ctg-edit-fet-form,
 #ctg-edit-spec-form,
 #ctg-add-value-form,
-#ctg-conf-rule-form {
+#ctg-conf-rule-form,
+#ctg-conf-pri-form {
   .form-flex-row {
     & > * {
       width: $field-wrapper-width-default;
@@ -333,6 +338,10 @@ section.ctg-form-sect {
 
 #ctg-conf-rule-form {
   background-color: #fbe9e7;
+}
+
+#ctg-conf-pri-form {
+  background-color: #fff8e1;
 }
 
 #ctg-value-table {

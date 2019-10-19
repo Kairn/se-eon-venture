@@ -18,8 +18,8 @@ from seev.apps.utils.validations import (
 from seev.apps.core.models import UnoClient
 
 from .models import CtgProduct, CtgFeature, CtgSpecification, CtgValue, CtgRestriction, CtgPrice
-from .forms import (AddPrForm, EditPrForm, AddSpecForm,
-                    AddFetForm, EditFetForm, EditSpecForm, AddValueForm, RestrictionForm)
+from .forms import (AddPrForm, EditPrForm, AddSpecForm, AddFetForm,
+                    EditFetForm, EditSpecForm, AddValueForm, RestrictionForm, PriceForm)
 
 
 # Also the add product UI
@@ -675,6 +675,30 @@ def go_spec_config(request, context=None):
                 resForm.fields['email_only'].widget.attrs['disabled'] = 'true'
                 resForm.fields['email_only'].widget.attrs['class'] = 'form-inp-dis'
             context['resForm'] = resForm
+
+        # Price form
+        priceForm = PriceForm()
+        priceForm.fields['value'].widget.attrs['disabled'] = 'true'
+        priceForm.fields['value'].widget.attrs['class'] = 'form-inp-dis'
+        if dt == 'QTY':
+            priceForm.fields['mrc'].widget.attrs['disabled'] = 'true'
+            priceForm.fields['mrc'].widget.attrs['class'] = 'form-inp-dis'
+            priceForm.fields['nrc'].widget.attrs['disabled'] = 'true'
+            priceForm.fields['nrc'].widget.attrs['class'] = 'form-inp-dis'
+        else:
+            priceForm.fields['unit_mrc'].widget.attrs['disabled'] = 'true'
+            priceForm.fields['unit_mrc'].widget.attrs['class'] = 'form-inp-dis'
+            priceForm.fields['unit_nrc'].widget.attrs['disabled'] = 'true'
+            priceForm.fields['unit_nrc'].widget.attrs['class'] = 'form-inp-dis'
+        if dt == 'ENUM' and len(values) > 0:
+            # Populate values
+            valueList = []
+            for val in values:
+                valueList.append((val.code, val.translation))
+            priceForm.fields['value'].choices = valueList
+            priceForm.fields['value'].widget.attrs.pop('disabled', None)
+            priceForm.fields['value'].widget.attrs.pop('class', None)
+        context['priceForm'] = priceForm
 
         return render(request, 'catalog/specification.html', context=context)
     except Exception:

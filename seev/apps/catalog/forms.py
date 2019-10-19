@@ -411,3 +411,66 @@ class RestrictionForm(forms.Form):
             ('Y', 'Yes'),
         ]
     )
+
+
+class PriceForm(forms.Form):
+    specification_id = forms.CharField(
+        label=None,
+        label_suffix=None,
+        widget=forms.HiddenInput()
+    )
+
+    mrc = forms.CharField(
+        required=False,
+        label='Monthly Charge',
+        label_suffix='',
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': '0.00',
+                'maxlength': '16'
+            }
+        )
+    )
+
+    nrc = forms.CharField(
+        required=False,
+        label='Non-recurring Charge',
+        label_suffix='',
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': '0.00',
+                'maxlength': '16'
+            }
+        )
+    )
+
+    unit_mrc = forms.CharField(
+        required=False,
+        label='Unit Monthly Charge',
+        label_suffix='',
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': '0.00',
+                'maxlength': '16'
+            }
+        )
+    )
+
+    unit_nrc = forms.CharField(
+        required=False,
+        label='Unit Charge',
+        label_suffix='',
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': '0.00',
+                'maxlength': '16'
+            }
+        )
+    )
+
+    value = forms.ChoiceField(
+        required=False,
+        label='Specification Value',
+        label_suffix='',
+        choices=[]
+    )

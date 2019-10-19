@@ -63,7 +63,7 @@
 			</div>
 		</form>
 	</section>
-	<section>
+	<section style="margin-bottom: 4.5rem;">
 		<h3>Enumeration Table</h3>
 		{% if values and valCount > 0 %}
 		<div id="ctg-value-table" class="ctg-def-table">
@@ -87,7 +87,7 @@
 	{% endif %}
 	<!-- Restrictions -->
 	{% if specification.data_type == 'STR' or specification.data_type == 'QTY' %}
-	<section class="ctg-form-sect">
+	<section style="margin-bottom: 4.5rem;" class="ctg-form-sect">
 		<h3>Configure Rules</h3>
 		<form id="ctg-conf-rule-form" class="ctg-def-form" action="/catalog/save-res/" method="post" novalidate>
 			{% csrf_token %}
@@ -116,5 +116,34 @@
 		</form>
 	</section>
 	{% endif %}
+	<!-- Price -->
+	<section class="ctg-form-sect">
+		<h3>Configure Pricing</h3>
+		<form id="ctg-conf-pri-form" class="ctg-def-form" action="#" method="post" novalidate>
+			{% csrf_token %}
+			{% for field in priceForm.hidden_fields %}
+			{{ field }}
+			{% endfor %}
+			<div class="form-flex-row">
+				{% for field in priceForm.visible_fields %}
+				<div class="ctg-ti-wrapper">
+					<div class="ctg-label-wrapper">
+						<label>{{ field.label }}</label>
+						{% if field.field.required %}
+						<span class="asterisk"> * </span>
+						{% endif %}
+					</div>
+					{{ field }}
+					<div class="form-ie-wrapper">
+						<span id="ie_{{ field.name }}" class="ie-msg"></span><span class="invisible">I</span>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+			<div class="ctg-form-action-wrapper">
+				<button id="upd-price-btn" class="ctg-action-btn update-2" type="submit">Update</button>
+			</div>
+		</form>
+	</section>
 </div>
 {% endblock ctgContent %}
