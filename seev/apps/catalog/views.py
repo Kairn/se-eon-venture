@@ -678,6 +678,21 @@ def go_spec_config(request, context=None):
 
         # Price form
         priceForm = PriceForm()
+        priceForm.fields['specification_id'].widget.attrs['value'] = str(
+            specification.specification_id).replace('-', '')
+        # Retrieve data
+        priceList = CtgPrice.objects.filter(
+            specification=specification).order_by('creation_time')
+        # Populate price point(s)
+        priceData = {}
+        for price in priceList:
+            data = (price.mrc, price.nrc, price.unit_mrc, price.unit_nrc)
+            if not price.value:
+                priceData['$'] = data
+            else:
+                priceData[price.value.code] = data
+        context['priceData'] = priceData if len(priceData) > 0 else None
+        # Disable fields
         priceForm.fields['value'].widget.attrs['disabled'] = 'true'
         priceForm.fields['value'].widget.attrs['class'] = 'form-inp-dis'
         if dt == 'QTY':
@@ -972,6 +987,82 @@ def save_ctg_res(request, context=None):
         except AssertionError:
             store_context_in_session(
                 request, addSnackDataToContext(context, 'Rule conflict'))
+            return redirect(redir)
+        except Exception:
+            traceback.print_exc()
+            store_context_in_session(
+                request, addSnackDataToContext(context, 'Unexpected error'))
+            return redirect('go_cat_home')
+    else:
+        return redirect('go_cat_home')
+
+
+@transaction.atomic
+def save_ctg_price(request, context=None):
+    if request.method == 'POST':
+        try:
+            specificationId = request.POST['specification_id']
+            mrc = request.POST['mrc'] if 'mrc' in request.POST else None
+            nrc = request.POST['nrc'] if 'nrc' in request.POST else None
+            uMrc = request.POST['unit_mrc'] if 'unit_mrc' in request.POST else None
+            uNrc = request.POST['unit_nrc'] if 'unit_nrc' in request.POST else None
+            value = request.POST['value'] if 'value' in request.POST else None
+
+            # Verification
+            client = UnoClient.objects.get(client_id=request.session['id'])
+            specification = CtgSpecification.objects.get(
+                specification_id=specificationId, active=True)
+            if value:
+                value = CtgValue.objects.get(
+                    specification=specification, code=value)
+
+            redir = reverse('go_spec_config') + '?doc_id=' + \
+                str(specification.ctg_doc_id).replace('-', '')
+
+            dt = specification.data_type
+
+            # Validation
+            try:
+                if mrc:
+                    mrc = round(float(mrc), 2)
+                if nrc:
+                    nrc = round(float(nrc), 2)
+                if uMrc:
+                    uMrc = round(float(uMrc), 2)
+                if uNrc:
+                    uNrc = round(float(uNrc), 2)
+            except Exception:
+                raise AssertionError
+
+            if (mrc and mrc <= 0) or (nrc and nrc <= 0) or (uMrc and uMrc <= 0) or (uNrc and uNrc <= 0):
+                raise AssertionError
+
+            # Retrieve price
+            price = CtgPrice.objects.filter(
+                specification=specification, value=value)
+            if len(price) > 0:
+                price = price[0]
+                price.mrc = mrc
+                price.nrc = nrc
+                price.unit_mrc = uMrc
+                price.unit_nrc = uNrc
+            else:
+                price = CtgPrice(
+                    specification=specification,
+                    mrc=mrc,
+                    nrc=nrc,
+                    unit_mrc=uMrc,
+                    unit_nrc=uNrc,
+                    value=value
+                )
+
+            price.save()
+            store_context_in_session(
+                request, addSnackDataToContext(context, 'Price point saved'))
+            return redirect(redir)
+        except AssertionError:
+            store_context_in_session(
+                request, addSnackDataToContext(context, 'Invalid data'))
             return redirect(redir)
         except Exception:
             traceback.print_exc()

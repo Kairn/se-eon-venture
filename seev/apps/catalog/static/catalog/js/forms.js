@@ -366,6 +366,45 @@ const validateSaveResForm = function(form) {
   disEnaButton(submitBtn, valid);
 };
 
+// Validate price form
+const validatePriceForm = function(form) {
+  let valid = true;
+  let submitBtn;
+
+  let chgFlag = false;
+
+  for (let i = 0; i < form.length; ++i) {
+    let fe = form[i];
+
+    if (fe.type === 'submit') {
+      submitBtn = fe;
+    } else if (fe.disabled) {
+      continue;
+    } else if (fe.type === 'text') {
+      if (fe.value && !isValidPrice(fe.value)) {
+        valid = false;
+        if (fe.touched && fe.dirty) {
+          displayValidationError(fe.name, VE_INV_PRI);
+        }
+      } else {
+        removeValidationError(fe.name);
+        if (fe.value && fe.value !== fe.getAttribute('data-price')) {
+          chgFlag = true;
+        }
+        if (!fe.value && fe.getAttribute('data-value')) {
+          chgFlag = true;
+        }
+      }
+    }
+  }
+
+  if (!chgFlag) {
+    valid = false;
+  }
+
+  disEnaButton(submitBtn, valid);
+};
+
 // Trigger form validation based on input event
 const triggerFormValidation = function(event) {
   let e = event;
@@ -390,8 +429,8 @@ const triggerFormValidation = function(event) {
     validateAddValForm(e.target.form);
   } else if (e.target.form.id === 'ctg-conf-rule-form') {
     validateSaveResForm(e.target.form);
-  } else if (e.target.form.id === '?') {
-    //
+  } else if (e.target.form.id === 'ctg-conf-pri-form') {
+    validatePriceForm(e.target.form);
   }
 };
 

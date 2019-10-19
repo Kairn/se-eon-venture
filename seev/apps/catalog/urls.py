@@ -18,4 +18,5 @@ urlpatterns = [
     re_path(r'^sp-chg/$', views.chg_spec, name='chg_spec'),
     re_path(r'^add-val/$', views.add_ctg_val, name='add_ctg_val'),
     re_path(r'^save-res/$', views.save_ctg_res, name='save_ctg_res'),
+    re_path(r'^save-pri/$', views.save_ctg_price, name='save_ctg_price'),
 ]

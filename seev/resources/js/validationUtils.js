@@ -17,6 +17,7 @@ const VE_INV_BOOL = 'Invalid boolean value';
 const VE_INV_QUAN = 'Invalid quantity value';
 const VE_INV_LMT = 'Invalid limit';
 const VE_INV_RES = 'Invalid restriction value';
+const VE_INV_PRI = 'Invalid price point';
 
 // Dynamic error messages
 const VE_MIN = min => `Minimum of ${min} characters required`;
@@ -251,7 +252,7 @@ const isValidBoolean = function(value) {
   } else {
     return false;
   }
-}
+};
 
 // Validate quantity value
 const isValidQuantity = function(value) {
@@ -275,4 +276,17 @@ const isValidQuantity = function(value) {
   } else {
     return false;
   }
-}
+};
+
+// Validate price point
+const isValidPrice = function(value) {
+  if (!value) {
+    return false;
+  }
+
+  if (!parseFloat(value)) {
+    return false;
+  } else {
+    return parseFloat(value) > 0.00
+  }
+};
