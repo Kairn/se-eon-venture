@@ -16,6 +16,7 @@ const VE_CTG_FET = 'Invalid feature code format';
 const VE_INV_BOOL = 'Invalid boolean value';
 const VE_INV_QUAN = 'Invalid quantity value';
 const VE_INV_LMT = 'Invalid limit';
+const VE_INV_RES = 'Invalid restriction value';
 
 // Dynamic error messages
 const VE_MIN = min => `Minimum of ${min} characters required`;

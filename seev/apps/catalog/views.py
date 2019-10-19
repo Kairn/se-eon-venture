@@ -627,7 +627,36 @@ def go_spec_config(request, context=None):
         # Restriction form
         if dt == 'STR' or dt == 'QTY':
             resForm = RestrictionForm()
-            # Populate
+            resForm.fields['specification_id'].widget.attrs['value'] = str(
+                specification.specification_id).replace('-', '')
+            # Retrieve and populate
+            resList = CtgRestriction.objects.filter(
+                specification=specification)
+            for res in resList:
+                if res.rule_type == 'MAX':
+                    resForm.fields['max_val'].widget.attrs['value'] = res.value
+                    resForm.fields['max_val'].widget.attrs['data-value'] = res.value
+                elif res.rule_type == 'MIN':
+                    resForm.fields['min_val'].widget.attrs['value'] = res.value
+                    resForm.fields['min_val'].widget.attrs['data-value'] = res.value
+                elif res.rule_type == 'UPLEN':
+                    resForm.fields['max_len'].widget.attrs['value'] = res.value
+                    resForm.fields['max_len'].widget.attrs['data-value'] = res.value
+                elif res.rule_type == 'LOLEN':
+                    resForm.fields['min_len'].widget.attrs['value'] = res.value
+                    resForm.fields['min_len'].widget.attrs['data-value'] = res.value
+                elif res.rule_type == 'AO':
+                    resForm.fields['alpha_only'].widget.attrs['value'] = res.value
+                    resForm.fields['alpha_only'].widget.attrs['data-value'] = res.value
+                elif res.rule_type == 'NUO':
+                    resForm.fields['num_only'].widget.attrs['value'] = res.value
+                    resForm.fields['num_only'].widget.attrs['data-value'] = res.value
+                elif res.rule_type == 'EML':
+                    resForm.fields['email_only'].widget.attrs['value'] = res.value
+                    resForm.fields['email_only'].widget.attrs['data-value'] = res.value
+                elif res.rule_type == 'NN':
+                    resForm.fields['not_null'].widget.attrs['value'] = res.value
+                    resForm.fields['not_null'].widget.attrs['data-value'] = res.value
             # Disable not applicable rules
             if dt == 'STR':
                 resForm.fields['max_val'].widget.attrs['disabled'] = 'true'
@@ -748,13 +777,13 @@ def save_ctg_res(request, context=None):
     if request.method == 'POST':
         try:
             specificationId = request.POST['specification_id']
-            maxVal = request.POST['max_val']
-            minVal = request.POST['min_val']
-            maxLen = request.POST['max_len']
-            minLen = request.POST['min_len']
-            alo = request.POST['alpha_only']
-            numo = request.POST['num_only']
-            emlo = request.POST['email_only']
+            maxVal = request.POST['max_val'] if 'max_val' in request.POST else None
+            minVal = request.POST['min_val'] if 'min_val' in request.POST else None
+            maxLen = request.POST['max_len'] if 'max_len' in request.POST else None
+            minLen = request.POST['min_len'] if 'min_len' in request.POST else None
+            alo = request.POST['alpha_only'] if 'alpha_only' in request.POST else 'N'
+            numo = request.POST['num_only'] if 'num_only' in request.POST else 'N'
+            emlo = request.POST['email_only'] if 'email_only' in request.POST else 'N'
             nn = request.POST['not_null']
 
             # Verification
@@ -798,20 +827,8 @@ def save_ctg_res(request, context=None):
                 elif res.rule_type == 'NN':
                     rNn = res
 
-            if rNn:
-                if rNn.value != nn:
-                    rNn.value = nn
-                    rNn.save()
-            elif nn:
-                nnRule = CtgRestriction(
-                    specification=specification,
-                    rule_type='NN',
-                    value=nn
-                )
-                nnRule.save()
-
             if dt == 'STR':
-                if maxLen and minLen and maxLen < minLen:
+                if maxLen and minLen and int(maxLen) < int(minLen):
                     raise AssertionError
                 if alo == 'Y' and (numo == 'Y' or emlo == 'Y'):
                     raise AssertionError
@@ -831,6 +848,8 @@ def save_ctg_res(request, context=None):
                             value=maxLen
                         )
                         uplenRule.save()
+                elif not maxLen and rMal:
+                    rMal.delete()
                 if minLen and isValidQuantity(minLen) and minLen != '0':
                     if rMiL and rMiL.value != minLen:
                         rMiL.value = minLen
@@ -841,7 +860,9 @@ def save_ctg_res(request, context=None):
                             rule_type='LOLEN',
                             value=minLen
                         )
-                        rMiL.save()
+                        lolenRule.save()
+                elif not minLen and rMiL:
+                    rMiL.delete()
 
                 if rAo and rAo.value != alo:
                     rAo.value = alo
@@ -875,7 +896,7 @@ def save_ctg_res(request, context=None):
                     emlRule.save()
 
             if dt == 'QTY':
-                if maxVal and minVal and maxVal < minVal:
+                if maxVal and minVal and int(maxVal) < int(minVal):
                     raise AssertionError
 
                 if maxVal and isValidQuantity(maxVal) and maxVal != '0':
@@ -889,6 +910,8 @@ def save_ctg_res(request, context=None):
                             value=maxVal
                         )
                         maxRule.save()
+                elif not maxVal and rMav:
+                    rMav.delete()
                 if minVal and isValidQuantity(minVal) and minVal != '0':
                     if rMiv and rMiv.value != minVal:
                         rMiv.value = minVal
@@ -900,6 +923,20 @@ def save_ctg_res(request, context=None):
                             value=minVal
                         )
                         minRule.save()
+                elif not minVal and rMiv:
+                    rMiv.delete()
+
+            if rNn:
+                if rNn.value != nn:
+                    rNn.value = nn
+                    rNn.save()
+            elif nn == 'Y':
+                nnRule = CtgRestriction(
+                    specification=specification,
+                    rule_type='NN',
+                    value=nn
+                )
+                nnRule.save()
 
             store_context_in_session(request, addSnackDataToContext(
                 context, 'Restrictions updated'))

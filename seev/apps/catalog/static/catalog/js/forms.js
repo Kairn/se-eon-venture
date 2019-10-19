@@ -323,6 +323,49 @@ const validateAddValForm = function(form) {
   disEnaButton(submitBtn, valid);
 };
 
+// Validate restriction form
+const validateSaveResForm = function(form) {
+  let valid = true;
+  let submitBtn;
+
+  let chgFlag = false;
+
+  for (let i = 0; i < form.length; ++i) {
+    let fe = form[i];
+
+    if (fe.type === 'submit') {
+      submitBtn = fe;
+    } else if (fe.disabled) {
+      continue;
+    } else if (fe.type === 'text') {
+      if (fe.value && (!isValidQuantity(fe.value) || fe.value == '0')) {
+        valid = false;
+        if (fe.touched && fe.dirty) {
+          displayValidationError(fe.name, VE_INV_RES);
+        }
+      } else {
+        removeValidationError(fe.name);
+        if (fe.value && fe.value !== fe.getAttribute('data-value')) {
+          chgFlag = true;
+        }
+        if (!fe.value && fe.getAttribute('data-value')) {
+          chgFlag = true;
+        }
+      }
+    } else if (fe.tagName === 'SELECT') {
+      if (fe.value !== fe.getAttribute('data-value') && (fe.value === 'Y' || fe.getAttribute('data-value'))) {
+        chgFlag = true;
+      }
+    }
+  }
+
+  if (!chgFlag) {
+    valid = false;
+  }
+
+  disEnaButton(submitBtn, valid);
+};
+
 // Trigger form validation based on input event
 const triggerFormValidation = function(event) {
   let e = event;
@@ -345,6 +388,8 @@ const triggerFormValidation = function(event) {
     validateEditSpForm(e.target.form);
   } else if (e.target.form.id === 'ctg-add-value-form') {
     validateAddValForm(e.target.form);
+  } else if (e.target.form.id === 'ctg-conf-rule-form') {
+    validateSaveResForm(e.target.form);
   } else if (e.target.form.id === '?') {
     //
   }
@@ -385,5 +430,26 @@ if (document.getElementById('ctg-edit-fet-form')) {
 
   if (extField && extField.getAttribute('data-value') === 'Y') {
     extField.selectedIndex = 1;
+  }
+};
+
+// Display restriction form options
+if (document.getElementById('ctg-conf-rule-form')) {
+  let aofield = document.getElementById('id_alpha_only');
+  let nofield = document.getElementById('id_num_only');
+  let eofield = document.getElementById('id_email_only');
+  let nnfield = document.getElementById('id_not_null');
+
+  if (aofield && aofield.getAttribute('data-value') === 'Y') {
+    aofield.selectedIndex = 1;
+  }
+  if (nofield && nofield.getAttribute('data-value') === 'Y') {
+    nofield.selectedIndex = 1;
+  }
+  if (eofield && eofield.getAttribute('data-value') === 'Y') {
+    eofield.selectedIndex = 1;
+  }
+  if (nnfield && nnfield.getAttribute('data-value') === 'Y') {
+    nnfield.selectedIndex = 1;
   }
 };

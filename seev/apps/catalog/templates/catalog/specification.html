@@ -89,7 +89,7 @@
 	{% if specification.data_type == 'STR' or specification.data_type == 'QTY' %}
 	<section class="ctg-form-sect">
 		<h3>Configure Rules</h3>
-		<form id="ctg-conf-rule-form" class="ctg-def-form" action="#" method="post" novalidate>
+		<form id="ctg-conf-rule-form" class="ctg-def-form" action="/catalog/save-res/" method="post" novalidate>
 			{% csrf_token %}
 			{% for field in resForm.hidden_fields %}
 			{{ field }}
