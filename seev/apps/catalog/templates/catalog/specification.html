@@ -145,5 +145,14 @@
 			</div>
 		</form>
 	</section>
+	<!-- Price data -->
+	<aside style="display: none;">
+		{% if priceData %}
+		{% for value, data in priceData.items %}
+		<div id="price-value-{{ value }}" , data-mrc="{{ data.0 }}" , data-nrc="{{ data.1 }}" , data-umrc="{{ data.2 }}" ,
+			data-unrc="{{ data.3 }}"></div>
+		{% endfor %}
+		{% endif %}
+	</aside>
 </div>
 {% endblock ctgContent %}

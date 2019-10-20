@@ -284,6 +284,12 @@ const isValidPrice = function(value) {
     return false;
   }
 
+  let priceRegex = new RegExp(`^\\d+(\\.\\d{1,2}){0,1}$`);
+
+  if (!priceRegex.test(value)) {
+    return false;
+  }
+
   if (!parseFloat(value)) {
     return false;
   } else {

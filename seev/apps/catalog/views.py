@@ -1023,14 +1023,10 @@ def save_ctg_price(request, context=None):
 
             # Validation
             try:
-                if mrc:
-                    mrc = round(float(mrc), 2)
-                if nrc:
-                    nrc = round(float(nrc), 2)
-                if uMrc:
-                    uMrc = round(float(uMrc), 2)
-                if uNrc:
-                    uNrc = round(float(uNrc), 2)
+                mrc = round(float(mrc), 2) if mrc else None
+                nrc = round(float(nrc), 2) if nrc else None
+                uMrc = round(float(uMrc), 2) if uMrc else None
+                uNrc = round(float(uNrc), 2) if uNrc else None
             except Exception:
                 raise AssertionError
 

@@ -5,6 +5,7 @@ var allForms = document.querySelectorAll('form');
 var allInputFields = document.querySelectorAll('input, select, textarea');
 var allButtons = document.querySelectorAll('button');
 var allValidationMessages = document.querySelectorAll('.ie-msg');
+var priceForm = document.getElementById('ctg-conf-pri-form');
 
 // Validate add product form
 const validateAddPrForm = function(form) {
@@ -391,7 +392,7 @@ const validatePriceForm = function(form) {
         if (fe.value && fe.value !== fe.getAttribute('data-price')) {
           chgFlag = true;
         }
-        if (!fe.value && fe.getAttribute('data-value')) {
+        if (!fe.value && fe.getAttribute('data-price')) {
           chgFlag = true;
         }
       }
@@ -403,6 +404,48 @@ const validatePriceForm = function(form) {
   }
 
   disEnaButton(submitBtn, valid);
+};
+
+// Update price points for spec value
+const updatePricePts = function(value) {
+  if (!value || !priceForm) {
+    return;
+  }
+
+  let mrcFe = document.getElementById('id_mrc');
+  let nrcFe = document.getElementById('id_nrc');
+  let umrcFe = document.getElementById('id_unit_mrc');
+  let unrcFe = document.getElementById('id_unit_nrc');
+
+  // Get data
+  let source = document.getElementById(`price-value-${value}`);
+  if (source) {
+    let mrc = source.getAttribute('data-mrc');
+    let nrc = source.getAttribute('data-nrc');
+    let umrc = source.getAttribute('data-umrc');
+    let unrc = source.getAttribute('data-unrc');
+
+    // Set data
+    mrcFe.value = mrc === 'None' ? '' : mrc;
+    nrcFe.value = nrc === 'None' ? '' : nrc;
+    umrcFe.value = umrc === 'None' ? '' : umrc;
+    unrcFe.value = unrc === 'None' ? '' : unrc;
+
+    // Set reference
+    mrcFe.setAttribute('data-price', mrc === 'None' ? '' : mrc);
+    nrcFe.setAttribute('data-price', nrc === 'None' ? '' : nrc);
+    umrcFe.setAttribute('data-price', umrc === 'None' ? '' : umrc);
+    unrcFe.setAttribute('data-price', unrc === 'None' ? '' : unrc);
+  } else {
+    mrcFe.value = '';
+    nrcFe.value = '';
+    umrcFe.value = '';
+    unrcFe.value = '';
+    mrcFe.setAttribute('data-price', '');
+    nrcFe.setAttribute('data-price', '');
+    umrcFe.setAttribute('data-price', '');
+    unrcFe.setAttribute('data-price', '');
+  }
 };
 
 // Trigger form validation based on input event
@@ -490,5 +533,21 @@ if (document.getElementById('ctg-conf-rule-form')) {
   }
   if (nnfield && nnfield.getAttribute('data-value') === 'Y') {
     nnfield.selectedIndex = 1;
+  }
+};
+
+// Handle pricing form value triggers
+if (priceForm) {
+  let trigger = document.getElementById('id_value');
+
+  // Initialize
+  if (!trigger.disabled) {
+    updatePricePts(trigger.value);
+    trigger.addEventListener('change', () => {
+      updatePricePts(trigger.value);
+    });
+  } else {
+    // Non ENUM price
+    updatePricePts('$');
   }
 };
