@@ -76,13 +76,18 @@
 			<div class="ctg-tb-row">
 				<span class="ctg-code-cell regular">{{ val.code }}</span>
 				<span class="ctg-code-cell major">{{ val.translation }}</span>
-				<span><img onclick="console.log('{{ val.value_id }}')" src="{% static 'icon-44.svg' %}" alt="rm-icon"></span>
+				<span><img onclick="rmSpecVal('{{ val.value_id }}')" src="{% static 'icon-44.svg' %}" alt="rm-icon"></span>
 			</div>
 			{% endfor %}
 		</div>
 		{% else %}
 		<h4 style="font-weight: 400; font-size: 18px; color: #616161;">No value definition found.</h4>
 		{% endif %}
+		<!-- Remove Form -->
+		<form action="/catalog/rm-val/" id="ctg-val-rm-form" class="invisible" method="POST">
+			{% csrf_token %}
+			<input type="text" name="value_id" id="ctg-val-rm-field">
+		</form>
 	</section>
 	{% endif %}
 	<!-- Restrictions -->

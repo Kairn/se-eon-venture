@@ -1067,3 +1067,32 @@ def save_ctg_price(request, context=None):
             return redirect('go_cat_home')
     else:
         return redirect('go_cat_home')
+
+
+@transaction.atomic
+def rm_ctg_val(request, context=None):
+    if request.method == 'POST':
+        try:
+            valueId = request.POST['value_id']
+
+            # Verification
+            client = UnoClient.objects.get(client_id=request.session['id'])
+            value = CtgValue.objects.get(value_id=valueId)
+            spec = CtgSpecification.objects.get(
+                specification_id=value.specification_id, active=True)
+
+            redir = reverse('go_spec_config') + '?doc_id=' + \
+                str(spec.ctg_doc_id).replace('-', '')
+
+            value.delete()
+
+            store_context_in_session(request, addSnackDataToContext(
+                context, 'Enumeration removed'))
+            return redirect(redir)
+        except Exception:
+            traceback.print_exc()
+            store_context_in_session(
+                request, addSnackDataToContext(context, 'Unexpected error'))
+            return redirect('go_cat_home')
+    else:
+        return redirect('go_cat_home')

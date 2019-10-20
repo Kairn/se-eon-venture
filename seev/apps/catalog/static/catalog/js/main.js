@@ -76,3 +76,12 @@ const rmFeature = function(featureId) {
   field.value = featureId;
   form.submit();
 };
+
+// Remove spec value
+const rmSpecVal = function(valueId) {
+  let form = document.getElementById('ctg-val-rm-form');
+  let field = document.getElementById('ctg-val-rm-field');
+
+  field.value = valueId;
+  form.submit();
+};
