@@ -8,6 +8,8 @@ from django.db import transaction
 from django.shortcuts import render, redirect, reverse
 from django.core.paginator import Paginator
 
+from seev.apps.utils.process import (
+    removeProductCascade, removeFeatureCascade, removeSpecCascade)
 from seev.apps.utils.generators import (getFullCatalogCode, getDefCatalogCode)
 from seev.apps.utils.codetable import getGeneralTranslation
 from seev.apps.utils.messages import get_app_message, addSnackDataToContext
@@ -130,6 +132,8 @@ def rm_ctg_pr(request, context=None):
             product.active = False
 
             product.save()
+            # Cascade process
+            removeProductCascade(product)
             store_context_in_session(
                 request, addSnackDataToContext(context, 'Product removed'))
             return redirect('go_cat_home')
@@ -420,6 +424,8 @@ def rm_ctg_spec(request, context=None):
             spec.active = False
 
             spec.save()
+            # Cascade process
+            removeSpecCascade(spec.specification_id)
             store_context_in_session(request, addSnackDataToContext(
                 context, 'Specification removed'))
             return redirect(redir)
@@ -451,6 +457,8 @@ def rm_ctg_fet(request, context=None):
             feature.active = False
 
             feature.save()
+            # Cascade process
+            removeFeatureCascade(feature.ctg_doc_id)
             store_context_in_session(
                 request, addSnackDataToContext(context, 'Feature removed'))
             return redirect(redir)
