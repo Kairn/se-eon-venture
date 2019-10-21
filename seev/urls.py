@@ -20,4 +20,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('seev.apps.core.urls')),
     path('catalog/', include('seev.apps.catalog.urls')),
+    path('order/', include('seev.apps.order.urls')),
 ]

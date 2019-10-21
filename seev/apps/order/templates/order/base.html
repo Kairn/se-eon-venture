@@ -1,0 +1,24 @@
+<!-- Order base template -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'order/css/main.min.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div id="ord-main-wrapper">
+	{% block ordContent %}
+	{% endblock ordContent %}
+</div>
+{% endblock content %}
+
+{% block snackData %}
+{% if snack_data is not None and snack_data != '' %}
+{{ snack_data }}
+{% endif %}
+{% endblock snackData %}
+
+{% block js %}
+<script src="{% static 'order/js/main.js' %}"></script>
+{% endblock js %}
