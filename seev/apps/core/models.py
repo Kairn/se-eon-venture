@@ -131,3 +131,59 @@ class UnoOpportunity(models.Model):
 
     class Meta:
         db_table = 'UNO_OPPORTUNITY'
+
+
+class UnoOrder(models.Model):
+    order_id = models.UUIDField(
+        primary_key=True, default=uuid.uuid4, editable=False)
+    order_number = models.UUIDField(
+        'Order Number', default=uuid.uuid4, editable=False)
+    client = models.ForeignKey(UnoClient, on_delete=models.CASCADE, null=False)
+    customer = models.ForeignKey(
+        UnoCustomer, on_delete=models.CASCADE, null=False)
+    opportunity = models.ForeignKey(
+        UnoOpportunity, on_delete=models.CASCADE, null=False)
+    state = models.CharField('State', max_length=16, choices=[
+        ('CL', 'Cancelled'),
+        ('SM', 'Submitted'),
+        ('EX', 'Expired'),
+        ('RN', 'Renegotiated'),
+        ('IV', 'Invalidated'),
+        ('OD', 'Ordered'),
+        ('CP', 'Completed'),
+    ], null=False, blank=False)
+    order_data_1 = models.CharField('Data Chunk 1', max_length=4000, null=True)
+    order_data_2 = models.CharField('Data Chunk 2', max_length=4000, null=True)
+    order_data_3 = models.CharField('Data Chunk 3', max_length=4000, null=True)
+    data_length = models.PositiveIntegerField('Data Length in Characters')
+    creation_time = models.DateTimeField(
+        'Timestamp of Creation', default=now, editable=False, null=False)
+    last_update_time = models.DateTimeField(
+        'Timestamp of Last Update', default=now, editable=False, null=False)
+
+    class Meta:
+        db_table = 'UNO_ORDER'
+
+
+class UnoSite(models.Model):
+    site_id = models.UUIDField(
+        primary_key=True, default=uuid.uuid4, editable=False)
+    location_id = models.UUIDField(
+        'Location ID', default=uuid.uuid4, editable=False)
+    customer = models.ForeignKey(
+        UnoCustomer, on_delete=models.CASCADE, null=False)
+    address_1 = models.CharField(
+        'Address Line 1', max_length=512, null=False, blank=False)
+    address_2 = models.CharField('Address Line 2', max_length=128, null=True)
+    address_3 = models.CharField('Address Line 3', max_length=128, null=True)
+    city = models.CharField('City', max_length=64)
+    state = models.CharField('State or Province', max_length=64)
+    zipcode = models.PositiveIntegerField('Zipcode')
+    country = models.CharField('Country', max_length=64, null=False,
+                               default=UnoCountry.get_default_cty, choices=UnoCountry.get_cty_code_list())
+    is_virtual = models.BooleanField(default=False)
+    creation_time = models.DateTimeField(
+        'Timestamp of Creation', default=now, editable=False, null=False)
+
+    class Meta:
+        db_table = 'UNO_SITE'
