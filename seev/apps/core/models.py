@@ -136,17 +136,15 @@ class UnoOpportunity(models.Model):
 class UnoOrder(models.Model):
     order_id = models.UUIDField(
         primary_key=True, default=uuid.uuid4, editable=False)
-    order_number = models.UUIDField(
-        'Order Number', default=uuid.uuid4, editable=False)
+    order_number = models.UUIDField('Order Number', editable=False)
     client = models.ForeignKey(UnoClient, on_delete=models.CASCADE, null=False)
     customer = models.ForeignKey(
         UnoCustomer, on_delete=models.CASCADE, null=False)
     opportunity = models.ForeignKey(
         UnoOpportunity, on_delete=models.CASCADE, null=False)
-    state = models.CharField('State', max_length=16, choices=[
+    status = models.CharField('status', max_length=16, choices=[
         ('CL', 'Cancelled'),
         ('SM', 'Submitted'),
-        ('EX', 'Expired'),
         ('RN', 'Renegotiated'),
         ('IV', 'Invalidated'),
         ('OD', 'Ordered'),
