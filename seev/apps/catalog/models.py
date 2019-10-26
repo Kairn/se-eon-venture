@@ -38,7 +38,6 @@ class CtgFeature(models.Model):
     itemcode = models.CharField(
         'Feature Code', max_length=32, null=False, unique=True)
     name = models.CharField('Feature Name', max_length=128, null=False)
-    limit = models.PositiveSmallIntegerField(default=1)
     extended = models.CharField('Extended Only', max_length=8, null=True)
     active = models.BooleanField(default=True, editable=False)
     creation_time = models.DateTimeField(
@@ -65,7 +64,7 @@ class CtgSpecification(models.Model):
         ('ENUM', 'Enumeration'),
     ], null=False, blank=False)
     default_value = models.CharField(
-        'Default Value', max_length=512, default='N/A')
+        'Default Value', max_length=512, default=None)
     active = models.BooleanField(default=True, editable=False)
     creation_time = models.DateTimeField(
         'Timestamp of Creation', default=now, editable=False, null=False)

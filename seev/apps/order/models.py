@@ -16,6 +16,9 @@ class PtaOrderInstance(models.Model):
         primary_key=True, default=uuid.uuid4, editable=False)
     order_number = models.UUIDField(
         'Order Number', default=uuid.uuid4, editable=False)
+    order_name = models.CharField(
+        'Order Name', max_length=32, default=None, null=True)
+    secret = models.CharField('Order Secret', max_length=64, default=None)
     client = models.ForeignKey(UnoClient, on_delete=models.CASCADE, null=False)
     customer = models.ForeignKey(
         UnoCustomer, on_delete=models.CASCADE, null=False)
@@ -26,9 +29,7 @@ class PtaOrderInstance(models.Model):
     status = models.CharField('status', max_length=16, choices=[
         ('IN', 'Initiated'),
         ('IP', 'In Progress'),
-        ('CL', 'Cancelled'),
         ('VA', 'Validated'),
-        ('PD', 'Priced'),
         ('FL', 'Finalized'),
         ('FZ', 'Frozen'),
         ('EX', 'Expired'),
@@ -47,7 +48,6 @@ class PtaBasket(models.Model):
     client = models.ForeignKey(UnoClient, on_delete=models.CASCADE, null=False)
     customer = models.ForeignKey(
         UnoCustomer, on_delete=models.CASCADE, null=False)
-    order_number = models.UUIDField('Order Number', editable=False)
     is_locked = models.BooleanField(default=False)
     creation_time = models.DateTimeField(
         'Timestamp of Creation', default=now, editable=False, null=False)
@@ -68,3 +68,32 @@ class PtaSite(models.Model):
 
     class Meta:
         db_table = 'PTA_SITE'
+
+
+class PtaBasketItem(models.Model):
+    basket_item_id = models.UUIDField(
+        primary_key=True, default=uuid.uuid4, editable=False)
+    parent_id = models.UUIDField('Parent Item ID', editable=False, null=True)
+    basket = models.ForeignKey(PtaBasket, on_delete=models.CASCADE, null=False)
+    itemcode = models.CharField('Item Code', max_length=32, null=False)
+    pta_site = models.ForeignKey(PtaSite, on_delete=models.CASCADE, null=False)
+    is_valid = models.BooleanField(default=False)
+    creation_time = models.DateTimeField(
+        'Timestamp of Creation', default=now, editable=False, null=False)
+
+    class Meta:
+        db_table = 'PTA_BASKET_ITEM'
+
+
+class PtaItemLeaf(models.Model):
+    leaf_id = models.UUIDField(
+        primary_key=True, default=uuid.uuid4, editable=False)
+    basket_item = models.ForeignKey(
+        PtaBasketItem, on_delete=models.CASCADE, null=False)
+    basket = models.ForeignKey(PtaBasket, on_delete=models.CASCADE, null=False)
+    leaf_name = models.CharField(
+        'Leaf Name', max_length=32, null=False, unique=False)
+    leaf_value = models.CharField('Leaf Value', max_length=512, default=None)
+
+    class Meta:
+        db_table = 'PTA_ITEM_LEAF'
