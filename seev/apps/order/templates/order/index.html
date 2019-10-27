@@ -7,22 +7,37 @@
 	<section id="oppo-sect">
 		<div id="oppo-banner" class="ord-banner">
 			<div class="banner-title">Start</div>
-			<div class="banner-content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam nesciunt ab sed,
-				omnis eaque natus!</div>
+			<div class="banner-content">Get started with a new order by looking up an opportunity number created by the
+				business owner.</div>
 			<div class="banner-img">
 				<img src="{% static 'order/images/icon-51.svg' %}" alt="banner-img-1">
 			</div>
 		</div>
+		<form action="#" method="POST" id="oppo-search-form" class="ord-home-sf">
+			{% csrf_token %}
+			<div class="ord-home-field-wrapper">
+				<input class="ord-search-ti" type="text" name="opportunity-id" placeholder="Opportunity Number">
+			</div>
+			<input id="oppo-search-btn" class="ord-search-btn" type="submit" value="Look Up">
+		</form>
+		<div id="oppo-detail-panel" class="ord-home-panel"></div>
 	</section>
 	<section id="ord-sect">
 		<div id="ord-banner" class="ord-banner">
 			<div class="banner-title">Deliver</div>
-			<div class="banner-content">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam fuga temporibus,
-				provident veniam aliquam non.</div>
+			<div class="banner-content">Continue to work on an existing order or view archived details of a finished order
+				with the order number.</div>
 			<div class="banner-img">
 				<img src="{% static 'order/images/icon-52.svg' %}" alt="banner-img-2">
 			</div>
 		</div>
+		<form action="#" method="POST" id="ord-search-form" class="ord-home-sf">
+			{% csrf_token %}
+			<div class="ord-home-field-wrapper">
+				<input class="ord-search-ti" type="text" name="order-number" placeholder="Order Number">
+			</div>
+			<input id="ord-search-btn" class="ord-search-btn" type="submit" value="Retrieve">
+		</form>
 	</section>
 </div>
 {% endblock ordContent %}
