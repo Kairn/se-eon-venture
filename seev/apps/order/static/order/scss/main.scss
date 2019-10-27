@@ -2,10 +2,118 @@
 @import "../../../../../resources/scss/theme.scss";
 @import "../../../../../resources/scss/media.scss";
 
+$banner-shift: 3rem;
+$banner-shift-sm: 1.5rem;
+$banner-shift-ty: 0.5rem;
+
 #ord-main-wrapper {
-  background-color: #e0e0e0;
+  min-height: 60vh;
+  margin-top: 6rem;
+  margin-bottom: 6rem;
 }
 
-h1 {
-  color: red;
+#ord-home-wrapper {
+  & > section {
+    display: block;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.ord-banner {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  height: 180px;
+  width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  color: white;
+  max-width: 95%;
+  @include mobile {
+    justify-content: space-evenly;
+    height: 140px;
+  }
+  &#oppo-banner {
+    transform: translateX($banner-shift);
+    padding-left: 2rem;
+    background: linear-gradient(to right, #d50000, #ec407a);
+    clip-path: polygon(94% 0, 100% 50%, 94% 100%, 0% 100%, 6% 50%, 0% 0%);
+    @include laptop {
+      transform: translateX($banner-shift-sm);
+    }
+    @include mobile {
+      transform: translateX($banner-shift-ty);
+    }
+  }
+  &#ord-banner {
+    transform: translateX(-$banner-shift);
+    padding-right: 2rem;
+    flex-flow: row-reverse wrap;
+    background: linear-gradient(to right, #8bc34a, #2e7d32);
+    clip-path: polygon(100% 0%, 94% 50%, 100% 100%, 6% 100%, 0% 50%, 6% 0);
+    @include laptop {
+      transform: translateX(-$banner-shift-sm);
+    }
+    @include mobile {
+      transform: translateX(-$banner-shift-ty);
+    }
+  }
+  .banner-title {
+    width: 150px;
+    font-size: 48px;
+    font-family: "Racing Sans One", cursive;
+    @include laptop {
+      width: 120px;
+      font-size: 42px;
+    }
+    @include tablet {
+      width: 100px;
+      font-size: 36px;
+    }
+    @include mobile {
+      width: 120px;
+      font-size: 42px;
+    }
+  }
+  .banner-content {
+    width: 40%;
+    font-family: "Montserrat", sans-serif;
+    font-size: 20px;
+    margin: 0 4rem;
+    @include laptop {
+      font-size: 18px;
+    }
+    @include tablet {
+      font-size: 16px;
+      margin: 0 2.5rem;
+    }
+    @include mobile {
+      display: none;
+    }
+  }
+  .banner-img {
+    img {
+      height: 72px;
+      width: 72px;
+      @include laptop {
+        height: 60px;
+        width: 60px;
+      }
+      @include tablet {
+        height: 48px;
+        width: 48px;
+      }
+      @include mobile {
+        height: 60px;
+        width: 60px;
+      }
+    }
+  }
+}
+
+#oppo-sect {
+  margin-bottom: 4.5rem;
 }

@@ -3,5 +3,26 @@
 {% load static %}
 
 {% block ordContent %}
-<h1>Hello, order app is working!</h1>
+<div id="ord-home-wrapper">
+	<section id="oppo-sect">
+		<div id="oppo-banner" class="ord-banner">
+			<div class="banner-title">Start</div>
+			<div class="banner-content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam nesciunt ab sed,
+				omnis eaque natus!</div>
+			<div class="banner-img">
+				<img src="{% static 'order/images/icon-51.svg' %}" alt="banner-img-1">
+			</div>
+		</div>
+	</section>
+	<section id="ord-sect">
+		<div id="ord-banner" class="ord-banner">
+			<div class="banner-title">Deliver</div>
+			<div class="banner-content">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam fuga temporibus,
+				provident veniam aliquam non.</div>
+			<div class="banner-img">
+				<img src="{% static 'order/images/icon-52.svg' %}" alt="banner-img-2">
+			</div>
+		</div>
+	</section>
+</div>
 {% endblock ordContent %}
