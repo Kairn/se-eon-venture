@@ -13,14 +13,18 @@
 				<img src="{% static 'order/images/icon-51.svg' %}" alt="banner-img-1">
 			</div>
 		</div>
-		<form action="#" method="POST" id="oppo-search-form" class="ord-home-sf">
+		<form action="/order/find-oppo/" method="POST" id="oppo-search-form" class="ord-home-sf">
 			{% csrf_token %}
 			<div class="ord-home-field-wrapper">
-				<input class="ord-search-ti" type="text" name="opportunity-id" placeholder="Opportunity Number">
+				<input class="ord-search-ti" type="text" name="opportunity-number" placeholder="Opportunity Number">
 			</div>
 			<input id="oppo-search-btn" class="ord-search-btn" type="submit" value="Look Up">
 		</form>
-		<div id="oppo-detail-panel" class="ord-home-panel"></div>
+		{% if oppoData %}
+		<div id="oppo-detail-panel" class="ord-home-panel">
+			<h1>{{ oppoData.creation_time }}</h1>
+		</div>
+		{% endif %}
 	</section>
 	<section id="ord-sect">
 		<div id="ord-banner" class="ord-banner">
