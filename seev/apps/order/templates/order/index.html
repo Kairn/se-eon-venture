@@ -22,7 +22,12 @@
 		</form>
 		{% if oppoData %}
 		<div id="oppo-detail-panel" class="ord-home-panel">
-			<h1>{{ oppoData.creation_time }}</h1>
+			<h1>{{ oppoData.opportunity.creation_time|date:"Y-M-d" }}</h1>
+			<h1>{{ oppoData.opportunity.discount_mrc }} </h1>
+			<h1>{{ oppoData.opportunity.discount_nrc }}</h1>
+			<h1>{{ oppoData.clientCty }}</h1>
+			<h1>{{ oppoData.clientPh }}</h1>
+			<h1>{{ oppoData.custCty }}</h1>
 		</div>
 		{% endif %}
 	</section>

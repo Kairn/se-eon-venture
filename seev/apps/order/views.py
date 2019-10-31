@@ -7,6 +7,7 @@ import traceback
 from django.db import transaction
 from django.shortcuts import render, redirect, reverse
 
+from seev.apps.utils.country import UnoCountry
 from seev.apps.utils.generators import (getFullCatalogCode, getDefCatalogCode)
 from seev.apps.utils.codetable import getGeneralTranslation
 from seev.apps.utils.messages import get_app_message, addSnackDataToContext
@@ -37,8 +38,27 @@ def find_oppo_by_num(request, context=None):
             if not opportunity.active or opportunity.deal_count >= opportunity.deal_limit:
                 raise AssertionError
 
+            # Get client and customer
+            client = UnoClient.objects.get(client_id=opportunity.client_id)
+            customer = UnoCustomer.objects.get(
+                customer_id=opportunity.customer_id)
+
             # Fill opportunity details
             oppoData = {}
+            opportunity.discount_nrc = getGeneralTranslation(
+                opportunity.discount_nrc)
+            opportunity.discount_mrc = getGeneralTranslation(
+                opportunity.discount_mrc)
+            oppoData['opportunity'] = opportunity
+            oppoData['clientName'] = client.entity_name
+            oppoData['clientEml'] = client.contact_email
+            oppoData['clientPh'] = client.contact_phone
+            oppoData['clientCty'] = UnoCountry.get_country_by_code(
+                client.country)
+            oppoData['custName'] = customer.customer_name
+            oppoData['custEml'] = customer.contact_email
+            oppoData['custCty'] = UnoCountry.get_country_by_code(
+                customer.country)
 
             context = {}
             context['oppoData'] = oppoData

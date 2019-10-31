@@ -442,3 +442,10 @@ class UnoCountry:
     @staticmethod
     def get_default_cty():
         return (UnoCountry.US, UnoCountry.DATA_DICT[UnoCountry.US])
+
+    @staticmethod
+    def get_country_by_code(code):
+        try:
+            return UnoCountry.DATA_DICT[code]
+        except:
+            return ''
