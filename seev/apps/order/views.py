@@ -49,6 +49,8 @@ def find_oppo_by_num(request, context=None):
                 opportunity.discount_nrc)
             opportunity.discount_mrc = getGeneralTranslation(
                 opportunity.discount_mrc)
+            opportunity.opportunity_number = str(
+                opportunity.opportunity_number).replace('-', '')
             oppoData['opportunity'] = opportunity
             oppoData['clientName'] = client.entity_name
             oppoData['clientEml'] = client.contact_email
@@ -57,8 +59,6 @@ def find_oppo_by_num(request, context=None):
                 client.country)
             oppoData['custName'] = customer.customer_name
             oppoData['custEml'] = customer.contact_email
-            oppoData['custCty'] = UnoCountry.get_country_by_code(
-                customer.country)
 
             context = {}
             context['oppoData'] = oppoData

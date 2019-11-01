@@ -16,18 +16,70 @@
 		<form action="/order/find-oppo/" method="POST" id="oppo-search-form" class="ord-home-sf">
 			{% csrf_token %}
 			<div class="ord-home-field-wrapper">
-				<input class="ord-search-ti" type="text" name="opportunity-number" placeholder="Opportunity Number">
+				<input class="ord-search-ti" type="text" name="opportunity-number" placeholder="Opportunity Number" required>
 			</div>
 			<input id="oppo-search-btn" class="ord-search-btn" type="submit" value="Look Up">
 		</form>
 		{% if oppoData %}
 		<div id="oppo-detail-panel" class="ord-home-panel">
-			<h1>{{ oppoData.opportunity.creation_time|date:"Y-M-d" }}</h1>
-			<h1>{{ oppoData.opportunity.discount_mrc }} </h1>
-			<h1>{{ oppoData.opportunity.discount_nrc }}</h1>
-			<h1>{{ oppoData.clientCty }}</h1>
-			<h1>{{ oppoData.clientPh }}</h1>
-			<h1>{{ oppoData.custCty }}</h1>
+			<div id="oppo-id-row" style="display: none;" data-oppo="{{ oppoData.opportunity.opportunity_id }}"></div>
+			<div id="oppo-panel-header">
+				<div>Oppor. # {{ oppoData.opportunity.opportunity_number }}</div>
+				<div>Valid From: {{ oppoData.opportunity.creation_time|date:"Y-M-d" }}</div>
+			</div>
+			<div id="oppo-panel-body">
+				<div id="oppo-panel-client">
+					<div class="oppo-panel-inner-head-row">
+						<span class="panel-name-head">Business Details</span>
+						<span class="panel-head-img">
+							<img src="{% static 'order/images/icon-53.svg' %}" alt="oppo-client-icon">
+						</span>
+					</div>
+					<div class="oppo-panel-inner-row">
+						<span class="panel-row-head">Name: </span>
+						<span class="panel-row-body">{{ oppoData.clientName }}</span>
+					</div>
+					<div class="oppo-panel-inner-row">
+						<span class="panel-row-head">Email: </span>
+						<span class="panel-row-body">{{ oppoData.clientEml }}</span>
+					</div>
+					<div class="oppo-panel-inner-row">
+						<span class="panel-row-head">Phone: </span>
+						<span class="panel-row-body">{{ oppoData.clientPh }}</span>
+					</div>
+					<div class="oppo-panel-inner-row">
+						<span class="panel-row-head">Country: </span>
+						<span class="panel-row-body">{{ oppoData.clientCty }}</span>
+					</div>
+				</div>
+				<div id="oppo-panel-cust">
+					<div class="oppo-panel-inner-head-row">
+						<span class="panel-name-head">Customer Details</span>
+						<span class="panel-head-img">
+							<img src="{% static 'order/images/icon-54.svg' %}" alt="oppo-cust-icon">
+						</span>
+					</div>
+					<div class="oppo-panel-inner-row">
+						<span class="panel-row-head">Name: </span>
+						<span class="panel-row-body">{{ oppoData.custName }}</span>
+					</div>
+					<div class="oppo-panel-inner-row">
+						<span class="panel-row-head">Email: </span>
+						<span class="panel-row-body">{{ oppoData.custEml }}</span>
+					</div>
+					<div class="oppo-panel-inner-row">
+						<span class="panel-row-head">Monthly Discount: </span>
+						<span class="panel-row-body">{{ oppoData.opportunity.discount_mrc }}</span>
+					</div>
+					<div class="oppo-panel-inner-row">
+						<span class="panel-row-head">Flat Discount: </span>
+						<span class="panel-row-body">{{ oppoData.opportunity.discount_nrc }}</span>
+					</div>
+				</div>
+			</div>
+			<div id="oppo-panel-footer">
+				<button class="ord-panel-btn">Create Order</button>
+			</div>
 		</div>
 		{% endif %}
 	</section>
@@ -43,7 +95,7 @@
 		<form action="#" method="POST" id="ord-search-form" class="ord-home-sf">
 			{% csrf_token %}
 			<div class="ord-home-field-wrapper">
-				<input class="ord-search-ti" type="text" name="order-number" placeholder="Order Number">
+				<input class="ord-search-ti" type="text" name="order-number" placeholder="Order Number" required>
 			</div>
 			<input id="ord-search-btn" class="ord-search-btn" type="submit" value="Retrieve">
 		</form>
