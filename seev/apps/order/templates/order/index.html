@@ -90,7 +90,7 @@
 				</div>
 			</div>
 			<div id="oppo-panel-footer">
-				<button class="ord-panel-btn">Create Order</button>
+				<button onclick="showCreateOrdPop()" class="ord-panel-btn">Create Order</button>
 			</div>
 		</div>
 		{% endif %}
@@ -112,5 +112,37 @@
 			<input id="ord-search-btn" class="ord-search-btn" type="submit" value="Retrieve">
 		</form>
 	</section>
+</div>
+<!-- Popup -->
+<div class="black-overlay no-show"></div>
+<div id="oppo-popup" class="seev-popup no-show">
+	<div class="popup-head">
+		<img onclick="dismissOppoPop()" src="{% static 'icon-100.svg' %}" alt="close-icon">
+	</div>
+	<div class="popup-title">Create Order</div>
+	<div class="popup-subtitle font-nuni">Please provide a name and a secret password for your order for easy
+		identification and protection.</div>
+	<div id="oppo-pop-form-wrapper" class="popup-content">
+		<form id="oppo-pop-form" action="#" method="post" novalidate>
+			{% csrf_token %}
+			<input type="text" name="opportunity-id" id="id_oppo_id" style="display: none;">
+			<input type="text" name="order-name" id="id_ord_name" placeholder="Order Name">
+			<input type="text" name="order-secret" id="id_ord_secret" placeholder="Secret">
+			<input id="id_ord_agree" type="radio" style="display: none;">
+			<div id="oppo-radio-row">
+				<span class="seev-radio-outer">
+					<span class="seev-radio-inner"></span>
+				</span>&nbsp;&nbsp;&nbsp;&nbsp;
+				<span id="oppo-radio-text">I agree to the business's <span style="color: #0D47A1;">Terms of
+						service</span></span>
+			</div>
+			<button id="oppo-create-btn" class="seev-btn-outline" type="submit">
+				<span class="btn-icon-wrapper">
+					<span>Confirm</span>
+					<img class="btn-icon" src="{% static 'icon-101.svg' %}" alt="confirm-icon">
+				</span>
+			</button>
+		</form>
+	</div>
 </div>
 {% endblock ordContent %}

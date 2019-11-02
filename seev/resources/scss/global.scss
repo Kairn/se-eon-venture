@@ -54,7 +54,7 @@ form {
 }
 
 .no-show {
-  display: none;
+  display: none !important;
 }
 
 .show {
@@ -62,7 +62,7 @@ form {
 }
 
 .invisible {
-  visibility: hidden;
+  visibility: hidden !important;
 }
 
 .visible {
@@ -70,11 +70,11 @@ form {
 }
 
 .no-size {
-  transform: scale(0);
+  transform: scale(0) !important;
 }
 
 .normal-size {
-  transform: scale(1);
+  transform: scale(1) !important;
 }
 
 #snack-data {
@@ -101,6 +101,54 @@ form {
   top: 0;
 }
 
+.seev-popup {
+  z-index: 10;
+  display: block;
+  position: fixed;
+  max-height: 90vh;
+  max-width: 90vw;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  padding: 2rem;
+  border-radius: 6px;
+  @include mobile {
+    text-align: center;
+  }
+}
+
+.popup-head {
+  user-select: none;
+  margin-bottom: 2rem;
+  padding: 0.5rem 0;
+  text-align: right;
+  img {
+    width: 14px;
+    height: 14px;
+    cursor: pointer;
+  }
+}
+
+.popup-title {
+  user-select: none;
+  margin: 3rem 0 1rem;
+  font-size: 28px;
+  font-weight: bold;
+  @include mobile {
+    font-size: 24px;
+  }
+}
+
+.popup-subtitle {
+  font-size: 20px;
+  color: #424242;
+  line-height: 1.25;
+  margin-bottom: 2rem;
+  @include mobile {
+    font-size: 18px;
+  }
+}
+
 .seev-btn {
   user-select: none;
   display: inline-flex;
@@ -124,6 +172,29 @@ form {
   }
 }
 
+.seev-btn-outline {
+  user-select: none;
+  display: inline-flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff;
+  color: black;
+  height: 48px;
+  padding: 0.25rem 0.5rem;
+  text-align: center;
+  font-family: "Noto Sans", sans-serif;
+  font-size: 20px;
+  border: none;
+  border-radius: 24px;
+  width: 10em;
+  font-weight: 600;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
 .large-btn {
   width: 14em;
 }
@@ -138,6 +209,37 @@ form {
 
 .back-btn {
   background-color: #607d8b;
+}
+
+.btn-icon-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.seev-radio-outer {
+  display: inline-flex;
+  height: 20px;
+  width: 20px;
+  background-color: #e0e0e0;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  &:hover {
+    opacity: 0.9;
+  }
+  .seev-radio-inner {
+    display: inline-block;
+    height: 6px;
+    width: 6px;
+    background-color: #212121;
+    border-radius: 50%;
+  }
 }
 
 #gsb {
