@@ -52,6 +52,8 @@ def find_oppo_by_num(request, context=None):
             opportunity.opportunity_number = str(
                 opportunity.opportunity_number).replace('-', '')
             oppoData['opportunity'] = opportunity
+            oppoData['reDeal'] = int(
+                opportunity.deal_limit) - int(opportunity.deal_count)
             oppoData['clientName'] = client.entity_name
             oppoData['clientEml'] = client.contact_email
             oppoData['clientPh'] = client.contact_phone
