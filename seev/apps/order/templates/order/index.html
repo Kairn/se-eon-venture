@@ -90,7 +90,7 @@
 				</div>
 			</div>
 			<div id="oppo-panel-footer">
-				<button onclick="showCreateOrdPop()" class="ord-panel-btn">Create Order</button>
+				<button type="button" onclick="showCreateOrdPop()" class="ord-panel-btn">Create Order</button>
 			</div>
 		</div>
 		{% endif %}
@@ -126,12 +126,12 @@
 		<form id="oppo-pop-form" action="#" method="post" novalidate>
 			{% csrf_token %}
 			<input type="text" name="opportunity-id" id="id_oppo_id" style="display: none;">
-			<input type="text" name="order-name" id="id_ord_name" placeholder="Order Name">
-			<input type="text" name="order-secret" id="id_ord_secret" placeholder="Secret">
-			<input id="id_ord_agree" type="radio" style="display: none;">
+			<input type="text" name="order-name" id="id_ord_name" placeholder="Order Name" required>
+			<input type="text" name="order-secret" id="id_ord_secret" placeholder="Secret" required>
+			<input id="id_ord_agree" type="radio" style="display: none;" required>
 			<div id="oppo-radio-row">
-				<span class="seev-radio-outer">
-					<span class="seev-radio-inner"></span>
+				<span id="oppo-radio" class="seev-radio-outer" data-target="id_ord_agree" data-inner="oppo-radio-inner">
+					<span id="oppo-radio-inner" class="seev-radio-inner"></span>
 				</span>&nbsp;&nbsp;&nbsp;&nbsp;
 				<span id="oppo-radio-text">I agree to the business's <span style="color: #0D47A1;">Terms of
 						service</span></span>

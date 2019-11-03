@@ -2,6 +2,16 @@
 
 console.log('Order app is launching...');
 
+// Clear radio field
+const clearRadio = function(radio) {
+  let inner = document.getElementById(radio.getAttribute('data-inner'));
+  let target = document.getElementById(radio.getAttribute('data-target'));
+
+  inner.classList.add('invisible');
+  target.checked = false;
+  radio.dirty = false;
+}
+
 // Display create order popup
 const showCreateOrdPop = function() {
   let overlay = document.querySelector('.black-overlay');
@@ -9,13 +19,20 @@ const showCreateOrdPop = function() {
   let form = document.getElementById('oppo-pop-form');
   let idData = document.getElementById('oppo-id-row');
   let idField = document.getElementById('id_oppo_id');
+  let radio = document.getElementById('oppo-radio');
+  let submit = document.getElementById('oppo-create-btn');
 
   form.reset();
+  clearRadio(radio);
+  submit.disabled = true;
+  submit.classList.add('form-btn-dis');
   idField.value = idData.getAttribute('data-oppo');
 
-  overlay.classList.remove('no-show');
-  popup.classList.remove('no-show');
-}
+  setTimeout(() => {
+    overlay.classList.remove('no-show');
+    popup.classList.remove('no-show');
+  }, 250);
+};
 
 // Dismiss create order popup
 const dismissOppoPop = function() {
