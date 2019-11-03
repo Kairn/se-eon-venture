@@ -1,0 +1,11 @@
+<!-- Order configuration template -->
+{% extends 'order/base.html' %}
+{% load static %}
+
+{% block ordContent %}
+<div id="ord-config-head"></div>
+<div id="ord-config-body">
+	{% block ordConfBody %}
+	{% endblock ordConfBody %}
+</div>
+{% endblock ordContent %}

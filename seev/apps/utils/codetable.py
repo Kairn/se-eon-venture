@@ -14,6 +14,19 @@ CtGenMappings = {
     '20': '20% Discount',
     '25': '25% Discount',
     '30': '30% Discount',
+    'IN': 'Initiated',
+    'IP': 'In Progress',
+    'VA': 'Validated',
+    'FL': 'Finalized',
+    'FZ': 'Frozen',
+    'EX': 'Expired',
+    'VD': 'Voided',
+    'CL': 'Cancelled',
+    'SM': 'Submitted',
+    'RN': 'Renegotiated',
+    'IV': 'Invalidated',
+    'OD': 'Ordered',
+    'CP': 'Completed',
 }
 
 CtSpecMappings = {

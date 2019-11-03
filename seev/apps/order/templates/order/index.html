@@ -123,7 +123,7 @@
 	<div class="popup-subtitle font-nuni">Please provide a name and a secret password for your order for easy
 		identification and protection.</div>
 	<div id="oppo-pop-form-wrapper" class="popup-content">
-		<form id="oppo-pop-form" action="#" method="post" novalidate>
+		<form id="oppo-pop-form" action="/order/create-order/" method="post" novalidate>
 			{% csrf_token %}
 			<input type="text" name="opportunity-id" id="id_oppo_id" style="display: none;">
 			<input type="text" name="order-name" id="id_ord_name" placeholder="Order Name" required>

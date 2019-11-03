@@ -8,7 +8,8 @@ from django.db import transaction
 from django.shortcuts import render, redirect, reverse
 
 from seev.apps.utils.country import UnoCountry
-from seev.apps.utils.generators import (getFullCatalogCode, getDefCatalogCode)
+from seev.apps.utils.generators import (
+    getFullCatalogCode, getDefCatalogCode, generateOrderMeta)
 from seev.apps.utils.codetable import getGeneralTranslation
 from seev.apps.utils.messages import get_app_message, addSnackDataToContext
 from seev.apps.utils.session import store_context_in_session, get_context_in_session
@@ -77,3 +78,69 @@ def find_oppo_by_num(request, context=None):
             return redirect('go_ord_home')
     else:
         return redirect('go_ord_home')
+
+
+@transaction.atomic
+def create_order(request, context=None):
+    if request.method == 'POST':
+        try:
+            oppoId = request.POST['opportunity-id']
+            ordName = request.POST['order-name']
+            ordSecret = request.POST['order-secret']
+
+            # Fetch data
+            opportunity = UnoOpportunity.objects.get(opportunity_id=oppoId)
+            if not opportunity.active or opportunity.deal_count >= opportunity.deal_limit:
+                raise AssertionError
+            client = UnoClient.objects.get(client_id=opportunity.client_id)
+            customer = UnoCustomer.objects.get(
+                customer_id=opportunity.customer_id)
+
+            # Create basket and order
+            basket = PtaBasket(
+                client=client,
+                customer=customer
+            )
+
+            order = PtaOrderInstance(
+                order_name=ordName,
+                secret=ordSecret,
+                client=client,
+                customer=customer,
+                opportunity=opportunity,
+                basket=basket,
+                status='IN'
+            )
+
+            basket.save()
+            order.save()
+
+            # Store order in session
+            meta = generateOrderMeta(order)
+            request.session['order_meta'] = meta
+            if not meta:
+                raise Exception
+
+            return redirect('go_ord_config_home')
+        except AssertionError:
+            store_context_in_session(request, addSnackDataToContext(
+                context, 'Opportunity invalid or expired'))
+            return redirect('go_ord_home')
+        except Exception:
+            traceback.print_exc()
+            store_context_in_session(request, addSnackDataToContext(
+                context, 'Order creation failed'))
+            return redirect('go_ord_home')
+    else:
+        return redirect('go_ord_home')
+
+
+def go_ord_config_home(request, context=None):
+    context = get_context_in_session(request)
+
+    if not context:
+        context = {}
+
+    # Fill context with order metadata
+
+    return render(request, 'order/order-home.html', context=context)

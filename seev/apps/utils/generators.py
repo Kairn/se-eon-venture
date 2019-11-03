@@ -7,6 +7,7 @@ import random
 import hashlib
 
 from seev.apps.core.models import UnoClient
+from seev.apps.utils.codetable import getGeneralTranslation
 
 
 def getAdminCredentials():
@@ -93,3 +94,26 @@ def getDefCatalogCode(fullCode):
         return ''
     else:
         return '_'.join(fullCode.split('_')[1:])
+
+
+def generateOrderMeta(order):
+    try:
+        if not order:
+            return None
+
+        order_meta = {}
+        order_meta['order_number'] = str(order.order_number).replace('-', '')
+        order_meta['order_name'] = order.order_name
+        order_meta['order_dis_mrc'] = order.opportunity.discount_mrc
+        order_meta['order_dis_nrc'] = order.opportunity.discount_nrc
+        order_meta['order_status'] = getGeneralTranslation(order.status)
+        order_meta['client_name'] = order.client.entity_name
+        order_meta['client_email'] = order.client.contact_email
+        order_meta['client_phone'] = order.client.contact_phone
+        order_meta['customer_name'] = order.customer.customer_name
+        order_meta['opportunity_number'] = str(
+            order.opportunity.opportunity_number).replace('-', '')
+
+        return order_meta
+    except Exception:
+        return None

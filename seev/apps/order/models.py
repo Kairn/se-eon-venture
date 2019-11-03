@@ -59,6 +59,7 @@ class PtaOrderInstance(models.Model):
 class PtaSite(models.Model):
     pta_site_id = models.UUIDField(
         primary_key=True, default=uuid.uuid4, editable=False)
+    site_name = models.CharField('Site Name', max_length=128)
     site = models.ForeignKey(UnoSite, on_delete=models.SET_NULL, null=True)
     order_instance = models.ForeignKey(
         PtaOrderInstance, on_delete=models.CASCADE, null=False)
@@ -76,6 +77,7 @@ class PtaBasketItem(models.Model):
     parent_id = models.UUIDField('Parent Item ID', editable=False, null=True)
     basket = models.ForeignKey(PtaBasket, on_delete=models.CASCADE, null=False)
     itemcode = models.CharField('Item Code', max_length=32, null=False)
+    serial = models.PositiveSmallIntegerField('Serial Number', default=1)
     pta_site = models.ForeignKey(PtaSite, on_delete=models.CASCADE, null=False)
     is_valid = models.BooleanField(default=False)
     creation_time = models.DateTimeField(
