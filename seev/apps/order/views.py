@@ -12,7 +12,7 @@ from seev.apps.utils.generators import (
     getFullCatalogCode, getDefCatalogCode, generateOrderMeta)
 from seev.apps.utils.codetable import getGeneralTranslation
 from seev.apps.utils.messages import get_app_message, addSnackDataToContext
-from seev.apps.utils.session import store_context_in_session, get_context_in_session
+from seev.apps.utils.session import store_context_in_session, get_context_in_session, load_ord_meta_to_context
 
 from seev.apps.core.models import UnoClient
 
@@ -142,5 +142,10 @@ def go_ord_config_home(request, context=None):
         context = {}
 
     # Fill context with order metadata
+    context = load_ord_meta_to_context(request, context)
+    if not context:
+        store_context_in_session(request, addSnackDataToContext(
+            context, 'Order request failed'))
+        return redirect('go_ord_home')
 
     return render(request, 'order/order-home.html', context=context)

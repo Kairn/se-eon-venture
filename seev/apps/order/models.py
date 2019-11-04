@@ -59,7 +59,7 @@ class PtaOrderInstance(models.Model):
 class PtaSite(models.Model):
     pta_site_id = models.UUIDField(
         primary_key=True, default=uuid.uuid4, editable=False)
-    site_name = models.CharField('Site Name', max_length=128)
+    site_name = models.CharField('Site Name', max_length=128, null=True)
     site = models.ForeignKey(UnoSite, on_delete=models.SET_NULL, null=True)
     order_instance = models.ForeignKey(
         PtaOrderInstance, on_delete=models.CASCADE, null=False)

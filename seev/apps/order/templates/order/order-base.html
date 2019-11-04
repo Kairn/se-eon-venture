@@ -3,7 +3,18 @@
 {% load static %}
 
 {% block ordContent %}
-<div id="ord-config-head"></div>
+<div id="ord-config-head">
+	<h1>{{ ordMeta.order_number }}</h1>
+	<h1>{{ ordMeta.order_name }}</h1>
+	<h1>{{ ordMeta.order_dis_mrc }}</h1>
+	<h1>{{ ordMeta.order_dis_nrc }}</h1>
+	<h1>{{ ordMeta.order_status }}</h1>
+	<h1>{{ ordMeta.client_name }}</h1>
+	<h1>{{ ordMeta.client_email }}</h1>
+	<h1>{{ ordMeta.client_phone }}</h1>
+	<h1>{{ ordMeta.customer_name }}</h1>
+	<h1>{{ ordMeta.opportunity_number }}</h1>
+</div>
 <div id="ord-config-body">
 	{% block ordConfBody %}
 	{% endblock ordConfBody %}
