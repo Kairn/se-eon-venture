@@ -4,19 +4,74 @@
 
 {% block ordContent %}
 <div id="ord-config-head">
-	<h1>{{ ordMeta.order_number }}</h1>
-	<h1>{{ ordMeta.order_name }}</h1>
-	<h1>{{ ordMeta.order_dis_mrc }}</h1>
-	<h1>{{ ordMeta.order_dis_nrc }}</h1>
-	<h1>{{ ordMeta.order_status }}</h1>
-	<h1>{{ ordMeta.client_name }}</h1>
-	<h1>{{ ordMeta.client_email }}</h1>
-	<h1>{{ ordMeta.client_phone }}</h1>
-	<h1>{{ ordMeta.customer_name }}</h1>
-	<h1>{{ ordMeta.opportunity_number }}</h1>
+	<div id="ord-header-wrapper">
+		<div id="order-number">Order # {{ ordMeta.order_number }}</div>
+		<div id="order-name">Order Name: {{ ordMeta.order_name }}</div>
+		<div id="ord-header-action-wrapper">
+			<button type="button" class="order-icon-btn">
+				<span>
+					<img src="{% static 'order/images/icon-55.svg' %}" alt="view-icon">
+					<span style="color: #283593;">View Details</span>
+				</span>
+			</button>
+			<button type="button" class="order-icon-btn">
+				<span>
+					<img src="{% static 'order/images/icon-56.svg' %}" alt="validate-icon">
+					<span style="color: #2E7D32;">Validate Order</span>
+				</span>
+			</button>
+			<button type="button" class="order-icon-btn">
+				<span>
+					<img src="{% static 'order/images/icon-57.svg' %}" alt="cancel-icon">
+					<span style="color: #D84315;">Cancel Order</span>
+				</span>
+			</button>
+		</div>
+	</div>
 </div>
 <div id="ord-config-body">
 	{% block ordConfBody %}
 	{% endblock ordConfBody %}
+</div>
+<!-- Popup -->
+<div class="black-overlay no-show"></div>
+<div id="ord-detail-popup" class="seev-popup no-show">
+	<div class="popup-head">
+		<img src="{% static 'icon-100.svg' %}" alt="close-icon">
+	</div>
+	<div class="popup-content">
+		<div class="ord-detail-pop-row">
+			<span>Opportunity Number: </span>
+			<span>{{ ordMeta.opportunity_number }}</span>
+		</div>
+		<div class="ord-detail-pop-row">
+			<span>Customer Name: </span>
+			<span>{{ ordMeta.customer_name }}</span>
+		</div>
+		<div class="ord-detail-pop-row">
+			<span>Business Client: </span>
+			<span>{{ ordMeta.client_name }}</span>
+		</div>
+		<div class="ord-detail-pop-row">
+			<span>Business Email: </span>
+			<span>{{ ordMeta.client_email }}</span>
+		</div>
+		<div class="ord-detail-pop-row">
+			<span>Business Phone: </span>
+			<span>{{ ordMeta.client_phone }}</span>
+		</div>
+		<div class="ord-detail-pop-row">
+			<span>Monthly Discount: </span>
+			<span>{{ ordMeta.order_dis_mrc }}%</span>
+		</div>
+		<div class="ord-detail-pop-row">
+			<span>Flat Discount: </span>
+			<span>{{ ordMeta.order_dis_nrc }}%</span>
+		</div>
+		<div class="ord-detail-pop-row">
+			<span>Order Status: </span>
+			<span>{{ ordMeta.order_status }}</span>
+		</div>
+	</div>
 </div>
 {% endblock ordContent %}
