@@ -8,7 +8,7 @@
 		<div id="order-number">Order # {{ ordMeta.order_number }}</div>
 		<div id="order-name">Order Name: {{ ordMeta.order_name }}</div>
 		<div id="ord-header-action-wrapper">
-			<button type="button" class="order-icon-btn">
+			<button type="button" class="order-icon-btn" onclick="showOrdDetails()">
 				<span>
 					<img src="{% static 'order/images/icon-55.svg' %}" alt="view-icon">
 					<span style="color: #283593;">View Details</span>
@@ -36,13 +36,13 @@
 <!-- Popup -->
 <div class="black-overlay no-show"></div>
 <div id="ord-detail-popup" class="seev-popup no-show">
-	<div class="popup-head">
-		<img src="{% static 'icon-100.svg' %}" alt="close-icon">
+	<div class="popup-head" style="margin-bottom: 3rem;">
+		<img onclick="dismissOrdDetails()" src="{% static 'icon-100.svg' %}" alt="close-icon">
 	</div>
 	<div class="popup-content">
 		<div class="ord-detail-pop-row">
-			<span>Opportunity Number: </span>
-			<span>{{ ordMeta.opportunity_number }}</span>
+			<span>Oppor. #: </span>
+			<span style="color: #B71C1C;">{{ ordMeta.opportunity_number }}</span>
 		</div>
 		<div class="ord-detail-pop-row">
 			<span>Customer Name: </span>
@@ -70,7 +70,7 @@
 		</div>
 		<div class="ord-detail-pop-row">
 			<span>Order Status: </span>
-			<span>{{ ordMeta.order_status }}</span>
+			<span style="color: #4A148C;">{{ ordMeta.order_status }}</span>
 		</div>
 	</div>
 </div>

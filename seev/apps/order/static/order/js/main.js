@@ -42,3 +42,23 @@ const dismissOppoPop = function() {
   overlay.classList.add('no-show');
   popup.classList.add('no-show');
 };
+
+// Display order details popup
+const showOrdDetails = function() {
+  let overlay = document.querySelector('.black-overlay');
+  let popup = document.getElementById('ord-detail-popup');
+
+  setTimeout(() => {
+    overlay.classList.remove('no-show');
+    popup.classList.remove('no-show');
+  }, 150);
+}
+
+// Dismiss order details popup
+const dismissOrdDetails = function() {
+  let overlay = document.querySelector('.black-overlay');
+  let popup = document.getElementById('ord-detail-popup');
+
+  overlay.classList.add('no-show');
+  popup.classList.add('no-show');
+}

@@ -449,3 +449,31 @@ $banner-shift-ty: 0.5rem;
     align-items: center;
   }
 }
+
+#ord-detail-popup {
+  background-color: white;
+  font-family: "Titillium Web", sans-serif;
+  font-size: 22px;
+  width: 800px;
+  height: 640px;
+  @include mobile {
+    text-align: left;
+  }
+  .ord-detail-pop-row {
+    margin: 0.5rem 0;
+    padding-left: 1.5rem;
+    span:first-child {
+      display: inline-block;
+      color: #263238;
+      width: 40%;
+      font-weight: 600;
+    }
+    span:last-child {
+      display: inline-block;
+    }
+    @include tablet {
+      font-size: 20px;
+      padding-left: 0.5rem;
+    }
+  }
+}
