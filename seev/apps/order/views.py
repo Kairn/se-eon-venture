@@ -149,3 +149,37 @@ def go_ord_config_home(request, context=None):
         return redirect('go_ord_home')
 
     return render(request, 'order/order-home.html', context=context)
+
+
+def find_ord_by_num(request, context=None):
+    if request.method == 'POST':
+        try:
+            ordNumber = request.POST['order-number']
+
+            order = PtaOrderInstance.objects.get(order_number=ordNumber)
+
+            # Fill order data
+            ordData = {}
+            ordData['ordNumber'] = str(order.order_number).replace('-', '')
+            ordData['ordName'] = order.order_name
+            ordData['oppoNum'] = str(
+                order.opportunity.opportunity_number).replace('-', '')
+            ordData['customer'] = order.customer.customer_name
+            ordData['business'] = order.client.entity_name
+            ordData['ordStatus'] = getGeneralTranslation(order.status)
+            if order.status in ['IN', 'IP', 'VA']:
+                ordData['ordEdit'] = True
+            else:
+                ordData['ordEdit'] = False
+
+            context = {}
+            context['ordData'] = ordData
+
+            return render(request, 'order/index.html', context=context)
+        except Exception:
+            traceback.print_exc()
+            store_context_in_session(
+                request, addSnackDataToContext(context, 'Order not found'))
+            return redirect('go_ord_home')
+    else:
+        return redirect('go_ord_home')

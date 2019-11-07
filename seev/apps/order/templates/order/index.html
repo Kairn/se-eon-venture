@@ -104,13 +104,29 @@
 				<img src="{% static 'order/images/icon-52.svg' %}" alt="banner-img-2">
 			</div>
 		</div>
-		<form action="#" method="POST" id="ord-search-form" class="ord-home-sf">
+		<form action="/order/find-ord/" method="POST" id="ord-search-form" class="ord-home-sf">
 			{% csrf_token %}
 			<div class="ord-home-field-wrapper">
 				<input class="ord-search-ti" type="text" name="order-number" placeholder="Order Number" required>
 			</div>
 			<input id="ord-search-btn" class="ord-search-btn" type="submit" value="Retrieve">
 		</form>
+		{% if ordData %}
+		<div id="ord-detail-wrapper">
+			<div id="ord-detail-panel">
+				<h1>{{ ordData.ordNumber }}</h1>
+				<h1>{{ ordData.ordName }}</h1>
+				<h1>{{ ordData.oppoNum }}</h1>
+				<h1>{{ ordData.customer }}</h1>
+				<h1>{{ ordData.business }}</h1>
+				<h1>{{ ordData.ordStatus }}</h1>
+				<h1>{{ ordData.ordEdit }}</h1>
+			</div>
+			<form action="#" id="ord-ve-form" method="POST">
+				{% csrf_token %}
+			</form>
+		</div>
+		{% endif %}
 	</section>
 </div>
 <!-- Popup -->
