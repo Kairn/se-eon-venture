@@ -160,6 +160,7 @@ def find_ord_by_num(request, context=None):
 
             # Fill order data
             ordData = {}
+            ordData['ordId'] = order.order_instance_id
             ordData['ordNumber'] = str(order.order_number).replace('-', '')
             ordData['ordName'] = order.order_name
             ordData['oppoNum'] = str(
@@ -171,6 +172,7 @@ def find_ord_by_num(request, context=None):
                 ordData['ordEdit'] = True
             else:
                 ordData['ordEdit'] = False
+            ordData['ordCreDate'] = order.creation_time
 
             context = {}
             context['ordData'] = ordData

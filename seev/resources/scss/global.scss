@@ -11,6 +11,10 @@
   }
 }
 
+img {
+  user-select: none !important;
+}
+
 input {
   border-style: solid;
   border-width: 1px;
@@ -37,7 +41,7 @@ a {
 }
 
 form {
-  *:not(input) {
+  & > *:not(input):not(.ord-panel-row) {
     user-select: none;
   }
   display: block;

@@ -112,19 +112,37 @@
 			<input id="ord-search-btn" class="ord-search-btn" type="submit" value="Retrieve">
 		</form>
 		{% if ordData %}
-		<div id="ord-detail-wrapper">
-			<div id="ord-detail-panel">
-				<h1>{{ ordData.ordNumber }}</h1>
-				<h1>{{ ordData.ordName }}</h1>
-				<h1>{{ ordData.oppoNum }}</h1>
-				<h1>{{ ordData.customer }}</h1>
-				<h1>{{ ordData.business }}</h1>
-				<h1>{{ ordData.ordStatus }}</h1>
-				<h1>{{ ordData.ordEdit }}</h1>
+		<div id="ord-detail-panel" class="ord-home-panel">
+			<div id="ord-panel-header">
+				<div>Order # {{ ordData.ordNumber }}</div>
+				<div>Created On: {{ ordData.ordCreDate|date:"Y-M-d" }}</div>
 			</div>
-			<form action="#" id="ord-ve-form" method="POST">
-				{% csrf_token %}
-			</form>
+			<div id="ord-panel-body">
+				<form action="#" id="ord-ve-form" method="POST">
+					<div class="ord-panel-row">
+						<span>Oppor. #: </span>
+						<span>{{ ordData.oppoNum }}</span>
+					</div>
+					<div class="ord-panel-row">
+						<span>Customer Name: </span>
+						<span>{{ ordData.customer }}</span>
+					</div>
+					<div class="ord-panel-row">
+						<span>Business Name: </span>
+						<span>{{ ordData.business }}</span>
+					</div>
+					<div class="ord-panel-row">
+						<span>Order Status: </span>
+						<span style="color: #4A148C;">{{ ordData.ordStatus }}</span>
+					</div>
+					{% csrf_token %}
+					<input style="display: none;" type="text" name="order-id" value="{{ ordData.ordId }}">
+					<div id="ord-sec-flex-row">
+						<input type="password" name="order-secret" id="id_ord_sec" required placeholder="Secret">
+						<input type="submit" value="View/Edit" class="ord-panel-btn">
+					</div>
+				</form>
+			</div>
 		</div>
 		{% endif %}
 	</section>

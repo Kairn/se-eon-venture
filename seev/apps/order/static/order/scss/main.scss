@@ -274,18 +274,6 @@ $banner-shift-ty: 0.5rem;
 
 #oppo-detail-panel {
   color: white;
-  #oppo-panel-header {
-    text-align: center;
-    font-family: "Titillium Web", sans-serif;
-    font-weight: 600;
-    color: #424242;
-    font-size: 24px;
-    margin-bottom: 3rem;
-    & > div:first-child {
-      color: #b71c1c;
-      margin-bottom: 0.25rem;
-    }
-  }
   #oppo-panel-body {
     display: flex;
     flex-flow: row wrap;
@@ -308,12 +296,12 @@ $banner-shift-ty: 0.5rem;
         width: 47%;
       }
       @include tablet {
-        width: 80%;
+        width: 85%;
         margin-right: 0;
         margin-bottom: 1rem;
       }
       @include mobile {
-        width: 90%;
+        width: 95%;
       }
     }
     #oppo-panel-cust {
@@ -324,12 +312,12 @@ $banner-shift-ty: 0.5rem;
         width: 47%;
       }
       @include tablet {
-        width: 80%;
+        width: 85%;
         margin-left: 0;
         margin-top: 1rem;
       }
       @include mobile {
-        width: 90%;
+        width: 95%;
       }
     }
   }
@@ -337,6 +325,20 @@ $banner-shift-ty: 0.5rem;
     margin: 3rem 0 1rem 0;
     padding: 0 1rem 0 0;
     text-align: center;
+  }
+}
+
+#oppo-panel-header,
+#ord-panel-header {
+  text-align: center;
+  font-family: "Titillium Web", sans-serif;
+  font-weight: 600;
+  color: #424242;
+  font-size: 24px;
+  margin-bottom: 3rem;
+  & > div:first-child {
+    color: #b71c1c;
+    margin-bottom: 0.25rem;
   }
 }
 
@@ -474,6 +476,83 @@ $banner-shift-ty: 0.5rem;
     @include tablet {
       font-size: 20px;
       padding-left: 0.5rem;
+    }
+  }
+}
+
+#ord-panel-body {
+  color: #212121;
+  font-size: 22px;
+  #ord-ve-form {
+    border: #1b5e20 2px solid;
+    border-radius: 6px;
+    padding: 3rem 2rem 3rem 6rem;
+    width: 80%;
+    margin: auto;
+    @include laptop {
+      padding: 3rem 2rem 3rem 4rem;
+      width: 85%;
+    }
+    @include tablet {
+      padding: 3rem 1rem 3rem 2rem;
+      width: 90%;
+      font-size: 20px;
+    }
+    @include mobile {
+      width: 95%;
+      font-size: 18px;
+    }
+    .ord-panel-row {
+      width: 100%;
+      margin: 1.25rem 0;
+      user-select: auto;
+      line-height: 1.5;
+      span:first-child {
+        display: inline-block;
+        width: 40%;
+        @include laptop {
+          width: 36%;
+        }
+        @include tablet {
+          width: 32%;
+        }
+        @include mobile {
+          width: 45%;
+        }
+      }
+      span:nth-child(2) {
+        display: inline-block;
+      }
+    }
+    #ord-sec-flex-row {
+      margin: 3rem 0 1rem 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 2rem 0 0;
+      @include tablet {
+        flex-flow: column wrap;
+      }
+      input[type="password"] {
+        width: 50%;
+        font-size: 20px;
+        padding: 1rem 2rem;
+        border: none;
+        border-bottom: 2px #2e7d32 solid;
+        @include tablet {
+          width: 85%;
+          margin-bottom: 2.5rem;
+          text-align: center;
+        }
+      }
+      input[type="submit"] {
+        width: 10rem;
+        background-color: #388e3c;
+        box-shadow: 0 20px 16px -16px #1b5e20;
+        &:active {
+          box-shadow: 0 20px 16px -19px #1b5e20;
+        }
+      }
     }
   }
 }
