@@ -29,3 +29,20 @@ def load_ord_meta_to_context(request, context):
         return context
     else:
         return {}
+
+
+def save_ord_meta_to_session(request, meta):
+    if not request or not meta:
+        return
+
+    if hasattr(request, 'session'):
+        request.session['order_meta'] = meta
+    else:
+        return
+
+
+def clear_ord_meta(request):
+    if request and hasattr(request, 'session') and 'order_meta' in request.session:
+        del request.session['order_meta']
+    else:
+        return

@@ -9,10 +9,11 @@ from django.shortcuts import render, redirect, reverse
 
 from seev.apps.utils.country import UnoCountry
 from seev.apps.utils.generators import (
-    getFullCatalogCode, getDefCatalogCode, generateOrderMeta)
+    getFullCatalogCode, getDefCatalogCode, generateOrderMeta, generateOrderData)
 from seev.apps.utils.codetable import getGeneralTranslation
 from seev.apps.utils.messages import get_app_message, addSnackDataToContext
-from seev.apps.utils.session import store_context_in_session, get_context_in_session, load_ord_meta_to_context
+from seev.apps.utils.session import (
+    store_context_in_session, get_context_in_session, load_ord_meta_to_context, save_ord_meta_to_session, clear_ord_meta)
 
 from seev.apps.core.models import UnoClient
 
@@ -117,9 +118,7 @@ def create_order(request, context=None):
 
             # Store order in session
             meta = generateOrderMeta(order)
-            request.session['order_meta'] = meta
-            if not meta:
-                raise Exception
+            save_ord_meta_to_session(request, meta)
 
             return redirect('go_ord_config_home')
         except AssertionError:
@@ -158,21 +157,8 @@ def find_ord_by_num(request, context=None):
 
             order = PtaOrderInstance.objects.get(order_number=ordNumber)
 
-            # Fill order data
-            ordData = {}
-            ordData['ordId'] = order.order_instance_id
-            ordData['ordNumber'] = str(order.order_number).replace('-', '')
-            ordData['ordName'] = order.order_name
-            ordData['oppoNum'] = str(
-                order.opportunity.opportunity_number).replace('-', '')
-            ordData['customer'] = order.customer.customer_name
-            ordData['business'] = order.client.entity_name
-            ordData['ordStatus'] = getGeneralTranslation(order.status)
-            if order.status in ['IN', 'IP', 'VA']:
-                ordData['ordEdit'] = True
-            else:
-                ordData['ordEdit'] = False
-            ordData['ordCreDate'] = order.creation_time
+            # Get order data
+            ordData = generateOrderData(order)
 
             context = {}
             context['ordData'] = ordData
@@ -185,3 +171,32 @@ def find_ord_by_num(request, context=None):
             return redirect('go_ord_home')
     else:
         return redirect('go_ord_home')
+
+
+def auth_access_order(request, context=None):
+    if request.method == 'POST':
+        try:
+            ordId = request.POST['order-id']
+            ordSec = request.POST['order-secret']
+
+            order = PtaOrderInstance.objects.get(order_instance_id=ordId)
+
+            context = {}
+            if ordSec == order.secret:
+                meta = generateOrderMeta(order)
+                save_ord_meta_to_session(request, meta)
+
+                return redirect('go_ord_config_home')
+            else:
+                clear_ord_meta(request)
+                ordData = generateOrderData(order)
+                context['ordData'] = ordData
+                context['snack_data'] = 'Invalid secret, access denied'
+
+                return render(request, 'order/index.html', context=context)
+        except Exception:
+            traceback.print_exc()
+            clear_ord_meta(request)
+            store_context_in_session(
+                request, addSnackDataToContext(context, 'Unexpected error'))
+            return redirect('go_ord_home')

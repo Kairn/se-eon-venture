@@ -117,3 +117,28 @@ def generateOrderMeta(order):
         return order_meta
     except Exception:
         return None
+
+
+def generateOrderData(order):
+    try:
+        if not order:
+            return None
+
+        ordData = {}
+        ordData['ordId'] = order.order_instance_id
+        ordData['ordNumber'] = str(order.order_number).replace('-', '')
+        ordData['ordName'] = order.order_name
+        ordData['oppoNum'] = str(
+            order.opportunity.opportunity_number).replace('-', '')
+        ordData['customer'] = order.customer.customer_name
+        ordData['business'] = order.client.entity_name
+        ordData['ordStatus'] = getGeneralTranslation(order.status)
+        if order.status in ['IN', 'IP', 'VA']:
+            ordData['ordEdit'] = True
+        else:
+            ordData['ordEdit'] = False
+        ordData['ordCreDate'] = order.creation_time
+
+        return ordData
+    except Exception:
+        return None

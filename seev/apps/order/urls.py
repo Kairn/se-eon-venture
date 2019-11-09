@@ -9,4 +9,5 @@ urlpatterns = [
     re_path(r'^config-home/$', views.go_ord_config_home,
             name='go_ord_config_home'),
     re_path(r'^find-ord/$', views.find_ord_by_num, name='find_ord_by_num'),
+    re_path(r'^auth-ord/$', views.auth_access_order, name='auth_access_order'),
 ]
