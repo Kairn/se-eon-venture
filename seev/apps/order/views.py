@@ -200,3 +200,8 @@ def auth_access_order(request, context=None):
             store_context_in_session(
                 request, addSnackDataToContext(context, 'Unexpected error'))
             return redirect('go_ord_home')
+
+
+def exit_order(request, context=None):
+    clear_ord_meta(request)
+    return redirect('go_landing')

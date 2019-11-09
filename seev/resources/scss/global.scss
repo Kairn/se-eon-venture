@@ -246,6 +246,39 @@ form {
   }
 }
 
+.seev-float-btn {
+  user-select: none;
+  display: inline-flex;
+  width: 80px;
+  height: 80px;
+  color: white;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  position: fixed;
+  right: 2rem;
+  bottom: 2rem;
+  z-index: 12;
+  background-color: black;
+  cursor: pointer;
+  @include tablet {
+    right: 1rem;
+    bottom: 1rem;
+  }
+  @include mobile {
+    width: 68px;
+    height: 68px;
+  }
+  img {
+    width: 32px;
+    height: 32px;
+    @include mobile {
+      width: 26px;
+      height: 26px;
+    }
+  }
+}
+
 #gsb {
   user-select: none;
   z-index: 100;

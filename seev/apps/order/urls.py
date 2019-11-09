@@ -10,4 +10,5 @@ urlpatterns = [
             name='go_ord_config_home'),
     re_path(r'^find-ord/$', views.find_ord_by_num, name='find_ord_by_num'),
     re_path(r'^auth-ord/$', views.auth_access_order, name='auth_access_order'),
+    re_path(r'^exit-ord/$', views.exit_order, name='exit_order'),
 ]

@@ -74,4 +74,11 @@
 		</div>
 	</div>
 </div>
+<!-- Float -->
+<div style="background-color: #1A237E;" class="seev-float-btn" onclick="exitOrder()">
+	<img src="{% static 'order/images/icon-58.svg' %}" alt="exit-icon">
+</div>
+<form style="display: none;" action="/order/exit-ord/" id="exit-ord-form" method="POST">
+	{% csrf_token %}
+</form>
 {% endblock ordContent %}

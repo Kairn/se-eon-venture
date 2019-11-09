@@ -10,7 +10,7 @@ const clearRadio = function(radio) {
   inner.classList.add('invisible');
   target.checked = false;
   radio.dirty = false;
-}
+};
 
 // Display create order popup
 const showCreateOrdPop = function() {
@@ -52,7 +52,7 @@ const showOrdDetails = function() {
     overlay.classList.remove('no-show');
     popup.classList.remove('no-show');
   }, 150);
-}
+};
 
 // Dismiss order details popup
 const dismissOrdDetails = function() {
@@ -61,4 +61,10 @@ const dismissOrdDetails = function() {
 
   overlay.classList.add('no-show');
   popup.classList.add('no-show');
-}
+};
+
+// Exit order and clear session
+const exitOrder = function() {
+  let form = document.getElementById('exit-ord-form')
+  form.submit();
+};
