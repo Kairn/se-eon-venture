@@ -6,6 +6,11 @@ $banner-shift: 3rem;
 $banner-shift-sm: 1.5rem;
 $banner-shift-ty: 0.5rem;
 
+$frame-size-large: 700px;
+$frame-size-ex-large: 800px;
+$frame-size-medium: 525px;
+$frame-size-small: 440px;
+
 #ord-main-wrapper {
   min-height: 60vh;
   margin-top: 6rem;
@@ -406,7 +411,7 @@ $banner-shift-ty: 0.5rem;
   padding: 1.5rem 3rem;
   color: white;
   background-color: rgba($color: #232f3e, $alpha: 0.95);
-  width: 80%;
+  width: 85%;
   margin: 0 auto;
   border-radius: 8px;
   #order-name {
@@ -551,6 +556,151 @@ $banner-shift-ty: 0.5rem;
         box-shadow: 0 20px 16px -16px #1b5e20;
         &:active {
           box-shadow: 0 20px 16px -19px #1b5e20;
+        }
+      }
+    }
+  }
+}
+
+.ord-body-inner-wrapper {
+  width: $frame-size-large;
+  height: 100%;
+  margin: 0 1rem;
+  @include laptop {
+    width: $frame-size-ex-large;
+  }
+  @include tablet {
+    width: $frame-size-large;
+  }
+  @include mobile {
+    width: $frame-size-medium;
+  }
+  @include small {
+    width: $frame-size-small;
+  }
+  .frame-wrapper {
+    width: $frame-size-large;
+    height: $frame-size-large;
+    @include laptop {
+      width: $frame-size-ex-large;
+      height: $frame-size-ex-large;
+    }
+    @include tablet {
+      width: $frame-size-large;
+      height: $frame-size-large;
+    }
+    @include mobile {
+      width: $frame-size-medium;
+      height: $frame-size-medium;
+    }
+    @include small {
+      width: $frame-size-small;
+      height: $frame-size-small;
+    }
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.ord-penta-btn {
+  cursor: pointer;
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  width: 18rem;
+  font-size: 18px;
+  transform: skewX(-15deg);
+  border: 3px #311b92 solid;
+  color: #311b92;
+  text-align: center;
+  background-color: white;
+  font-weight: 600;
+}
+
+#ord-body-wrapper {
+  padding: 1rem 0 0;
+  display: flex;
+  flex-flow: row-reverse wrap;
+  justify-content: center;
+  @include laptop {
+    flex-flow: column wrap;
+    align-items: center;
+  }
+  #circle-wrapper {
+    background-image: url("/static/order/images/frame-circle.png");
+    background-size: cover;
+    margin: 0 0 15rem 0;
+    @include laptop {
+      margin: 0 0 1rem 0;
+    }
+    #circle-inner-box {
+      display: flex;
+      flex-flow: column;
+      justify-content: center;
+      align-items: center;
+      h1 {
+        font-family: "Audiowide", cursive;
+        font-size: 36px;
+        font-weight: 400;
+        margin: 0.25rem 0;
+        font-style: italic;
+        color: #1a237e;
+        transform: translateX(1.5rem);
+        @include laptop {
+          font-size: 42px;
+        }
+        @include tablet {
+          font-size: 36px;
+        }
+        @include mobile {
+          font-size: 28px;
+        }
+        @include small {
+          font-size: 26px;
+        }
+      }
+    }
+  }
+  #penta-wrapper {
+    background-image: url("/static/order/images/frame-penta.png");
+    background-size: cover;
+    user-select: none;
+    margin: 15rem 0 0 0;
+    @include laptop {
+      margin: 1rem 0 0 0;
+    }
+    #penta-inner-box {
+      transform: translateY(2rem);
+      display: flex;
+      flex-flow: column;
+      justify-content: center;
+      align-items: center;
+      @include laptop {
+        transform: translateY(2.5rem);
+      }
+      @include tablet {
+        transform: translateY(1.75rem);
+      }
+      button {
+        margin: 0.5rem 0;
+        @include laptop {
+          width: 22rem;
+          font-size: 22px;
+        }
+        @include tablet {
+          width: 20rem;
+          font-size: 20px;
+        }
+        @include mobile {
+          width: 14rem;
+          font-size: 16px;
+          padding: 0.5rem 1rem;
+        }
+        @include small {
+          width: 12rem;
+          padding: 0.25rem 0.75rem;
+          border: 2px #311b92 solid;
         }
       }
     }
