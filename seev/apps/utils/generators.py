@@ -133,10 +133,6 @@ def generateOrderData(order):
         ordData['customer'] = order.customer.customer_name
         ordData['business'] = order.client.entity_name
         ordData['ordStatus'] = getGeneralTranslation(order.status)
-        if order.status in ['IN', 'IP', 'VA']:
-            ordData['ordEdit'] = True
-        else:
-            ordData['ordEdit'] = False
         ordData['ordCreDate'] = order.creation_time
 
         return ordData

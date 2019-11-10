@@ -616,6 +616,19 @@ $frame-size-small: 440px;
   text-align: center;
   background-color: white;
   font-weight: 600;
+  transition-duration: 0.5s;
+  transition-property: background-color, color;
+  &:hover:not(.penta-btn-dis) {
+    background-color: #311b92;
+    color: white;
+    transition-duration: 0.5s;
+  }
+  &.penta-btn-dis {
+    cursor: default;
+    border-color: rgba(0, 0, 0, 0.26);
+    color: rgba(0, 0, 0, 0.26);
+    background-color: white;
+  }
 }
 
 #ord-body-wrapper {

@@ -4,7 +4,9 @@ Handle background tasks used by view logic
 
 from django.db import transaction
 
+from seev.apps.core.models import *
 from seev.apps.catalog.models import *
+from seev.apps.order.models import *
 
 
 @transaction.atomic
@@ -59,3 +61,17 @@ def removeSpecCascade(specificationId):
     # Remove price points
     prices = CtgPrice.objects.filter(specification_id=specificationId)
     prices.delete()
+
+
+def getAllSitesInOrder(order):
+    if not order:
+        return None
+
+    return PtaSite.objects.filter(order_instance=order)
+
+
+def getAllProductsInOrder(order):
+    if not order:
+        return None
+
+    return PtaBasketItem.objects.filter(basket=order.basket, parent_id=None)

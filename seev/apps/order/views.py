@@ -14,6 +14,7 @@ from seev.apps.utils.codetable import getGeneralTranslation
 from seev.apps.utils.messages import get_app_message, addSnackDataToContext
 from seev.apps.utils.session import (
     store_context_in_session, get_context_in_session, load_ord_meta_to_context, save_ord_meta_to_session, clear_ord_meta)
+from seev.apps.utils.process import (getAllSitesInOrder, getAllProductsInOrder)
 
 from seev.apps.core.models import UnoClient
 
@@ -146,6 +147,12 @@ def go_ord_config_home(request, context=None):
         store_context_in_session(request, addSnackDataToContext(
             context, 'Order request failed'))
         return redirect('go_ord_home')
+
+    order = PtaOrderInstance.objects.get(
+        order_number=context['ordMeta']['order_number'])
+    context['numSites'] = len(getAllSitesInOrder(order))
+    context['numPrs'] = len(getAllProductsInOrder(order))
+    context['isValid'] = True if order.status in ('VA', 'FL') else False
 
     return render(request, 'order/order-home.html', context=context)
 

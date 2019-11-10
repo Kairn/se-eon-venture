@@ -2,6 +2,7 @@
 
 console.log('Order app is launching...');
 
+// Static functions
 // Clear radio field
 const clearRadio = function(radio) {
   let inner = document.getElementById(radio.getAttribute('data-inner'));
@@ -67,4 +68,15 @@ const dismissOrdDetails = function() {
 const exitOrder = function() {
   let form = document.getElementById('exit-ord-form')
   form.submit();
+};
+
+// Navigate to order summary
+const navToSummary = function() {
+  let flagDiv = document.getElementById('ord-is-valid');
+
+  if (flagDiv && flagDiv.innerHTML === 'True') {
+    // Go
+  } else {
+    showSnackMessage('Order needs to be validated first', 3000);
+  }
 };
