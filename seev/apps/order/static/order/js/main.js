@@ -70,6 +70,11 @@ const exitOrder = function() {
   form.submit();
 };
 
+// Navigate to order config home
+const navToConfigHome = function() {
+  window.location.href = '/order/config-home/';
+};
+
 // Navigate to order summary
 const navToSummary = function() {
   let flagDiv = document.getElementById('ord-is-valid');

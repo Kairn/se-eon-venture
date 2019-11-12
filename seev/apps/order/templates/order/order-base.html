@@ -75,8 +75,13 @@
 	</div>
 </div>
 <!-- Float -->
-<div style="background-color: #1A237E;" class="seev-float-btn" onclick="exitOrder()">
-	<img src="{% static 'order/images/icon-58.svg' %}" alt="exit-icon">
+<div class="seev-float-btn-group">
+	<div style="background-color: #0D47A1;" class="seev-float-btn" onclick="exitOrder()">
+		<img src="{% static 'order/images/icon-58.svg' %}" alt="exit-icon">
+	</div>
+	<div style="background-color: #B71C1C;" class="seev-float-btn float-above" onclick="navToConfigHome()">
+		<img src="{% static 'order/images/icon-59.svg' %}" alt="home-icon">
+	</div>
 </div>
 <form style="display: none;" action="/order/exit-ord/" id="exit-ord-form" method="POST">
 	{% csrf_token %}

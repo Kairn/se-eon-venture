@@ -246,35 +246,43 @@ form {
   }
 }
 
-.seev-float-btn {
-  user-select: none;
+.seev-float-btn-group {
   display: inline-flex;
-  width: 80px;
-  height: 80px;
-  color: white;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
+  flex-flow: column-reverse wrap;
   position: fixed;
   right: 2rem;
   bottom: 2rem;
   z-index: 12;
-  background-color: black;
-  cursor: pointer;
+  & > div:nth-child(n + 2) {
+    margin-bottom: 1rem;
+  }
   @include tablet {
     right: 1rem;
     bottom: 1rem;
   }
+}
+
+.seev-float-btn {
+  user-select: none;
+  display: inline-flex;
+  width: 68px;
+  height: 68px;
+  color: white;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background-color: black;
+  cursor: pointer;
   @include mobile {
-    width: 68px;
-    height: 68px;
+    width: 60px;
+    height: 60px;
   }
   img {
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
     @include mobile {
-      width: 26px;
-      height: 26px;
+      width: 22px;
+      height: 22px;
     }
   }
 }
