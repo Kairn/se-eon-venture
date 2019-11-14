@@ -212,3 +212,30 @@ def auth_access_order(request, context=None):
 def exit_order(request, context=None):
     clear_ord_meta(request)
     return redirect('go_landing')
+
+
+def go_site_config(request, context=None):
+    try:
+        context = get_context_in_session(request)
+
+        if not context:
+            context = {}
+
+        # Get order metadata
+        ordMeta = request.session['order_meta']
+        if not ordMeta:
+            store_context_in_session(request, addSnackDataToContext(
+                context, 'Order request failed'))
+            return redirect('go_ord_home')
+        else:
+            context = load_ord_meta_to_context(request, context)
+
+        # Validate order status
+
+        # Load existing sites
+
+        return render(request, 'order/order-site.html', context=context)
+    except Exception:
+        store_context_in_session(
+            request, addSnackDataToContext(context, 'Redirect error'))
+        return redirect('go_ord_home')

@@ -30,6 +30,14 @@ $frame-size-small: 440px;
   }
 }
 
+.ord-config-title {
+  color: #212121;
+  font-size: 30px;
+  font-weight: 500;
+  font-style: italic;
+  font-family: "Original Surfer", cursive;
+}
+
 .ord-banner {
   user-select: none;
   display: flex;
@@ -718,4 +726,11 @@ $frame-size-small: 440px;
       }
     }
   }
+}
+
+#ord-add-site-sect,
+#ord-exist-site-sect {
+  width: 85%;
+  margin: 3rem auto 0 auto;
+  padding: 2rem 1rem;
 }

@@ -21,5 +21,10 @@ const checkConfigAccess = function() {
   }
 };
 
+// Navigate to site config page
+const navToSiteConfig = function() {
+  window.location.href = '/order/config-site/';
+};
+
 // Runtime
 checkConfigAccess();
