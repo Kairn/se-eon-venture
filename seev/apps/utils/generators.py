@@ -2,6 +2,7 @@
 Providing data generation utilities
 """
 
+import os
 import string
 import random
 import hashlib
@@ -138,3 +139,11 @@ def generateOrderData(order):
         return ordData
     except Exception:
         return None
+
+
+def getGoogleMapApiSource():
+    apiKey = os.environ['SEEV_GOOG_KEY']
+    callBack = 'initGoogleSearchMap'
+    template = 'https://maps.googleapis.com/maps/api/js?key={0}&libraries=places&callback={1}'
+
+    return template.format(apiKey, callBack)

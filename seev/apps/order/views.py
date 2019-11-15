@@ -9,7 +9,7 @@ from django.shortcuts import render, redirect, reverse
 
 from seev.apps.utils.country import UnoCountry
 from seev.apps.utils.generators import (
-    getFullCatalogCode, getDefCatalogCode, generateOrderMeta, generateOrderData)
+    getFullCatalogCode, getDefCatalogCode, generateOrderMeta, generateOrderData, getGoogleMapApiSource)
 from seev.apps.utils.codetable import getGeneralTranslation
 from seev.apps.utils.messages import get_app_message, addSnackDataToContext
 from seev.apps.utils.session import (
@@ -229,6 +229,7 @@ def go_site_config(request, context=None):
             return redirect('go_ord_home')
         else:
             context = load_ord_meta_to_context(request, context)
+            context['mapApi'] = getGoogleMapApiSource()
 
         # Validate order status
 
@@ -236,6 +237,7 @@ def go_site_config(request, context=None):
 
         return render(request, 'order/order-site.html', context=context)
     except Exception:
+        traceback.print_exc()
         store_context_in_session(
             request, addSnackDataToContext(context, 'Redirect error'))
         return redirect('go_ord_home')
