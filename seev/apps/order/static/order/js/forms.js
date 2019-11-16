@@ -68,6 +68,10 @@ const triggerFormValidation = function(event) {
 
 // Detect form input changes to trigger validation
 allInputFields.forEach((field) => {
+  if (field.id === 'ac-input') {
+    return;
+  }
+
   field.addEventListener('input', (e) => {
     e.target.dirty = true;
     triggerFormValidation(e);

@@ -14,6 +14,7 @@ $frame-size-small: 440px;
 #map {
   width: 100%;
   height: 800px;
+  max-height: 85vw;
 }
 
 #ord-main-wrapper {
@@ -41,6 +42,10 @@ $frame-size-small: 440px;
   font-weight: 500;
   font-style: italic;
   font-family: "Original Surfer", cursive;
+  @include tablet {
+    text-align: center;
+    font-size: 26px;
+  }
 }
 
 .ord-banner {
@@ -741,8 +746,55 @@ $frame-size-small: 440px;
 }
 
 #site-search-wrapper {
-  margin: 2rem 0 0 0;
+  margin: 0.5rem 0 0 0;
+  h2 {
+    font-weight: 500;
+    font-size: 22px;
+    font-family: "Titillium Web", sans-serif;
+    color: #d50000;
+    @include tablet {
+      font-size: 20px;
+      text-align: center;
+    }
+    @include mobile {
+      font-size: 17px;
+    }
+  }
   #map-wrapper {
-    //
+    position: relative;
+    margin: 1.5rem 0 0 0;
+    @include tablet {
+      position: static;
+    }
+  }
+}
+
+#ac-wrapper {
+  z-index: 3;
+  width: 650px;
+  max-width: 60%;
+  position: absolute;
+  left: 50%;
+  top: 8%;
+  transform: translateX(-50%);
+  @include tablet {
+    position: static;
+    transform: none;
+    max-width: 80%;
+    margin: 0.5rem auto 1.5rem auto;
+  }
+  #ac-input {
+    width: 100%;
+    padding: 1rem 2rem;
+    font-size: 20px;
+    font-family: "Comfortaa", cursive;
+    border: none;
+    border-radius: 27.5px;
+    background-color: #eeeeee;
+    @include tablet {
+      font-size: 18px;
+      padding: 0.75rem 1.75rem;
+      text-align: center;
+    }
   }
 }
