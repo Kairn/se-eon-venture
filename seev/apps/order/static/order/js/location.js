@@ -57,5 +57,24 @@ window.initGoogleSearchMap = function() {
 
     marker.setPosition(place.geometry.location);
     marker.setVisible(true);
+
+    if (place.address_components) {
+      console.log(getAddrComps(place.address_components));
+    }
   });
 };
+
+// Populate address components
+const getAddrComps = function(data) {
+  if (!data) {
+    return null;
+  }
+
+  let comps = {};
+
+  for (let comp of data) {
+    comps[comp.types[0]] = comp.long_name;
+  }
+
+  return comps;
+}

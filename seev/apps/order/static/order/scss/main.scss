@@ -48,6 +48,37 @@ $frame-size-small: 440px;
   }
 }
 
+.ord-config-subtitle {
+  margin-left: 1rem;
+  font-weight: 500;
+  font-size: 26px;
+  font-family: "Titillium Web", sans-serif;
+  @include tablet {
+    margin: 0;
+    font-size: 24px;
+    text-align: center;
+  }
+  @include mobile {
+    font-size: 22px;
+  }
+}
+
+.ord-pri-btn {
+  cursor: pointer;
+  display: inline-block;
+  padding: 0.65rem 0;
+  text-align: center;
+  border-radius: 4px;
+  color: white;
+  border: none;
+  font-size: 20px;
+  background-color: black;
+  font-family: "Noto Sans", sans-serif;
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
 .ord-banner {
   user-select: none;
   display: flex;
@@ -748,17 +779,7 @@ $frame-size-small: 440px;
 #site-search-wrapper {
   margin: 0.5rem 0 0 0;
   h2 {
-    font-weight: 500;
-    font-size: 22px;
-    font-family: "Titillium Web", sans-serif;
     color: #d50000;
-    @include tablet {
-      font-size: 20px;
-      text-align: center;
-    }
-    @include mobile {
-      font-size: 17px;
-    }
   }
   #map-wrapper {
     position: relative;
@@ -795,6 +816,57 @@ $frame-size-small: 440px;
       font-size: 18px;
       padding: 0.75rem 1.75rem;
       text-align: center;
+    }
+  }
+}
+
+#site-details-wrapper {
+  margin: 2rem 0 0 0;
+  h2 {
+    margin-bottom: 2rem;
+    color: #0d47a1;
+  }
+}
+
+.addr-grid-inner-wrapper {
+  .addr-label {
+    //
+  }
+  .addr-grid-item {
+    //
+  }
+  .addr-field-dis {
+    //
+  }
+}
+
+#ord-site-addr-form {
+  padding: 1rem 1rem;
+  #addr-grid {
+  }
+}
+
+#addr-action-btns {
+  margin: 3.5rem 0 0 0;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  @include tablet {
+    flex-flow: column wrap;
+  }
+  button {
+    width: 13rem;
+    &:first-child {
+      background-color: #01579b;
+      @include tablet {
+        margin-bottom: 0.75rem;
+      }
+    }
+    &:last-child {
+      background-color: #004d40;
+      @include tablet {
+        margin-top: 0.75rem;
+      }
     }
   }
 }
