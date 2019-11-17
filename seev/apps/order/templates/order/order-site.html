@@ -19,7 +19,7 @@
 		<form id="ord-site-addr-form" action="#" method="post" novalidate>
 			{% csrf_token %}
 			<div id="addr-grid">
-				<div class="addr-grid-inner-wrapper">
+				<div class="addr-grid-inner-wrapper addr-l1">
 					<label for="addr-line-1" class="addr-label">Address Line 1</label>
 					<input class="addr-grid-item addr-field-dis" type="text" name="address_line_1" id="addr-line-1" readonly>
 				</div>
@@ -49,8 +49,8 @@
 				</div>
 			</div>
 			<div id="addr-action-btns">
-				<button class="ord-pri-btn" type="submit">Add Site</button>
-				<button class="ord-pri-btn" type="reset">Clear Form</button>
+				<button id="ord-add-site-btn" class="ord-pri-btn" type="submit">Add Site</button>
+				<button onclick="toggleSiteBtn(true);" class="ord-pri-btn" type="reset">Clear Form</button>
 			</div>
 		</form>
 	</div>

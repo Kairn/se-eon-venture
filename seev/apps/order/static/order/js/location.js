@@ -40,6 +40,7 @@ window.initGoogleSearchMap = function() {
 
   // Auto-complete function
   autoComplete.addListener('place_changed', () => {
+    toggleSiteBtn(true);
     marker.setVisible(false);
     place = autoComplete.getPlace();
 
@@ -58,8 +59,24 @@ window.initGoogleSearchMap = function() {
     marker.setPosition(place.geometry.location);
     marker.setVisible(true);
 
+    // Fill address form
     if (place.address_components) {
-      console.log(getAddrComps(place.address_components));
+      let comps = getAddrComps(place.address_components);
+
+      let addr1 = document.getElementsByName('address_line_1')[0];
+      let city = document.getElementsByName('address_city')[0];
+      let state = document.getElementsByName('address_state')[0];
+      let zip = document.getElementsByName('address_postal')[0];
+      let country = document.getElementsByName('address_country')[0];
+
+      addr1.value = `${comps['street_number']} ${comps['route']}`;
+      city.value = comps['neighborhood'] ? comps['locality'] ? `${comps['neighborhood']}, ${comps['locality']}` : comps['neighborhood'] : comps['locality'];
+      state.value = comps['administrative_area_level_1'];
+      zip.value = comps['postal_code'];
+      country.value = comps['country'];
+
+      // Enable submit button
+      toggleSiteBtn(false);
     }
   });
 };
@@ -77,4 +94,20 @@ const getAddrComps = function(data) {
   }
 
   return comps;
-}
+};
+
+// Toggle site submit button
+const toggleSiteBtn = function(disable) {
+  let siteBtn = document.getElementById('ord-add-site-btn');
+  if (!siteBtn) {
+    return;
+  }
+
+  if (disable) {
+    siteBtn.disabled = true;
+    siteBtn.classList.add('form-btn-dis');
+  } else {
+    siteBtn.disabled = false;
+    siteBtn.classList.remove('form-btn-dis');
+  }
+};
