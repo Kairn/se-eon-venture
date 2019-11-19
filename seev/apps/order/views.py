@@ -241,3 +241,36 @@ def go_site_config(request, context=None):
         store_context_in_session(
             request, addSnackDataToContext(context, 'Redirect error'))
         return redirect('go_ord_home')
+
+
+def add_new_site(request, context=None):
+    if request.method == 'POST':
+        try:
+            context = {}
+            ordMeta = request.session['order_meta']
+
+            # Get address form data
+            siteName = request.POST['site_name']
+            addrL1 = request.POST['address_line_1']
+            addrL2 = request.POST['address_line_2']
+            addrL3 = request.POST['address_line_3']
+            city = request.POST['address_city']
+            state = request.POST['address_state']
+            zipcode = request.POST['address_postal']
+            country = request.POST['address_country']
+
+            # Get order
+            order = PtaOrderInstance.objects.get(
+                order_number=ordMeta['order_number'])
+            customer = order.customer
+
+            # Validation
+
+            # Create site data
+        except Exception:
+            traceback.print_exc()
+            store_context_in_session(
+                request, addSnackDataToContext(context, 'Unknown error'))
+            return redirect('go_ord_config_home')
+    else:
+        return redirect('go_site_config')

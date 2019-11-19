@@ -829,7 +829,7 @@ $frame-size-small: 440px;
 }
 
 .addr-grid-inner-wrapper {
-  &.addr-l1 {
+  &.addr-long {
     grid-column: 1 / span 2;
     @include mobile {
       grid-column: 1 / span 1;

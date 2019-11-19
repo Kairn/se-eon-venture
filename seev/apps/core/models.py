@@ -177,8 +177,7 @@ class UnoSite(models.Model):
     city = models.CharField('City', max_length=64)
     state = models.CharField('State or Province', max_length=64)
     zipcode = models.PositiveIntegerField('Zipcode')
-    country = models.CharField('Country', max_length=64, null=False,
-                               default=UnoCountry.get_default_cty, choices=UnoCountry.get_cty_code_list())
+    country = models.CharField('Country', max_length=256, null=False)
     is_virtual = models.BooleanField(default=False)
     creation_time = models.DateTimeField(
         'Timestamp of Creation', default=now, editable=False, null=False)

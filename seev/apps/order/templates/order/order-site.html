@@ -16,10 +16,14 @@
 	</div>
 	<div id="site-details-wrapper">
 		<h2 class="ord-config-subtitle">Address Details</h2>
-		<form id="ord-site-addr-form" action="#" method="post" novalidate>
+		<form id="ord-site-addr-form" action="#" method="post">
 			{% csrf_token %}
 			<div id="addr-grid">
-				<div class="addr-grid-inner-wrapper addr-l1">
+				<div class="addr-grid-inner-wrapper addr-long">
+					<label for="site-name" class="addr-label">Location Name <span style="color: #D32F2F;">*</span></label>
+					<input class="addr-grid-item" type="text" name="site_name" id="site-name" required>
+				</div>
+				<div class="addr-grid-inner-wrapper addr-long">
 					<label for="addr-line-1" class="addr-label">Address Line 1</label>
 					<input class="addr-grid-item addr-field-dis" type="text" name="address_line_1" id="addr-line-1" readonly>
 				</div>
