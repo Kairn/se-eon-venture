@@ -12,4 +12,5 @@ urlpatterns = [
     re_path(r'^auth-ord/$', views.auth_access_order, name='auth_access_order'),
     re_path(r'^exit-ord/$', views.exit_order, name='exit_order'),
     re_path(r'^config-site/$', views.go_site_config, name='go_site_config'),
+    re_path(r'^add-new-site/$', views.add_new_site, name='add_new_site'),
 ]

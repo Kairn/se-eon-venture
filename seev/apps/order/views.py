@@ -265,8 +265,50 @@ def add_new_site(request, context=None):
             customer = order.customer
 
             # Validation
+            dupSite = PtaSite.objects.filter(
+                order_instance=order, site_name=siteName)
+            if len(dupSite) > 0:
+                raise TabError
 
-            # Create site data
+            site = UnoSite.objects.filter(address_1=addrL1, address_2=addrL2, address_3=addrL3,
+                                          city=city, state=state, zipcode=zipcode, country=country, customer=customer)
+            if len(site) > 0:
+                site = site[0]
+                extSite = PtaSite.objects.filter(
+                    site=site, order_instance=order)
+                if len(extSite) > 0:
+                    raise AssertionError
+            else:
+                site = UnoSite(
+                    customer=customer,
+                    address_1=addrL1,
+                    address_2=addrL2,
+                    address_3=addrL3,
+                    city=city,
+                    state=state,
+                    zipcode=zipcode,
+                    country=country
+                )
+                site.save()
+
+            ordSite = PtaSite(
+                site_name=siteName,
+                site=site,
+                order_instance=order,
+            )
+
+            ordSite.save()
+            store_context_in_session(
+                request, addSnackDataToContext(context, 'New location added'))
+            return redirect('go_site_config')
+        except AssertionError:
+            store_context_in_session(request, addSnackDataToContext(
+                context, 'Site already exists'))
+            return redirect('go_site_config')
+        except TabError:
+            store_context_in_session(request, addSnackDataToContext(
+                context, 'Location name already exists'))
+            return redirect('go_site_config')
         except Exception:
             traceback.print_exc()
             store_context_in_session(

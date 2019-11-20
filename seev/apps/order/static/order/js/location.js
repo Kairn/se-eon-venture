@@ -75,6 +75,16 @@ window.initGoogleSearchMap = function() {
       zip.value = comps['postal_code'];
       country.value = comps['country'];
 
+      if (city.value === 'undefined') {
+        if (comps['sublocality']) {
+          city.value = comps['sublocality'];
+        } else if (comps['sublocality_level_1']) {
+          city.value = comps['sublocality_level_1'];
+        } else if (comps['administrative_area_level_2']) {
+          city.value = comps['administrative_area_level_2'];
+        }
+      }
+
       // Enable submit button
       toggleSiteBtn(false);
     }
