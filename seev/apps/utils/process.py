@@ -8,6 +8,9 @@ from seev.apps.core.models import *
 from seev.apps.catalog.models import *
 from seev.apps.order.models import *
 
+from seev.apps.utils.generators import *
+from seev.apps.utils.session import *
+
 
 @transaction.atomic
 def removeProductCascade(product):
@@ -75,3 +78,44 @@ def getAllProductsInOrder(order):
         return None
 
     return PtaBasketItem.objects.filter(basket=order.basket, parent_id=None)
+
+
+def startOrder(order, request):
+    if not order:
+        return
+
+    if order.status == 'IP':
+        return
+    elif order.status in ('IN', 'FZ'):
+        # Unlock basket
+        if order.status == 'FZ':
+            basket = order.basket
+            if basket:
+                basket.is_locked = False
+                basket.save()
+
+        order.status = 'IP'
+        order.save()
+
+        if request:
+            refreshOrdSessionData(order, request)
+
+
+def freezeOrder(order, request):
+    if not order:
+        return
+
+    if order.status == 'FZ':
+        return
+    elif order.status in ('IN', 'IP', 'VA'):
+        order.status = 'FZ'
+        order.save()
+
+        # Lock basket
+        basket = order.basket
+        if basket:
+            basket.is_locked = True
+            basket.save()
+
+        if request:
+            refreshOrdSessionData(order, request)

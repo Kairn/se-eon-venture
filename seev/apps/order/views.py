@@ -14,7 +14,8 @@ from seev.apps.utils.codetable import getGeneralTranslation
 from seev.apps.utils.messages import get_app_message, addSnackDataToContext
 from seev.apps.utils.session import (
     store_context_in_session, get_context_in_session, load_ord_meta_to_context, save_ord_meta_to_session, clear_ord_meta)
-from seev.apps.utils.process import (getAllSitesInOrder, getAllProductsInOrder)
+from seev.apps.utils.process import (
+    getAllSitesInOrder, getAllProductsInOrder, startOrder)
 
 from seev.apps.core.models import UnoClient
 
@@ -298,6 +299,7 @@ def add_new_site(request, context=None):
             )
 
             ordSite.save()
+            startOrder(order, request)
             store_context_in_session(
                 request, addSnackDataToContext(context, 'New location added'))
             return redirect('go_site_config')

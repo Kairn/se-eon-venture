@@ -2,6 +2,8 @@
 Manage session related shortcut functions
 """
 
+from seev.apps.utils.generators import *
+
 
 def store_context_in_session(request, context):
     if request and hasattr(request, 'session'):
@@ -46,3 +48,11 @@ def clear_ord_meta(request):
         del request.session['order_meta']
     else:
         return
+
+
+def refreshOrdSessionData(order, request):
+    if not order or not request:
+        return
+    else:
+        meta = generateOrderMeta(order)
+        save_ord_meta_to_session(request, meta)
