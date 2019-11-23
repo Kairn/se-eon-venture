@@ -62,9 +62,23 @@
 <section id="ord-exist-site-sect">
 	<h1 class="ord-config-title">Currect Sites</h1>
 	{% if siteCount > 0 %}
-	{% for site in siteData %}
-	<div>{{site.name}}, {{site.valid}}, {{site.addr}}, {{site.state}}, {{site.prCount}}</div>
-	{% endfor %}
+	<div id="site-list-wrapper">
+		{% for site in siteData %}
+		<div class="site-row" data-count="{{ site.prCount }}">
+			<img class="unimp" src="{% static 'order/images/icon-60.svg' %}" alt="site-icon">
+			{% if site.valid == '0' %}
+			<img src="{% static 'icon-102.svg' %}" alt="warn-icon">
+			{% else %}
+			<img src="{% static 'icon-103.svg' %}" alt="valid-icon">
+			{% endif %}
+			<span class="tooltip-source">{{ site.name }}
+				<span class="tooltip-text">{{ site.addr }}</span>
+			</span>
+			<span class="unimp-2">{{ site.state }}</span>
+			<img src="{% static 'icon-40.svg' %}" alt="delete-icon">
+		</div>
+		{% endfor %}
+	</div>
 	{% else %}
 	<div class="ord-config-subtitle" style="margin: 2rem 0 0 0; padding-left: 1rem;">No sites to display.</div>
 	{% endif %}

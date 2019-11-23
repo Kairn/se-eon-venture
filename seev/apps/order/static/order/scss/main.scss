@@ -915,3 +915,60 @@ $frame-size-small: 440px;
     }
   }
 }
+
+#site-list-wrapper {
+  padding: 1rem 1rem;
+  cursor: default;
+  @include tablet {
+    padding: 1rem 0;
+  }
+  .site-row {
+    &:not(:first-child):not(:last-child) {
+      margin: 3rem 0;
+    }
+    text-align: center;
+    padding: 0 0.5rem;
+    margin: 1.5rem 0;
+    display: grid;
+    height: 88px;
+    grid-template-columns: 7rem 7rem auto 16rem 9rem;
+    grid-template-rows: auto;
+    justify-items: center;
+    align-items: center;
+    font-size: 22px;
+    font-family: "Share Tech Mono", monospace;
+    background-color: #f5f5f5;
+    border-radius: 44px;
+    @include laptop {
+      grid-template-columns: 7rem 5.5rem 2fr 1fr 8rem;
+    }
+    @include tablet {
+      grid-template-columns: 5rem 2fr 1fr 5rem;
+      font-size: 20px;
+    }
+    @include mobile {
+      .unimp-2 {
+        display: none;
+      }
+      grid-template-columns: 2fr 7fr 2fr;
+      font-size: 18px;
+    }
+    &:hover {
+      background-color: #e0e0e0;
+    }
+    img {
+      width: 42px;
+      height: 42px;
+      &:last-child:hover {
+        cursor: pointer;
+      }
+      @include tablet {
+        width: 36px;
+        height: 36px;
+        &.unimp {
+          display: none;
+        }
+      }
+    }
+  }
+}

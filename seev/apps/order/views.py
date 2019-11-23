@@ -223,7 +223,7 @@ def go_site_config(request, context=None):
             context = {}
 
         # Get order metadata
-        ordMeta = request.session['order_meta']
+        ordMeta = request.session['order_meta'] if 'order_meta' in request.session else None
         if not ordMeta:
             store_context_in_session(request, addSnackDataToContext(
                 context, 'Order request failed'))
