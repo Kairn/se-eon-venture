@@ -15,7 +15,7 @@ from seev.apps.utils.messages import get_app_message, addSnackDataToContext
 from seev.apps.utils.session import (
     store_context_in_session, get_context_in_session, load_ord_meta_to_context, save_ord_meta_to_session, clear_ord_meta)
 from seev.apps.utils.process import (
-    getAllSitesInOrder, getAllProductsInOrder, startOrder)
+    getAllSitesInOrder, getAllProductsInOrder, getAllProductsInSite, startOrder)
 
 from seev.apps.core.models import UnoClient
 
@@ -232,9 +232,25 @@ def go_site_config(request, context=None):
             context = load_ord_meta_to_context(request, context)
             context['mapApi'] = getGoogleMapApiSource()
 
-        # Validate order status
+        order = PtaOrderInstance.objects.get(
+            order_number=ordMeta['order_number'])
 
         # Load existing sites
+        siteData = []
+        sites = getAllSitesInOrder(order)
+
+        for site in sites:
+            data = {}
+            doc = site.site
+            data['name'] = site.site_name
+            data['valid'] = '1' if site.is_valid else '0'
+            data['addr'] = ', '.join([doc.address_1, doc.city, doc.country])
+            data['state'] = doc.state
+            data['prCount'] = len(getAllProductsInSite(site))
+            siteData.append(data)
+
+        context['siteData'] = siteData
+        context['siteCount'] = len(siteData)
 
         return render(request, 'order/order-site.html', context=context)
     except Exception:

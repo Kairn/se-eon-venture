@@ -80,6 +80,13 @@ def getAllProductsInOrder(order):
     return PtaBasketItem.objects.filter(basket=order.basket, parent_id=None)
 
 
+def getAllProductsInSite(site):
+    if not site:
+        return None
+
+    return PtaBasketItem.objects.filter(pta_site=site, parent_id=None)
+
+
 def startOrder(order, request):
     if not order:
         return

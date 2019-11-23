@@ -61,8 +61,15 @@
 </section>
 <section id="ord-exist-site-sect">
 	<h1 class="ord-config-title">Currect Sites</h1>
+	{% if siteCount > 0 %}
+	{% for site in siteData %}
+	<div>{{site.name}}, {{site.valid}}, {{site.addr}}, {{site.state}}, {{site.prCount}}</div>
+	{% endfor %}
+	{% else %}
+	<div class="ord-config-subtitle" style="margin: 2rem 0 0 0; padding-left: 1rem;">No sites to display.</div>
+	{% endif %}
 </section>
-
+<!-- Scripts -->
 <script src="{% static 'order/js/location.js' %}"></script>
 <script src="{{ mapApi }}" async defer></script>
 {% endblock ordConfBody %}
