@@ -439,18 +439,7 @@ $frame-size-small: 440px;
 }
 
 #oppo-create-btn {
-  height: 61px;
   width: 100%;
-  border-radius: 30.5px;
-  .btn-icon-wrapper {
-    & > * {
-      margin: 0 0.4rem;
-    }
-  }
-  .btn-icon {
-    width: 27px;
-    height: 27px;
-  }
 }
 
 #ord-header-wrapper {
@@ -969,6 +958,21 @@ $frame-size-small: 440px;
           display: none;
         }
       }
+    }
+  }
+}
+
+#site-del-popup {
+  background-color: #f5f5f5;
+  width: 700px;
+  height: 360px;
+  @include mobile {
+    height: 370px;
+  }
+  #site-del-btn {
+    width: 22rem;
+    @include mobile {
+      width: 20rem;
     }
   }
 }

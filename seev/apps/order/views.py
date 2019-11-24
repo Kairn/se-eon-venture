@@ -12,10 +12,8 @@ from seev.apps.utils.generators import (
     getFullCatalogCode, getDefCatalogCode, generateOrderMeta, generateOrderData, getGoogleMapApiSource)
 from seev.apps.utils.codetable import getGeneralTranslation
 from seev.apps.utils.messages import get_app_message, addSnackDataToContext
-from seev.apps.utils.session import (
-    store_context_in_session, get_context_in_session, load_ord_meta_to_context, save_ord_meta_to_session, clear_ord_meta)
-from seev.apps.utils.process import (
-    getAllSitesInOrder, getAllProductsInOrder, getAllProductsInSite, startOrder)
+from seev.apps.utils.session import *
+from seev.apps.utils.process import *
 
 from seev.apps.core.models import UnoClient
 
@@ -242,6 +240,7 @@ def go_site_config(request, context=None):
         for site in sites:
             data = {}
             doc = site.site
+            data['id'] = site.pta_site_id
             data['name'] = site.site_name
             data['valid'] = '1' if site.is_valid else '0'
             data['addr'] = ', '.join([doc.address_1, doc.city, doc.country])
@@ -260,11 +259,15 @@ def go_site_config(request, context=None):
         return redirect('go_ord_home')
 
 
+@transaction.atomic
 def add_new_site(request, context=None):
     if request.method == 'POST':
         try:
             context = {}
-            ordMeta = request.session['order_meta']
+            ordMeta = request.session['order_meta'] if 'order_meta' in request.session else None
+
+            if not ordMeta:
+                return redirect('go_site_config')
 
             # Get address form data
             siteName = request.POST['site_name']
@@ -315,7 +318,8 @@ def add_new_site(request, context=None):
             )
 
             ordSite.save()
-            startOrder(order, request)
+            invalidateOrder(order)
+            refreshOrdSessionData(order, request)
             store_context_in_session(
                 request, addSnackDataToContext(context, 'New location added'))
             return redirect('go_site_config')
@@ -326,6 +330,40 @@ def add_new_site(request, context=None):
         except TabError:
             store_context_in_session(request, addSnackDataToContext(
                 context, 'Location name already exists'))
+            return redirect('go_site_config')
+        except Exception:
+            traceback.print_exc()
+            store_context_in_session(
+                request, addSnackDataToContext(context, 'Unknown error'))
+            return redirect('go_ord_config_home')
+    else:
+        return redirect('go_site_config')
+
+
+@transaction.atomic
+def rm_site(request, context=None):
+    if request.method == 'POST':
+        try:
+            context = {}
+            ordMeta = request.session['order_meta'] if 'order_meta' in request.session else None
+
+            if not ordMeta:
+                return redirect('go_site_config')
+
+            siteId = request.POST['site-id']
+            site = PtaSite.objects.get(pta_site_id=siteId)
+            order = site.order_instance
+
+            # Delete all products
+            products = getAllProductsInSite(site)
+            for product in products:
+                deleteProductItem(product)
+
+            site.delete()
+            invalidateOrder(order)
+            refreshOrdSessionData(order, request)
+            store_context_in_session(request, addSnackDataToContext(
+                context, 'Location has been removed'))
             return redirect('go_site_config')
         except Exception:
             traceback.print_exc()

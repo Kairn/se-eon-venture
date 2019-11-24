@@ -155,6 +155,24 @@ form {
   }
 }
 
+.popup-simple-msg {
+  text-align: left;
+  font-size: 20px;
+  color: #212121;
+  padding: 0 2.5rem;
+  line-height: 1.25;
+  @include mobile {
+    padding: 0 1.5rem;
+    text-align: center;
+  }
+}
+
+.popup-action-wrapper {
+  margin: 3rem 0 1rem 0;
+  display: flex;
+  justify-content: space-evenly;
+}
+
 .seev-btn {
   user-select: none;
   display: inline-flex;
@@ -217,15 +235,23 @@ form {
   background-color: #607d8b;
 }
 
+.seev-icon-btn {
+  height: 61px;
+  border-radius: 30.5px;
+}
+
 .btn-icon-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
+  & > * {
+    margin: 0 0.4rem;
+  }
 }
 
 .btn-icon {
-  width: 20px;
-  height: 20px;
+  width: 27px;
+  height: 27px;
 }
 
 .seev-radio-outer {

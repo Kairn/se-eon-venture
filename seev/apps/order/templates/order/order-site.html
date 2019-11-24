@@ -64,7 +64,7 @@
 	{% if siteCount > 0 %}
 	<div id="site-list-wrapper">
 		{% for site in siteData %}
-		<div class="site-row" data-count="{{ site.prCount }}">
+		<div class="site-row">
 			<img class="unimp" src="{% static 'order/images/icon-60.svg' %}" alt="site-icon">
 			{% if site.valid == '0' %}
 			<img src="{% static 'icon-102.svg' %}" alt="warn-icon">
@@ -75,7 +75,8 @@
 				<span class="tooltip-text">{{ site.addr }}</span>
 			</span>
 			<span class="unimp-2">{{ site.state }}</span>
-			<img src="{% static 'icon-40.svg' %}" alt="delete-icon">
+			<img onclick="showRmPopup('{{ site.prCount }}', '{{ site.id }}')" src="{% static 'icon-40.svg' %}"
+				alt="delete-icon">
 		</div>
 		{% endfor %}
 	</div>
@@ -83,6 +84,28 @@
 	<div class="ord-config-subtitle" style="margin: 2rem 0 0 0; padding-left: 1rem;">No sites to display.</div>
 	{% endif %}
 </section>
+<!-- Popup -->
+<div class="black-overlay no-show"></div>
+<div id="site-del-popup" class="seev-popup no-show">
+	<div class="popup-head" style="margin-bottom: 3rem;">
+		<img onclick="dismissRmPopup()" src="{% static 'icon-100.svg' %}" alt="close-icon">
+	</div>
+	<div class="popup-simple-msg">
+		All # products associated to the currect site will be deleted as well. Do you wish to continue?
+	</div>
+	<form id="site-del-form" style="display: none;" action="/order/rm-site/" method="post">
+		{% csrf_token %}
+		<input type="text" name="site-id" id="id_site_id" style="display: none;">
+	</form>
+	<div style="margin-top: 4rem;" class="popup-action-wrapper">
+		<button onclick="confirmDelete()" id="site-del-btn" class="seev-btn-outline seev-icon-btn" type="button">
+			<span class="btn-icon-wrapper">
+				<span>Remove</span>
+				<img class="btn-icon" src="{% static 'icon-104.svg' %}" alt="warn-icon">
+			</span>
+		</button>
+	</div>
+</div>
 <!-- Scripts -->
 <script src="{% static 'order/js/location.js' %}"></script>
 <script src="{{ mapApi }}" async defer></script>

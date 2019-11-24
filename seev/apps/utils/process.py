@@ -87,7 +87,8 @@ def getAllProductsInSite(site):
     return PtaBasketItem.objects.filter(pta_site=site, parent_id=None)
 
 
-def startOrder(order, request):
+@transaction.atomic
+def startOrder(order):
     if not order:
         return
 
@@ -104,11 +105,9 @@ def startOrder(order, request):
         order.status = 'IP'
         order.save()
 
-        if request:
-            refreshOrdSessionData(order, request)
 
-
-def freezeOrder(order, request):
+@transaction.atomic
+def freezeOrder(order):
     if not order:
         return
 
@@ -124,5 +123,31 @@ def freezeOrder(order, request):
             basket.is_locked = True
             basket.save()
 
-        if request:
-            refreshOrdSessionData(order, request)
+
+@transaction.atomic
+def invalidateOrder(order):
+    if not order:
+        return
+
+    if order.status in ('IN', 'IP', 'VA'):
+        order.status = 'IP'
+        order.save()
+
+
+@transaction.atomic
+def deleteFeatureItem(item):
+    if item and item.parent_id:
+        item.delete()
+
+
+@transaction.atomic
+def deleteProductItem(item):
+    if not item or item.parent_id:
+        return
+
+    # Delete child features
+    features = PtaBasketItem.objects.filter(parent_id=item.basket_item_id)
+    for fet in features:
+        fet.delete()
+
+    item.delete()

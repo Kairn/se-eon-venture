@@ -72,7 +72,7 @@ window.initGoogleSearchMap = function() {
       addr1.value = `${comps['street_number']} ${comps['route']}`;
       city.value = comps['neighborhood'] ? comps['locality'] ? `${comps['neighborhood']}, ${comps['locality']}` : comps['neighborhood'] : comps['locality'];
       state.value = comps['administrative_area_level_1'];
-      zip.value = comps['postal_code'];
+      zip.value = comps['postal_code'] ? comps['postal_code'] : 'N/A';
       country.value = comps['country'];
 
       if (city.value === 'undefined') {
@@ -120,4 +120,35 @@ const toggleSiteBtn = function(disable) {
     siteBtn.disabled = false;
     siteBtn.classList.remove('form-btn-dis');
   }
+};
+
+// Display removal popup
+const showRmPopup = function(count, id) {
+  let overlay = document.querySelector('.black-overlay');
+  let popup = document.getElementById('site-del-popup');
+  let msg = document.querySelector('.popup-simple-msg');
+  let idField = document.getElementById('id_site_id');
+
+  msg.innerHTML = msg.innerHTML.replace('#', count);
+  idField.value = id;
+
+  setTimeout(() => {
+    overlay.classList.remove('no-show');
+    popup.classList.remove('no-show');
+  }, 150);
+};
+
+// Dismiss removal popup
+const dismissRmPopup = function() {
+  let overlay = document.querySelector('.black-overlay');
+  let popup = document.getElementById('site-del-popup');
+
+  overlay.classList.add('no-show');
+  popup.classList.add('no-show');
+};
+
+// Submit removal
+const confirmDelete = function() {
+  let form = document.getElementById('site-del-form');
+  form.submit();
 };
