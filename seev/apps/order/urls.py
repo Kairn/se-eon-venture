@@ -14,4 +14,5 @@ urlpatterns = [
     re_path(r'^config-site/$', views.go_site_config, name='go_site_config'),
     re_path(r'^add-new-site/$', views.add_new_site, name='add_new_site'),
     re_path(r'^rm-site/$', views.rm_site, name='rm_site'),
+    re_path(r'^build-pr/$', views.go_build_pr, name='go_build_pr'),
 ]

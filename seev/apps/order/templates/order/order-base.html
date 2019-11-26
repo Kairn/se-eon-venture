@@ -29,10 +29,17 @@
 		</div>
 	</div>
 </div>
+<!-- Base scripts -->
+<script src="{% static 'order/js/order.js' %}"></script>
 <div id="ord-config-body">
 	{% block ordConfBody %}
 	{% endblock ordConfBody %}
 </div>
+<!-- Data -->
+<aside style="display: none;">
+	<div id="ord-data-order-number">{{ data_on }}</div>
+	<div id="ord-data-order-status">{{ data_os }}</div>
+</aside>
 <!-- Popup -->
 <div class="black-overlay no-show"></div>
 <div id="ord-detail-popup" class="seev-popup no-show">

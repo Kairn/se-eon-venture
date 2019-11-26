@@ -149,6 +149,8 @@ def go_ord_config_home(request, context=None):
 
     order = PtaOrderInstance.objects.get(
         order_number=context['ordMeta']['order_number'])
+    context['data_on'] = order.order_number
+    context['data_os'] = order.status
     context['numSites'] = len(getAllSitesInOrder(order))
     context['numPrs'] = len(getAllProductsInOrder(order))
     context['isValid'] = True if order.status in ('VA', 'FL') else False
@@ -372,3 +374,33 @@ def rm_site(request, context=None):
             return redirect('go_ord_config_home')
     else:
         return redirect('go_site_config')
+
+
+def go_build_pr(request, context=None):
+    try:
+        context = get_context_in_session(request)
+
+        if not context:
+            context = {}
+
+        # Metadata
+        ordMeta = request.session['order_meta'] if 'order_meta' in request.session else None
+        if not ordMeta:
+            store_context_in_session(request, addSnackDataToContext(
+                context, 'Order request failed'))
+            return redirect('go_ord_home')
+        else:
+            context = load_ord_meta_to_context(request, context)
+
+        # Load catalog products
+
+        # Load Sites
+
+        # Load current site and products
+
+        return render(request, 'order/order-product.html', context=context)
+    except Exception:
+        traceback.print_exc()
+        store_context_in_session(
+            request, addSnackDataToContext(context, 'Redirect error'))
+        return redirect('go_ord_home')

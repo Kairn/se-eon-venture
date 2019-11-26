@@ -11,11 +11,11 @@ const checkConfigAccess = function() {
   let bpBtn = document.getElementById('ord-bp-btn');
   let esBtn = document.getElementById('ord-es-btn');
 
-  if (dataSnap.getAttribute('data-ns') === '0') {
+  if (dataSnap.getAttribute('data-ns') === '0' || !isOrderEditable()) {
     bpBtn.disabled = true;
     bpBtn.classList.add('penta-btn-dis');
   }
-  if (dataSnap.getAttribute('data-np') === '0') {
+  if (dataSnap.getAttribute('data-np') === '0' || !isOrderEditable()) {
     esBtn.disabled = true;
     esBtn.classList.add('penta-btn-dis');
   }
@@ -24,6 +24,13 @@ const checkConfigAccess = function() {
 // Navigate to site config page
 const navToSiteConfig = function() {
   window.location.href = '/order/config-site/';
+};
+
+// Navigate to build products page
+const navToBuildPr = function() {
+  if (isOrderEditable()) {
+    window.location.href = '/order/build-pr/';
+  }
 };
 
 // Runtime
