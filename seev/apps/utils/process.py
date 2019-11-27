@@ -66,11 +66,18 @@ def removeSpecCascade(specificationId):
     prices.delete()
 
 
+def getAllClientProducts(client):
+    if not client:
+        return
+
+    return CtgProduct.objects.filter(client=client).order_by('name')
+
+
 def getAllSitesInOrder(order):
     if not order:
         return None
 
-    return PtaSite.objects.filter(order_instance=order)
+    return PtaSite.objects.filter(order_instance=order).order_by('creation_time')
 
 
 def getAllProductsInOrder(order):
@@ -84,7 +91,7 @@ def getAllProductsInSite(site):
     if not site:
         return None
 
-    return PtaBasketItem.objects.filter(pta_site=site, parent_id=None)
+    return PtaBasketItem.objects.filter(pta_site=site, parent_id=None).order_by('creation_time')
 
 
 @transaction.atomic

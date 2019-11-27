@@ -3,6 +3,12 @@
 {% load static %}
 
 {% block ordContent %}
+<!-- Data -->
+<aside style="display: none;">
+	<div id="ord-data-order-number">{{ data_on }}</div>
+	<div id="ord-data-order-status">{{ data_os }}</div>
+</aside>
+<!-- Content -->
 <div id="ord-config-head">
 	<div id="ord-header-wrapper">
 		<div id="order-number">Order # {{ ordMeta.order_number }}</div>
@@ -35,11 +41,6 @@
 	{% block ordConfBody %}
 	{% endblock ordConfBody %}
 </div>
-<!-- Data -->
-<aside style="display: none;">
-	<div id="ord-data-order-number">{{ data_on }}</div>
-	<div id="ord-data-order-status">{{ data_os }}</div>
-</aside>
 <!-- Popup -->
 <div class="black-overlay no-show"></div>
 <div id="ord-detail-popup" class="seev-popup no-show">

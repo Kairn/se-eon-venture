@@ -12,6 +12,7 @@ const checkConfigAccess = function() {
   let esBtn = document.getElementById('ord-es-btn');
 
   if (dataSnap.getAttribute('data-ns') === '0' || !isOrderEditable()) {
+    console.log('disable');
     bpBtn.disabled = true;
     bpBtn.classList.add('penta-btn-dis');
   }

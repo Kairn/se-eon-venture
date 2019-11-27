@@ -392,11 +392,43 @@ def go_build_pr(request, context=None):
         else:
             context = load_ord_meta_to_context(request, context)
 
+        order = PtaOrderInstance.objects.get(
+            order_number=ordMeta['order_number'])
+        client = order.client
+
         # Load catalog products
 
         # Load Sites
+        sites = getAllSitesInOrder(order)
+        if len(sites) == 0:
+            store_context_in_session(
+                request, addSnackDataToContext(context, 'No sites found'))
+            return redirect('go_site_config')
+
+        siteData = []
+        for site in sites:
+            data = {}
+            doc = site.site
+            data['id'] = site.pta_site_id
+            data['name'] = site.site_name
+            data['valid'] = '1' if site.is_valid else '0'
+            siteData.append(data)
+        context['siteData'] = siteData
 
         # Load current site and products
+        site = sites[0]
+        siteId = request.GET.get('site_id')
+        if siteId:
+            sites = sites.filter(pta_site_id=siteId)
+            if len(sites) > 0:
+                site = sites[0]
+            else:
+                store_context_in_session(request, addSnackDataToContext(
+                    context, 'Requested site not found'))
+                return redirect('go_site_config')
+
+        siteDoc = site.site
+        context['siteDoc'] = siteDoc
 
         return render(request, 'order/order-product.html', context=context)
     except Exception:
