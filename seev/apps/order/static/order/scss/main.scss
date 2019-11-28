@@ -995,6 +995,7 @@ $frame-size-small: 440px;
 }
 
 .ord-pill {
+  user-select: none;
   font-family: "Noto Sans", sans-serif;
   font-size: 20px;
   padding: 0.75rem 1rem;
@@ -1032,5 +1033,26 @@ $frame-size-small: 440px;
     &.valid {
       background-color: #2e7d32;
     }
+  }
+}
+
+#site-loc-block {
+  cursor: default;
+  margin: 2.5rem 0 2rem 0;
+  padding: 1rem 2rem;
+  background-color: #7c4dff;
+  color: white;
+  font-family: "Nunito", sans-serif;
+  font-size: 22px;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  border-radius: 6px;
+}
+
+.loc-comp {
+  margin: 0.65rem 5px;
+  @include tablet {
+    font-size: 20px;
   }
 }

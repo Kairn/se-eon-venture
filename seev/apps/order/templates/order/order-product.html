@@ -15,7 +15,24 @@
 </section>
 <section id="ord-add-pr-sect">
 	<h1 class="ord-config-title">Add/Remove Product Items</h1>
-	<h2>{{ siteDoc.address_1 }}</h2>
+	<div id="site-loc-block">
+		<div id="loc-add1" class="loc-comp">{{ siteDoc.address_1 }}, </div>
+		{% if siteDoc.address_2 %}
+		<div id="loc-add2" class="loc-comp">{{ siteDoc.address_2 }}, </div>
+		{% endif %}
+		{% if siteDoc.address_3 %}
+		<div id="loc-add3" class="loc-comp">{{ siteDoc.address_3 }}, </div>
+		{% endif %}
+		<div id="loc-city" class="loc-comp">{{ siteDoc.city }}, </div>
+		<div id="loc-state" class="loc-comp">{{ siteDoc.state }}, </div>
+		{% if siteDoc.zipcode and siteDoc.zipcode != 'N/A' %}
+		<div id="loc-zip" class="loc-comp">{{ siteDoc.zipcode }}, </div>
+		<div id="loc-country" class="loc-comp">{{ siteDoc.country }}</div>
+		{% endif %}
+	</div>
+	{% for pr in prData %}
+	<h3>{{ pr.code }}</h3>
+	{% endfor %}
 </section>
 <!-- Scripts -->
 <script src="{% static 'order/js/products.js' %}"></script>

@@ -70,7 +70,7 @@ def getAllClientProducts(client):
     if not client:
         return
 
-    return CtgProduct.objects.filter(client=client).order_by('name')
+    return CtgProduct.objects.filter(client=client, active=True).order_by('name')
 
 
 def getAllSitesInOrder(order):

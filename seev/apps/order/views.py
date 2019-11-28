@@ -4,6 +4,7 @@ View logic used in catalog app
 
 import traceback
 
+from django.http import HttpRequest, HttpResponse
 from django.db import transaction
 from django.shortcuts import render, redirect, reverse
 
@@ -15,6 +16,7 @@ from seev.apps.utils.messages import get_app_message, addSnackDataToContext
 from seev.apps.utils.session import *
 from seev.apps.utils.process import *
 
+from seev.apps.core.views import go_error
 from seev.apps.core.models import UnoClient
 
 from .models import *
@@ -397,6 +399,18 @@ def go_build_pr(request, context=None):
         client = order.client
 
         # Load catalog products
+        ctgList = getAllClientProducts(client)
+        ctgData = []
+        if not ctgList or len(ctgList) == 0:
+            return go_error(HttpRequest(), {'error': get_app_message('catalog_error'), 'message': get_app_message('catalog_error_message')})
+
+        for pr in ctgList:
+            prDoc = {}
+            prDoc['id'] = pr.ctg_doc_id
+            prDoc['code'] = getDefCatalogCode(pr.itemcode)
+            prDoc['name'] = pr.name
+            ctgData.append(prDoc)
+        context['prData'] = ctgData
 
         # Load Sites
         sites = getAllSitesInOrder(order)
