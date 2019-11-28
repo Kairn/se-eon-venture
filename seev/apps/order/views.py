@@ -428,6 +428,7 @@ def go_build_pr(request, context=None):
                 return redirect('go_site_config')
 
         siteDoc = site.site
+        context['selId'] = site.pta_site_id
         context['siteDoc'] = siteDoc
 
         return render(request, 'order/order-product.html', context=context)

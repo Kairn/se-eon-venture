@@ -3,14 +3,20 @@
 {% load static %}
 
 {% block ordConfBody %}
+<div style="display: none;" id="site-selId">{{ selId }}</div>
 <section id="ord-sites-sel-sect">
 	<h1 class="ord-config-title">Choose a Location</h1>
-	{% for site in siteData %}
-	<h2>{{ site.name }}</h2>
-	{% endfor %}
+	<div id="site-sel-wrapper">
+		{% for site in siteData %}
+		<div onclick="navToSite(event)" class="site-pill ord-pill" data-id="{{ site.id }}" data-valid="{{ site.valid }}">
+			{{ site.name }}</div>
+		{% endfor %}
+	</div>
 </section>
 <section id="ord-add-pr-sect">
 	<h1 class="ord-config-title">Add/Remove Product Items</h1>
 	<h2>{{ siteDoc.address_1 }}</h2>
 </section>
+<!-- Scripts -->
+<script src="{% static 'order/js/products.js' %}"></script>
 {% endblock ordConfBody %}

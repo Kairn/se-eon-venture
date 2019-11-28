@@ -37,6 +37,7 @@ $frame-size-small: 440px;
 }
 
 .ord-config-title {
+  user-select: none;
   color: #212121;
   font-size: 30px;
   font-weight: 500;
@@ -759,7 +760,9 @@ $frame-size-small: 440px;
 }
 
 #ord-add-site-sect,
-#ord-exist-site-sect {
+#ord-exist-site-sect,
+#ord-sites-sel-sect,
+#ord-add-pr-sect {
   width: 85%;
   margin: 3rem auto 0 auto;
   padding: 2rem 1rem;
@@ -973,6 +976,61 @@ $frame-size-small: 440px;
     width: 22rem;
     @include mobile {
       width: 20rem;
+    }
+  }
+}
+
+#site-sel-wrapper {
+  margin: 2rem 0 0 0;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: left;
+  align-items: center;
+  & > div {
+    margin: 0.75rem 1.25rem;
+  }
+  @include tablet {
+    justify-content: center;
+  }
+}
+
+.ord-pill {
+  font-family: "Noto Sans", sans-serif;
+  font-size: 20px;
+  padding: 0.75rem 1rem;
+  text-align: center;
+  cursor: pointer;
+  &.selected {
+    cursor: default;
+  }
+  transition-duration: 0.8s;
+  &:hover:not(.selected) {
+    transition-property: background-color, color;
+    transition-duration: 0.8s;
+  }
+}
+
+.site-pill {
+  width: 30rem;
+  border: 2px solid #f57f17;
+  border-radius: 25.5px;
+  color: #f57f17;
+  &.valid {
+    color: #2e7d32;
+    border: 2px solid #2e7d32;
+  }
+  &.selected {
+    background-color: #f57f17;
+    color: white;
+    &.valid {
+      background-color: #2e7d32;
+    }
+  }
+  &:hover {
+    background-color: #f57f17;
+    color: white;
+    &.valid {
+      background-color: #2e7d32;
     }
   }
 }
