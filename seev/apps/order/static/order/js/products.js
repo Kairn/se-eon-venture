@@ -1,6 +1,7 @@
 // Handle functionalities related to build products page
 
 var allSitePills = document.querySelectorAll('.site-pill.ord-pill');
+var addPrBtn = document.getElementById('ord-add-ctg-btn');
 
 const isSelectedSite = function(siteEle) {
   if (!siteEle) {
@@ -35,3 +36,7 @@ if (allSitePills && allSitePills.length > 0) {
     }
   })
 };
+
+// Disable add products button
+addPrBtn.disabled = true;
+addPrBtn.classList.add('form-btn-dis');

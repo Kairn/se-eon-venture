@@ -13,8 +13,8 @@
 		{% endfor %}
 	</div>
 </section>
-<section id="ord-add-pr-sect">
-	<h1 class="ord-config-title">Add/Remove Product Items</h1>
+<section id="ord-view-pr-sect" style="margin-top: 2.25rem;">
+	<h1 class="ord-config-title">View Order Items</h1>
 	<div id="site-loc-block">
 		<div id="loc-add1" class="loc-comp">{{ siteDoc.address_1 }}, </div>
 		{% if siteDoc.address_2 %}
@@ -30,9 +30,63 @@
 		<div id="loc-country" class="loc-comp">{{ siteDoc.country }}</div>
 		{% endif %}
 	</div>
-	{% for pr in prData %}
-	<h3>{{ pr.code }}</h3>
-	{% endfor %}
+	<div id="ord-basket-items-wrapper">
+		<div class="ord-item-pill">
+			<span>Sample Item 1</span>
+			<span>#00001</span>
+			<span class="ord-icon-only-btn">
+				<img src="{% static 'order/images/icon-61.svg' %}" alt="trash-icon">
+			</span>
+		</div>
+		<div class="ord-item-pill">
+			<span>Sample Item 2</span>
+			<span>#00002</span>
+			<span class="ord-icon-only-btn">
+				<img src="{% static 'order/images/icon-61.svg' %}" alt="trash-icon">
+			</span>
+		</div>
+		<div class="ord-item-pill">
+			<span>Sample Item 3</span>
+			<span>#00003</span>
+			<span class="ord-icon-only-btn">
+				<img src="{% static 'order/images/icon-61.svg' %}" alt="trash-icon">
+			</span>
+		</div>
+		<div class="ord-item-pill">
+			<span>Sample Item 4</span>
+			<span>#00004</span>
+			<span class="ord-icon-only-btn">
+				<img src="{% static 'order/images/icon-61.svg' %}" alt="trash-icon">
+			</span>
+		</div>
+		<div class="ord-item-pill">
+			<span>Sample Item 5</span>
+			<span>#00005</span>
+			<span class="ord-icon-only-btn">
+				<img src="{% static 'order/images/icon-61.svg' %}" alt="trash-icon">
+			</span>
+		</div>
+	</div>
+</section>
+<section id="ord-ctg-pr-sect">
+	<h1 class="ord-config-title">Add New Products</h1>
+	<div id="ord-ctg-add-wrapper">
+		{% for pr in prData %}
+		<div class="ord-ctg-item-pill" data-id="{{ pr.id }}">
+			<span class="ctg-item-name">{{ pr.name }}</span>
+			<span class="ctg-item-qty">QTY: <span class="ctg-item-count">0</span></span>
+			<span class="ctg-item-plus ord-icon-only-btn">
+				<img src="{% static 'order/images/icon-63.svg' %}" alt="plus-icon">
+			</span>
+			<span class="ctg-item-minus ord-icon-only-btn">
+				<img src="{% static 'order/images/icon-62.svg' %}" alt="minus-icon">
+			</span>
+		</div>
+		{% endfor %}
+	</div>
+	<div id="ord-ctg-action" style="margin: 3.25rem 0 0 0;">
+		<button id="ord-add-ctg-btn" type="button" class="ord-pri-btn">Add to Site</button>
+	</div>
 </section>
 <!-- Scripts -->
 <script src="{% static 'order/js/products.js' %}"></script>
