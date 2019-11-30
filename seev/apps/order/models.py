@@ -76,8 +76,11 @@ class PtaBasketItem(models.Model):
         primary_key=True, default=uuid.uuid4, editable=False)
     parent_id = models.UUIDField('Parent Item ID', editable=False, null=True)
     basket = models.ForeignKey(PtaBasket, on_delete=models.CASCADE, null=False)
+    ctg_doc_id = models.UUIDField(
+        'Catalog Item ID', editable=False, null=False)
     itemcode = models.CharField('Item Code', max_length=32, null=False)
-    serial = models.PositiveSmallIntegerField('Serial Number', default=1)
+    serial = models.PositiveSmallIntegerField(
+        'Serial Number', default=1, null=True)
     pta_site = models.ForeignKey(PtaSite, on_delete=models.CASCADE, null=False)
     is_valid = models.BooleanField(default=False)
     creation_time = models.DateTimeField(

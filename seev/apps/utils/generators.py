@@ -6,8 +6,11 @@ import os
 import string
 import random
 import hashlib
+import json
 
-from seev.apps.core.models import UnoClient
+from seev.apps.core.models import *
+from seev.apps.order.models import *
+from seev.apps.catalog.models import *
 from seev.apps.utils.codetable import getGeneralTranslation
 
 
@@ -75,6 +78,13 @@ def getSha224Hash(message):
         return hashlib.sha224(_m).hexdigest()
     else:
         return ''
+
+
+def parseJson(jsonStr):
+    if not jsonStr:
+        return {}
+    else:
+        return json.loads(jsonStr)
 
 
 def getFullCatalogCode(code, client=None, client_id=None):
@@ -147,3 +157,14 @@ def getGoogleMapApiSource():
     template = 'https://maps.googleapis.com/maps/api/js?key={0}&libraries=places&callback={1}'
 
     return template.format(apiKey, callBack)
+
+
+def getLeadSerialInOrderSite(order, site):
+    if not order or not site:
+        return 0
+
+    basket = order.basket
+    products = PtaBasketItem.objects.filter(
+        basket=basket, pta_site=site, parent_id=None).exclude(serial=None).order_by('-serial')
+
+    return 1 if len(products) < 1 else products[0].serial + 1

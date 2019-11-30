@@ -14,7 +14,7 @@ class CtgProduct(models.Model):
     product_id = models.UUIDField(
         primary_key=True, default=uuid.uuid4, editable=False)
     ctg_doc_id = models.UUIDField(
-        'Catalog Obect ID', default=uuid.uuid4, editable=False)
+        'Catalog Object ID', default=uuid.uuid4, editable=False)
     client = models.ForeignKey(UnoClient, on_delete=models.CASCADE, null=False)
     itemcode = models.CharField(
         'Product Code', max_length=32, null=False, unique=True)
@@ -31,7 +31,7 @@ class CtgFeature(models.Model):
     feature_id = models.UUIDField(
         primary_key=True, default=uuid.uuid4, editable=False)
     ctg_doc_id = models.UUIDField(
-        'Catalog Obect ID', default=uuid.uuid4, editable=False)
+        'Catalog Object ID', default=uuid.uuid4, editable=False)
     product = models.ForeignKey(
         CtgProduct, on_delete=models.CASCADE, null=False)
     client = models.ForeignKey(UnoClient, on_delete=models.CASCADE, null=False)
@@ -52,7 +52,7 @@ class CtgSpecification(models.Model):
     specification_id = models.UUIDField(
         primary_key=True, default=uuid.uuid4, editable=False)
     ctg_doc_id = models.UUIDField(
-        'Catalog Obect ID', default=uuid.uuid4, editable=False)
+        'Catalog Object ID', default=uuid.uuid4, editable=False)
     parent_ctg_id = models.UUIDField(
         'Parent Item ID', editable=False, null=False)
     leaf_name = models.CharField(

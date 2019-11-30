@@ -74,20 +74,26 @@
 		{% for pr in prData %}
 		<div class="ord-ctg-item-pill" data-id="{{ pr.id }}">
 			<span class="ctg-item-name">{{ pr.name }}</span>
-			<span class="ctg-item-qty">QTY: <span class="ctg-item-count">0</span></span>
-			<span class="ctg-item-plus ord-icon-only-btn">
+			<span style="user-select: none;" class="ctg-item-qty">QTY: <span class="ctg-item-count">0</span></span>
+			<span onclick="updateCart('{{ pr.id }}', true)" class="ctg-item-plus ord-icon-only-btn">
 				<img src="{% static 'order/images/icon-63.svg' %}" alt="plus-icon">
 			</span>
-			<span class="ctg-item-minus ord-icon-only-btn">
+			<span onclick="updateCart('{{ pr.id }}', false)" class="ctg-item-minus ord-icon-only-btn">
 				<img src="{% static 'order/images/icon-62.svg' %}" alt="minus-icon">
 			</span>
 		</div>
 		{% endfor %}
 	</div>
-	<div id="ord-ctg-action" style="margin: 3.25rem 0 0 0;">
-		<button id="ord-add-ctg-btn" type="button" class="ord-pri-btn">Add to Site</button>
+	<div id="ord-ctg-action" style="margin: 3.25rem 0 0 0; user-select: none;">
+		<button onclick="submitCart()" id="ord-add-ctg-btn" type="button" class="ord-pri-btn">Add to Site</button>
 	</div>
 </section>
+<!-- Catalog Form -->
+<form id="ord-add-ctg-form" style="display: none;" action="/order/add-new-pr/" method="post" novalidate>
+	{% csrf_token %}
+	<input type="text" name="ord_site_id" value="{{ selId }}">
+	<input type="text" name="ctg_add_data" id="ctg-add-data">
+</form>
 <!-- Scripts -->
 <script src="{% static 'order/js/products.js' %}"></script>
 {% endblock ordConfBody %}

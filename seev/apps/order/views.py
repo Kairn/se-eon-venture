@@ -9,8 +9,7 @@ from django.db import transaction
 from django.shortcuts import render, redirect, reverse
 
 from seev.apps.utils.country import UnoCountry
-from seev.apps.utils.generators import (
-    getFullCatalogCode, getDefCatalogCode, generateOrderMeta, generateOrderData, getGoogleMapApiSource)
+from seev.apps.utils.generators import *
 from seev.apps.utils.codetable import getGeneralTranslation
 from seev.apps.utils.messages import get_app_message, addSnackDataToContext
 from seev.apps.utils.session import *
@@ -451,3 +450,57 @@ def go_build_pr(request, context=None):
         store_context_in_session(
             request, addSnackDataToContext(context, 'Redirect error'))
         return redirect('go_ord_home')
+
+
+@transaction.atomic
+def add_pr_to_basket(request, context=None):
+    if request.method == 'POST':
+        try:
+            context = {}
+            ordMeta = request.session['order_meta'] if 'order_meta' in request.session else None
+
+            if not ordMeta:
+                return redirect('go_build_pr')
+
+            prData = parseJson(request.POST['ctg_add_data'])
+            siteId = request.POST['ord_site_id']
+
+            # Get order details
+            order = PtaOrderInstance.objects.get(
+                order_number=ordMeta['order_number'])
+            site = PtaSite.objects.get(pta_site_id=siteId)
+            redir = reverse('go_build_pr') + '?site_id=' + \
+                str(site.pta_site_id).replace('-', '')
+            leadSerial = getLeadSerialInOrderSite(order, site)
+            tempSerial = leadSerial
+
+            if not prData or not leadSerial:
+                store_context_in_session(
+                    request, addSnackDataToContext(context, 'Invalid order data'))
+                return redirect(redir)
+
+            # Add products to basket
+            for ctgId, count in prData.items():
+                tempSerial = addNewProductsToSite(
+                    order, site, ctgId, count, tempSerial)
+
+            if tempSerial > leadSerial:
+                diff = tempSerial - leadSerial
+                if diff == 1:
+                    store_context_in_session(request, addSnackDataToContext(
+                        context, '1 product has been added'))
+                else:
+                    store_context_in_session(request, addSnackDataToContext(
+                        context, str(diff) + ' products have been added'))
+            else:
+                store_context_in_session(request, addSnackDataToContext(
+                    context, 'No product is added'))
+
+            return redirect(redir)
+        except Exception:
+            traceback.print_exc()
+            store_context_in_session(
+                request, addSnackDataToContext(context, 'Unknown error'))
+            return redirect('go_ord_config_home')
+    else:
+        return redirect('go_build_pr')

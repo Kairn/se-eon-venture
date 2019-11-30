@@ -141,6 +141,18 @@ def invalidateOrder(order):
         order.save()
 
 
+def isOrderLocked(order):
+    if not order:
+        return False
+
+    if order.status in ('FL', 'FZ', 'EX', 'VD'):
+        return True
+    elif order.basket.is_locked:
+        return True
+
+    return False
+
+
 @transaction.atomic
 def deleteFeatureItem(item):
     if item and item.parent_id:
@@ -158,3 +170,33 @@ def deleteProductItem(item):
         fet.delete()
 
     item.delete()
+
+
+@transaction.atomic
+def addNewProductsToSite(order, site, ctgId, count, beginSerial):
+    if not order or not site or not ctgId or not count or not beginSerial:
+        return 0
+
+    tempSerial = beginSerial
+
+    try:
+        ctgItem = CtgProduct.objects.get(
+            ctg_doc_id=ctgId, client=order.client, active=True)
+
+        for i in range(count):
+            prItem = PtaBasketItem(
+                parent_id=None,
+                basket=order.basket,
+                ctg_doc_id=ctgItem.ctg_doc_id,
+                itemcode=ctgItem.itemcode,
+                serial=tempSerial,
+                pta_site=site,
+                is_valid=False
+            )
+
+            prItem.save()
+            tempSerial += 1
+    except Exception:
+        return tempSerial
+
+    return tempSerial
