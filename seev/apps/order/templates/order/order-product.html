@@ -30,43 +30,21 @@
 		<div id="loc-country" class="loc-comp">{{ siteDoc.country }}</div>
 		{% endif %}
 	</div>
+	{% if prCount > 0 %}
 	<div id="ord-basket-items-wrapper">
-		<div class="ord-item-pill">
-			<span>Sample Item 1</span>
-			<span>#00001</span>
-			<span class="ord-icon-only-btn">
+		{% for bi in biData %}
+		<div class="ord-item-pill" data-id="{{ bi.id }}" data-valid="{{ bi.valid }}">
+			<span>{{ bi.name }}</span>
+			<span>#{{ bi.serial }}</span>
+			<span class="ord-icon-only-btn" onclick="delBasketItem('{{ bi.id }}')">
 				<img src="{% static 'order/images/icon-61.svg' %}" alt="trash-icon">
 			</span>
 		</div>
-		<div class="ord-item-pill">
-			<span>Sample Item 2</span>
-			<span>#00002</span>
-			<span class="ord-icon-only-btn">
-				<img src="{% static 'order/images/icon-61.svg' %}" alt="trash-icon">
-			</span>
-		</div>
-		<div class="ord-item-pill">
-			<span>Sample Item 3</span>
-			<span>#00003</span>
-			<span class="ord-icon-only-btn">
-				<img src="{% static 'order/images/icon-61.svg' %}" alt="trash-icon">
-			</span>
-		</div>
-		<div class="ord-item-pill">
-			<span>Sample Item 4</span>
-			<span>#00004</span>
-			<span class="ord-icon-only-btn">
-				<img src="{% static 'order/images/icon-61.svg' %}" alt="trash-icon">
-			</span>
-		</div>
-		<div class="ord-item-pill">
-			<span>Sample Item 5</span>
-			<span>#00005</span>
-			<span class="ord-icon-only-btn">
-				<img src="{% static 'order/images/icon-61.svg' %}" alt="trash-icon">
-			</span>
-		</div>
+		{% endfor %}
 	</div>
+	{% else %}
+	<div class="ord-config-subtitle" style="margin: 2rem 0 0 0; padding-left: 1rem;">No products in this site.</div>
+	{% endif %}
 </section>
 <section id="ord-ctg-pr-sect">
 	<h1 class="ord-config-title">Add New Products</h1>
@@ -93,6 +71,12 @@
 	{% csrf_token %}
 	<input type="text" name="ord_site_id" value="{{ selId }}">
 	<input type="text" name="ctg_add_data" id="ctg-add-data">
+</form>
+<!-- Delete Form -->
+<form id="ord-rm-pr-form" style="display: none;" action="/order/del-pr/" method="post" novalidate>
+	{% csrf_token %}
+	<input type="text" name="ord_site_id" value="{{ selId }}">
+	<input type="text" name="bi_rm_id" id="bi-rm-id">
 </form>
 <!-- Scripts -->
 <script src="{% static 'order/js/products.js' %}"></script>

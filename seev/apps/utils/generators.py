@@ -168,3 +168,34 @@ def getLeadSerialInOrderSite(order, site):
         basket=basket, pta_site=site, parent_id=None).exclude(serial=None).order_by('-serial')
 
     return 1 if len(products) < 1 else products[0].serial + 1
+
+
+def zeroPrepender(source, length):
+    """
+    Append extra zeros to a source number based on the specified length
+    """
+    if (not source and source != 0) or not length:
+        return None
+
+    result = str(source)
+    if len(result) >= length:
+        return result
+
+    for i in range(length - len(result)):
+        result = '0' + result
+
+    return result
+
+
+def getBasketItemName(item):
+    if not item:
+        return None
+
+    if item.parent_id:
+        # Feature
+        ctgItem = CtgFeature.objects.get(ctg_doc_id=item.ctg_doc_id)
+        return ctgItem.name
+    else:
+        # Product
+        ctgItem = CtgProduct.objects.get(ctg_doc_id=item.ctg_doc_id)
+        return ctgItem.name

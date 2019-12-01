@@ -16,4 +16,5 @@ urlpatterns = [
     re_path(r'^rm-site/$', views.rm_site, name='rm_site'),
     re_path(r'^build-pr/$', views.go_build_pr, name='go_build_pr'),
     re_path(r'^add-new-pr/$', views.add_pr_to_basket, name='add_pr_to_basket'),
+    re_path(r'^del-pr/$', views.del_pr_in_site, name='del_pr_in_site'),
 ]

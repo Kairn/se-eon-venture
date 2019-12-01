@@ -444,6 +444,19 @@ def go_build_pr(request, context=None):
         context['selId'] = site.pta_site_id
         context['siteDoc'] = siteDoc
 
+        products = getAllProductsInSite(site)
+        biData = []
+        for bi in products:
+            biDoc = {}
+            biDoc['id'] = bi.basket_item_id
+            biDoc['name'] = getBasketItemName(bi)
+            biDoc['serial'] = zeroPrepender(bi.serial, 5)
+            biDoc['valid'] = '1' if bi.is_valid else '0'
+            biData.append(biDoc)
+
+        context['biData'] = biData
+        context['prCount'] = len(biData)
+
         return render(request, 'order/order-product.html', context=context)
     except Exception:
         traceback.print_exc()
@@ -496,6 +509,39 @@ def add_pr_to_basket(request, context=None):
                 store_context_in_session(request, addSnackDataToContext(
                     context, 'No product is added'))
 
+            return redirect(redir)
+        except Exception:
+            traceback.print_exc()
+            store_context_in_session(
+                request, addSnackDataToContext(context, 'Unknown error'))
+            return redirect('go_ord_config_home')
+    else:
+        return redirect('go_build_pr')
+
+
+@transaction.atomic
+def del_pr_in_site(request, context=None):
+    if request.method == 'POST':
+        try:
+            context = {}
+            ordMeta = request.session['order_meta'] if 'order_meta' in request.session else None
+
+            if not ordMeta:
+                return redirect('go_build_pr')
+
+            biId = request.POST['bi_rm_id']
+            siteId = request.POST['ord_site_id']
+
+            site = PtaSite.objects.get(pta_site_id=siteId)
+            item = PtaBasketItem.objects.get(basket_item_id=biId)
+            redir = reverse('go_build_pr') + '?site_id=' + \
+                str(site.pta_site_id).replace('-', '')
+
+            # Delete process
+            deleteProductItem(item)
+
+            store_context_in_session(request, addSnackDataToContext(
+                context, 'Product has been deleted'))
             return redirect(redir)
         except Exception:
             traceback.print_exc()

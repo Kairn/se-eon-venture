@@ -136,6 +136,19 @@ const submitCart = function() {
   form.submit();
 };
 
+// Delete existing product
+const delBasketItem = function(bid) {
+  if (!bid) {
+    return;
+  }
+
+  let form = document.getElementById('ord-rm-pr-form');
+  let bidField = document.getElementById('bi-rm-id');
+
+  bidField.value = bid;
+  form.submit();
+};
+
 // Runtime
 // Apply selected site
 if (allSitePills && allSitePills.length > 0) {
