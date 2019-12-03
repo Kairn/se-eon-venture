@@ -122,6 +122,12 @@ const toggleSiteBtn = function(disable) {
   }
 };
 
+// Navigate to bulid products page
+const navToBuildPrSite = function(siteId) {
+  let sid = siteId.replace(/\-/g, '');
+  window.location.href = `/order/build-pr/?site_id=${sid}`;
+};
+
 // Display removal popup
 const showRmPopup = function(count, id) {
   let overlay = document.querySelector('.black-overlay');

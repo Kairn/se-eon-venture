@@ -12,6 +12,10 @@
 			{{ site.name }}</div>
 		{% endfor %}
 	</div>
+	<div style="margin: 3.5rem 0 0 0; user-select: none;">
+		<button id="ord-new-site-btn" onclick="window.location.href = '/order/config-site/'" type="button"
+			class="ord-pri-btn">Add New Site</button>
+	</div>
 </section>
 <section id="ord-view-pr-sect" style="margin-top: 2.25rem;">
 	<h1 class="ord-config-title">View Order Items</h1>
@@ -62,7 +66,7 @@
 		</div>
 		{% endfor %}
 	</div>
-	<div id="ord-ctg-action" style="margin: 3.25rem 0 0 0; user-select: none;">
+	<div id="ord-ctg-action" style="margin: 3.5rem 0 0 0; user-select: none;">
 		<button onclick="submitCart()" id="ord-add-ctg-btn" type="button" class="ord-pri-btn">Add to Site</button>
 	</div>
 </section>
