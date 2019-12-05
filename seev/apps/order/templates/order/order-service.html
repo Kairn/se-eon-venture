@@ -1,0 +1,15 @@
+<!-- Order configure service page -->
+{% extends 'order/order-base.html' %}
+{% load static %}
+
+{% block ordConfBody %}
+<h1>{{ svcData.id }}</h1>
+<h1>{{ svcData.name }}</h1>
+<h1>{{ svcData.serial }}</h1>
+<h1>{{ preId }}</h1>
+<h1>{{ nxtId }}</h1>
+<h1>{{ siteDoc.site_name }}</h1>
+<h1>{{ addrDoc.address_1 }}</h1>
+<h1>{{ addrDoc.city }}</h1>
+<h1>{{ addrDoc.country }}</h1>
+{% endblock ordConfBody %}

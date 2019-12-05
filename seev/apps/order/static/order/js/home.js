@@ -34,5 +34,12 @@ const navToBuildPr = function() {
   }
 };
 
+// Navigate to service config page
+const navToSvcConfig = function() {
+  if (isOrderEditable()) {
+    window.location.href = '/order/edit-svc/';
+  }
+}
+
 // Runtime
 checkConfigAccess();

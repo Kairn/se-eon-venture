@@ -550,3 +550,82 @@ def del_pr_in_site(request, context=None):
             return redirect('go_ord_config_home')
     else:
         return redirect('go_build_pr')
+
+
+def go_svc_config(request, context=None):
+    try:
+        context = get_context_in_session(request)
+
+        if not context:
+            context = {}
+
+        # Metadata
+        ordMeta = request.session['order_meta'] if 'order_meta' in request.session else None
+        if not ordMeta:
+            store_context_in_session(request, addSnackDataToContext(
+                context, 'Order request failed'))
+            return redirect('go_ord_home')
+        else:
+            context = load_ord_meta_to_context(request, context)
+
+        serviceList = []
+
+        order = PtaOrderInstance.objects.get(
+            order_number=ordMeta['order_number'])
+
+        # Get all sites and products
+        sites = PtaSite.objects.filter(
+            order_instance=order).order_by('site_name')
+        if not sites or len(sites) < 1:
+            store_context_in_session(
+                request, addSnackDataToContext(context, 'No sites found'))
+            return redirect('go_ord_home')
+        else:
+            for site in sites:
+                products = PtaBasketItem.objects.filter(
+                    pta_site=site, parent_id=None).order_by('serial')
+                if products and len(products) > 0:
+                    for pr in products:
+                        serviceList.append(
+                            str(pr.basket_item_id).replace('-', ''))
+
+        if len(serviceList) < 1:
+            store_context_in_session(
+                request, addSnackDataToContext(context, 'No services found'))
+            return redirect('go_ord_home')
+
+        serviceId = request.GET.get('svc_id') if request.GET.get(
+            'svc_id') else serviceList[0]
+        if serviceId not in serviceList:
+            store_context_in_session(
+                request, addSnackDataToContext(context, 'Invalid service'))
+            return redirect('go_ord_home')
+
+        preSvcId = None
+        nxtSvcId = None
+        if serviceList.index(serviceId) > 0:
+            preSvcId = serviceList[serviceList.index(serviceId) - 1]
+        if serviceList.index(serviceId) < len(serviceList) - 1:
+            nxtSvcId = serviceList[serviceList.index(serviceId) + 1]
+        context['preId'] = preSvcId
+        context['nxtId'] = nxtSvcId
+
+        service = PtaBasketItem.objects.get(basket_item_id=serviceId)
+        siteDoc = service.pta_site
+        addrDoc = siteDoc.site
+        svcData = {}
+        svcData['id'] = service.basket_item_id
+        svcData['name'] = getBasketItemName(service)
+        svcData['serial'] = zeroPrepender(service.serial, 5)
+        svcData['valid'] = '1' if service.is_valid else '0'
+
+        context['siteDoc'] = siteDoc
+        context['addrDoc'] = addrDoc
+        context['svcData'] = svcData
+
+        return render(request, 'order/order-service.html', context=context)
+    except Exception:
+        traceback.print_exc()
+        store_context_in_session(
+            request, addSnackDataToContext(context, 'Redirect error'))
+        return redirect('go_ord_home')
