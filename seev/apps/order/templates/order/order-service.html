@@ -3,13 +3,46 @@
 {% load static %}
 
 {% block ordConfBody %}
-<h1>{{ svcData.id }}</h1>
-<h1>{{ svcData.name }}</h1>
-<h1>{{ svcData.serial }}</h1>
-<h1>{{ preId }}</h1>
-<h1>{{ nxtId }}</h1>
-<h1>{{ siteDoc.site_name }}</h1>
-<h1>{{ addrDoc.address_1 }}</h1>
-<h1>{{ addrDoc.city }}</h1>
-<h1>{{ addrDoc.country }}</h1>
+<div style="display: none;" id="id-svc-data" data-id="{{ svcData.id }}" data-loc="{{ siteDoc.site_name }}"></div>
+<section id="ord-svc-details-sect">
+	<h1 class="ord-config-title">Product/Service</h1>
+	<div id="site-svc-block">
+		<div class="loc-comp">{{ addrDoc.address_1 }}, </div>
+		{% if addrDoc.address_2 %}
+		<div class="loc-comp">{{ addrDoc.address_2 }}, </div>
+		{% endif %}
+		{% if addrDoc.address_3 %}
+		<div class="loc-comp">{{ addrDoc.address_3 }}, </div>
+		{% endif %}
+		<div class="loc-comp">{{ addrDoc.city }}, </div>
+		<div class="loc-comp">{{ addrDoc.state }}, </div>
+		{% if addrDoc.zipcode and addrDoc.zipcode != 'N/A' %}
+		<div class="loc-comp">{{ addrDoc.zipcode }}, </div>
+		<div class="loc-comp">{{ addrDoc.country }}</div>
+		{% endif %}
+	</div>
+	{% if preId or nxtId %}
+	<div id="svc-nav-action-wrapper">
+		{% if preId %}
+		<button type="button" onclick="window.location.href = '/order/edit-svc/?svc_id={{ preId }}'"
+			class="ord-pri-btn">Prev. Item</button>
+		{% endif %}
+		{% if nxtId %}
+		<button type="button" onclick="window.location.href = '/order/edit-svc/?svc_id={{ nxtId }}'"
+			class="ord-pri-btn">Next Item</button>
+		{% endif %}
+	</div>
+	{% endif %}
+	<div class="ord-config-subtitle" style="margin: 2.5rem 0 0 0; padding-left: 1rem; font-size: 28px;">Name:
+		{{ svcData.name }}</div>
+	<div class="ord-config-subtitle" style="margin: 0.25rem 0 0 0; padding-left: 1rem; font-size: 28px; color: #424242;">
+		Serial: {{ svcData.serial }}</div>
+	<div style="margin: 2.5rem 0 0 0; user-select: none;">
+		<button id="ord-back-pr" onclick="window.location.href = '/order/build-pr/'" type="button"
+			class="ord-pri-btn">Add/Remove</button>
+	</div>
+</section>
+<section id="ord-svc-config-sect">
+	<h1 class="ord-config-title">Configuration</h1>
+</section>
 {% endblock ordConfBody %}

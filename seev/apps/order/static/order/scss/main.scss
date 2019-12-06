@@ -781,7 +781,9 @@ $frame-size-small: 440px;
 #ord-exist-site-sect,
 #ord-sites-sel-sect,
 #ord-view-pr-sect,
-#ord-ctg-pr-sect {
+#ord-ctg-pr-sect,
+#ord-svc-details-sect,
+#ord-svc-config-sect {
   width: 85%;
   margin: 3rem auto 0 auto;
   padding: 2rem 1rem;
@@ -1055,7 +1057,8 @@ $frame-size-small: 440px;
   }
 }
 
-#site-loc-block {
+#site-loc-block,
+#site-svc-block {
   cursor: default;
   margin: 2.5rem 0 2rem 0;
   padding: 1rem 2rem;
@@ -1067,6 +1070,9 @@ $frame-size-small: 440px;
   flex-flow: row wrap;
   align-items: center;
   border-radius: 6px;
+  &#site-svc-block {
+    background-color: #00838f;
+  }
 }
 
 .loc-comp {
@@ -1176,7 +1182,8 @@ $frame-size-small: 440px;
 }
 
 #ord-add-ctg-btn,
-#ord-new-site-btn {
+#ord-new-site-btn,
+#ord-back-pr {
   display: block;
   background-color: #c62828;
   width: 15rem;
@@ -1184,7 +1191,33 @@ $frame-size-small: 440px;
   &#ord-new-site-btn {
     background-color: #3f51b5;
   }
+  &#ord-back-pr {
+    background-color: #880e4f;
+  }
   @include tablet {
     margin-left: auto;
+  }
+}
+
+#svc-nav-action-wrapper {
+  margin-top: 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  @include tablet {
+    flex-flow: column wrap;
+  }
+  button {
+    display: block;
+    background-color: #01579b;
+    width: 15rem;
+    @include tablet {
+      &:first-child {
+        margin-bottom: 0.75rem;
+      }
+      &:last-child {
+        margin-top: 0.75rem;
+      }
+    }
   }
 }
