@@ -623,6 +623,43 @@ def go_svc_config(request, context=None):
         context['addrDoc'] = addrDoc
         context['svcData'] = svcData
 
+        # Load catalog definitions
+        # Product level
+        prSpecList = []
+        prCtg = CtgProduct.objects.get(ctg_doc_id=service.ctg_doc_id)
+        prSpecs = CtgSpecification.objects.filter(
+            parent_ctg_id=service.ctg_doc_id)
+        for psp in prSpecs:
+            if psp.leaf_name == 'SP_BASE':
+                prSpecList.insert(0, buildSpecInfo(psp))
+            else:
+                prSpecList.append(buildSpecInfo(psp))
+
+        # Feature level
+        prFetList = []
+        fetCtg = CtgFeature.objects.filter(
+            product=prCtg, active=1).order_by('creation_time')
+        for fet in fetCtg:
+            fetDoc = {}
+            fetDoc['id'] = fet.ctg_doc_id
+            fetDoc['itemcode'] = fet.itemcode
+            fetDoc['name'] = fet.name
+
+            fetSpList = []
+            fetSpecs = CtgSpecification.objects.filter(
+                parent_ctg_id=fet.ctg_doc_id)
+            for fsp in fetSpecs:
+                if fsp.leaf_name == 'SP_BASE':
+                    fetSpList.insert(0, buildSpecInfo(fsp))
+                else:
+                    fetSpList.append(buildSpecInfo(fsp))
+
+            fetDoc['specs'] = fetSpList
+            prFetList.append(fetDoc)
+
+        context['prCtgData'] = prSpecList
+        context['fetCtgData'] = prFetList
+
         return render(request, 'order/order-service.html', context=context)
     except Exception:
         traceback.print_exc()

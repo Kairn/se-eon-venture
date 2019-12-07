@@ -200,3 +200,29 @@ def addNewProductsToSite(order, site, ctgId, count, beginSerial):
         return tempSerial
 
     return tempSerial
+
+
+def buildSpecInfo(spItem):
+    if not spItem:
+        return None
+
+    infoDoc = {}
+    infoDoc['id'] = spItem.specification_id
+    infoDoc['leaf'] = spItem.leaf_name
+    infoDoc['label'] = spItem.label
+    infoDoc['type'] = spItem.data_type
+    infoDoc['defVal'] = spItem.default_value
+
+    # Enumerations
+    enumList = []
+    values = CtgValue.objects.filter(
+        specification=spItem).order_by('creation_time')
+    for val in values:
+        enumDoc = {}
+        enumDoc['code'] = val.code
+        enumDoc['ctl'] = val.translation
+        enumList.append(enumDoc)
+
+    infoDoc['values'] = enumList
+
+    return infoDoc
