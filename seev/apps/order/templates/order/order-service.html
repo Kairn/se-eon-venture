@@ -44,7 +44,7 @@
 </section>
 <section id="ord-svc-config-sect">
 	<h1 class="ord-config-title">Configuration</h1>
-	{% for psp in prCtgData %}
+	<!-- {% for psp in prCtgData %}
 	<h2>{{ psp.leaf }}</h2>
 	{% endfor %}
 	<br>
@@ -53,6 +53,45 @@
 	{% for fsp in fet.specs %}
 	<h3>{{ fsp.label }}</h3>
 	{% endfor %}
-	{% endfor %}
+	{% endfor %} -->
+	<form id="svc-master-form" action="#" method="post" novalidate>
+		<div id="svc-form-main">
+			<!-- PS -->
+			<div class="svc-form-line ps-line">
+				<div class="svc-item-head ps-head">
+					<div><span>PS</span></div>
+					<div>General Specifications</div>
+				</div>
+				<div class="svc-spec-wrapper">
+				</div>
+			</div>
+			<!-- FT -->
+			<div class="svc-form-line ft-line">
+				<div class="svc-item-head ft-head">
+					<div><span>FT</span></div>
+					<div>Feature Sample 1</div>
+				</div>
+				<div class="svc-spec-wrapper">
+				</div>
+			</div>
+			<div class="svc-form-line ft-line">
+				<div class="svc-item-head ft-head">
+					<div><span>FT</span></div>
+					<div>Feature Sample 2</div>
+				</div>
+				<div class="svc-spec-wrapper">
+				</div>
+			</div>
+			<div class="svc-form-line ft-line">
+				<div class="svc-item-head ft-head">
+					<div><span>FT</span></div>
+					<div>Feature Sample 3</div>
+				</div>
+				<div class="svc-spec-wrapper">
+				</div>
+			</div>
+		</div>
+		<div id="svc-form-action"></div>
+	</form>
 </section>
 {% endblock ordConfBody %}

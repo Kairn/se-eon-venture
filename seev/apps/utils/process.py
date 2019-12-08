@@ -202,7 +202,7 @@ def addNewProductsToSite(order, site, ctgId, count, beginSerial):
     return tempSerial
 
 
-def buildSpecInfo(spItem):
+def buildSpecInfo(spItem, value):
     if not spItem:
         return None
 
@@ -212,6 +212,7 @@ def buildSpecInfo(spItem):
     infoDoc['label'] = spItem.label
     infoDoc['type'] = spItem.data_type
     infoDoc['defVal'] = spItem.default_value
+    infoDoc['value'] = value
 
     # Enumerations
     enumList = []
@@ -226,3 +227,45 @@ def buildSpecInfo(spItem):
     infoDoc['values'] = enumList
 
     return infoDoc
+
+
+def populateServiceDoc(service):
+    if not service or service.parent_id:
+        return None
+
+    biList = [service]
+    for fet in PtaBasketItem.objects.filter(parent_id=service.basket_item_id).order_by('itemcode'):
+        biList.append(fet)
+
+    biDocList = []
+    for item in biList:
+        itemDoc = {}
+        itemDoc['id'] = item.basket_item_id
+        itemDoc['itemcode'] = item.itemcode
+        itemDoc['serial'] = item.serial
+        itemDoc['leaves'] = []
+
+        for spec in PtaItemLeaf.objects.filter(basket_item=item).order_by('leaf_name'):
+            leafDoc = {}
+            leafDoc['key'] = spec.leaf_name
+            leafDoc['value'] = spec.leaf_value
+            itemDoc['leaves'].append(leafDoc)
+
+        biDocList.append(itemDoc)
+
+    return biDocList
+
+
+def getLeafValueFromSvcDoc(svcDocList, itemcode, leafName):
+    if not svcDocList or not itemcode or not leafName:
+        return None
+
+    for item in svcDocList:
+        if item['itemcode'] == itemcode:
+            for leaf in item['leaves']:
+                if leaf['key'] == leafName:
+                    return leaf['value']
+        else:
+            continue
+
+    return None

@@ -42,7 +42,7 @@ a {
 }
 
 form {
-  & > *:not(input):not(.ord-panel-row) {
+  & > *:not(input):not(.ord-panel-row):not(#svc-form-main) {
     user-select: none;
   }
   display: block;

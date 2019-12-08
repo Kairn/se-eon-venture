@@ -623,6 +623,8 @@ def go_svc_config(request, context=None):
         context['addrDoc'] = addrDoc
         context['svcData'] = svcData
 
+        svcBasketDoc = populateServiceDoc(service)
+
         # Load catalog definitions
         # Product level
         prSpecList = []
@@ -630,10 +632,12 @@ def go_svc_config(request, context=None):
         prSpecs = CtgSpecification.objects.filter(
             parent_ctg_id=service.ctg_doc_id)
         for psp in prSpecs:
+            val = getLeafValueFromSvcDoc(
+                svcBasketDoc, service.itemcode, psp.leaf_name)
             if psp.leaf_name == 'SP_BASE':
-                prSpecList.insert(0, buildSpecInfo(psp))
+                prSpecList.insert(0, buildSpecInfo(psp, val))
             else:
-                prSpecList.append(buildSpecInfo(psp))
+                prSpecList.append(buildSpecInfo(psp, val))
 
         # Feature level
         prFetList = []
@@ -649,10 +653,12 @@ def go_svc_config(request, context=None):
             fetSpecs = CtgSpecification.objects.filter(
                 parent_ctg_id=fet.ctg_doc_id)
             for fsp in fetSpecs:
+                val = getLeafValueFromSvcDoc(
+                    svcBasketDoc, fet.itemcode, fsp.leaf_name)
                 if fsp.leaf_name == 'SP_BASE':
-                    fetSpList.insert(0, buildSpecInfo(fsp))
+                    fetSpList.insert(0, buildSpecInfo(fsp, val))
                 else:
-                    fetSpList.append(buildSpecInfo(fsp))
+                    fetSpList.append(buildSpecInfo(fsp, val))
 
             fetDoc['specs'] = fetSpList
             prFetList.append(fetDoc)
