@@ -1183,7 +1183,8 @@ $frame-size-small: 440px;
 
 #ord-add-ctg-btn,
 #ord-new-site-btn,
-#ord-back-pr {
+#ord-back-pr,
+#ord-save-svc {
   display: block;
   background-color: #c62828;
   width: 15rem;
@@ -1193,6 +1194,9 @@ $frame-size-small: 440px;
   }
   &#ord-back-pr {
     background-color: #880e4f;
+  }
+  &#ord-save-svc {
+    background-color: #1b5e20;
   }
   @include tablet {
     margin-left: auto;
@@ -1223,7 +1227,7 @@ $frame-size-small: 440px;
 }
 
 #svc-master-form {
-  margin: 2.25rem 0 0 0;
+  margin: 2rem 0 0 0;
   padding: 0.5rem 1rem;
   #svc-form-main {
     & > div {
@@ -1346,5 +1350,31 @@ $frame-size-small: 440px;
   background-color: #fafafa;
   @include mobile {
     font-size: 18px;
+  }
+}
+
+#svc-form-val-err {
+  margin: 2.25rem 0 -0.5rem 0;
+  padding: 1.5rem 2rem;
+  font-size: 18px;
+  color: #f44336;
+  background-color: rgba($color: beige, $alpha: 0.9);
+  border-radius: 6px;
+  @include tablet {
+    font-size: 16px;
+  }
+  .svc-err-title {
+    font-family: "Nunito", sans-serif;
+    margin: 0 0 0.75rem 0;
+    font-size: 21px;
+    font-weight: 600;
+    @include tablet {
+      font-size: 18px;
+    }
+  }
+  .svc-val-err-line {
+    list-style: square inside;
+    padding-left: 0.75rem;
+    margin: 0.4rem 0;
   }
 }

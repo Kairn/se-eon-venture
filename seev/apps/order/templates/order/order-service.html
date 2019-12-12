@@ -44,6 +44,16 @@
 </section>
 <section id="ord-svc-config-sect">
 	<h1 class="ord-config-title">Configuration</h1>
+	{% if True %}
+	<ul id="svc-form-val-err">
+		<div class="svc-err-title">The following error(s) have occurred:</div>
+		<li class="svc-val-err-line">This sample value 1 is null.</li>
+		<li class="svc-val-err-line">This sample value 2 is invalid.</li>
+		<li class="svc-val-err-line">This sample value 3 should be greater than 5.</li>
+		<li class="svc-val-err-line">This sample value 4 is not a valid email address.</li>
+		<li class="svc-val-err-line">This sample value 5 is required.</li>
+	</ul>
+	{% endif %}
 	<!-- {% for psp in prCtgData %}
 	<h2>{{ psp.leaf }}</h2>
 	{% endfor %}
@@ -163,7 +173,9 @@
 				</div>
 			</div>
 		</div>
-		<div id="svc-form-action"></div>
 	</form>
+	<div style="margin: 2.5rem 0 0 0; user-select: none;">
+		<button id="ord-save-svc" onclick=";" type="button" class="ord-pri-btn">Save/Validate</button>
+	</div>
 </section>
 {% endblock ordConfBody %}
