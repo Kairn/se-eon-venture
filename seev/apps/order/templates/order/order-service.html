@@ -37,6 +37,13 @@
 		{{ svcData.name }}</div>
 	<div class="ord-config-subtitle" style="margin: 0.25rem 0 0 0; padding-left: 1rem; font-size: 28px; color: #424242;">
 		Serial: {{ svcData.serial }}</div>
+	{% if svcData.valid == '1' %}
+	<div class="ord-config-subtitle" style="margin: 0.25rem 0 0 0; padding-left: 1rem; font-size: 28px; color: #424242;">
+		Status: <span style="color: #4CAF50;">Valid</span></div>
+	{% else %}
+	<div class="ord-config-subtitle" style="margin: 0.25rem 0 0 0; padding-left: 1rem; font-size: 28px; color: #424242;">
+		Status: <span style="color: #F44336;">Invalid</span></div>
+	{% endif %}
 	<div style="margin: 2.5rem 0 0 0; user-select: none;">
 		<button id="ord-back-pr" onclick="window.location.href = '/order/build-pr/'" type="button"
 			class="ord-pri-btn">Add/Remove</button>
