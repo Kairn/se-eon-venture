@@ -61,16 +61,6 @@
 		<li class="svc-val-err-line">This sample value 5 is required.</li>
 	</ul>
 	{% endif %}
-	<!-- {% for psp in prCtgData %}
-	<h2>{{ psp.leaf }}</h2>
-	{% endfor %}
-	<br>
-	{% for fet in fetCtgData %}
-	<h2>{{ fet.name }}</h2>
-	{% for fsp in fet.specs %}
-	<h3>{{ fsp.label }}</h3>
-	{% endfor %}
-	{% endfor %} -->
 	<form id="svc-master-form" action="#" method="post" novalidate>
 		<div id="svc-form-main">
 			<!-- PS -->
@@ -79,78 +69,53 @@
 					<div><span>PS</span></div>
 					<div>General Specifications</div>
 				</div>
+				{% if pspCnt > 0 %}
 				<div class="svc-spec-wrapper">
+					{% for psp in prCtgData %}
+					{% if psp.type == 'BO' and psp.leaf != 'SP_BASE' %}
 					<div class="ord-spec-fi-wrapper">
-						<label class="ord-spec-label">Enable Spec</label>
-						<select class="ord-spec-fi">
+						<label class="ord-spec-label">{{ psp.label }}</label>
+						<select id="id_psp_{{ psp.id }}" data-value="{{ psp.value }}" class="ord-spec-fi">
 							<option>Yes</option>
 							<option>No</option>
 						</select>
 					</div>
+					{% endif %}
+					{% if psp.type == 'STR' %}
 					<div class="ord-spec-fi-wrapper">
-						<label class="ord-spec-label">Some String Spec</label>
-						<input type="text" class="ord-spec-fi">
+						<label class="ord-spec-label">{{ psp.label }}</label>
+						<input type="text" id="id_psp_{{ psp.id }}" data-value="{{ psp.value }}" class="ord-spec-fi">
 					</div>
+					{% endif %}
+					{% if psp.type == 'QTY' %}
 					<div class="ord-spec-fi-wrapper">
-						<label class="ord-spec-label">Some Number Spec</label>
-						<input type="number" class="ord-spec-fi">
+						<label class="ord-spec-label">{{ psp.label }}</label>
+						<input type="number" id="id_psp_{{ psp.id }}" data-value="{{ psp.value }}" class="ord-spec-fi">
 					</div>
+					{% endif %}
+					{% if psp.type == 'ENUM' %}
 					<div class="ord-spec-fi-wrapper">
-						<label class="ord-spec-label">Some Enum Spec</label>
-						<select class="ord-spec-fi">
-							<option>11111</option>
-							<option>22222</option>
-							<option>33333</option>
-							<option>44444</option>
+						<label class="ord-spec-label">{{ psp.label }}</label>
+						<select id="id_psp_{{ psp.id }}" data-value="{{ psp.value }}" class="ord-spec-fi">
+							{% for spv in psp.values %}
+							<option value="{{ spv.code }}">{{ spv.ctl }}</option>
+							{% endfor %}
 						</select>
 					</div>
+					{% endif %}
+					{% endfor %}
 				</div>
+				{% else %}
+				<div class="ord-config-subtitle" style="margin: 2.5rem 0 0 0; padding-left: 1rem; font-size: 28px;">No
+					information required.</div>
+				<div style="height: 0.4rem; margin: 0;"></div>
+				{% endif %}
 			</div>
 			<!-- FT -->
 			<div class="svc-form-line ft-line">
 				<div class="svc-item-head ft-head">
 					<div><span>FT</span></div>
 					<div>Feature Sample 1</div>
-				</div>
-				<div class="svc-spec-wrapper">
-					<div class="ord-spec-fi-wrapper">
-						<label class="ord-spec-label">Enable Spec</label>
-						<select class="ord-spec-fi">
-							<option>Yes</option>
-							<option>No</option>
-						</select>
-					</div>
-					<div class="ord-spec-fi-wrapper">
-						<label class="ord-spec-label">Some String Spec</label>
-						<input type="text" class="ord-spec-fi">
-					</div>
-					<div class="ord-spec-fi-wrapper">
-						<label class="ord-spec-label">Some Number Spec</label>
-						<input type="number" class="ord-spec-fi">
-					</div>
-					<div class="ord-spec-fi-wrapper">
-						<label class="ord-spec-label">Some Enum Spec</label>
-						<select class="ord-spec-fi">
-							<option>11111</option>
-							<option>22222</option>
-							<option>33333</option>
-							<option>44444</option>
-						</select>
-					</div>
-				</div>
-			</div>
-			<div class="svc-form-line ft-line">
-				<div class="svc-item-head ft-head">
-					<div><span>FT</span></div>
-					<div>Feature Sample 2</div>
-				</div>
-				<div class="svc-spec-wrapper">
-				</div>
-			</div>
-			<div class="svc-form-line ft-line">
-				<div class="svc-item-head ft-head">
-					<div><span>FT</span></div>
-					<div>Feature Sample 3</div>
 				</div>
 				<div class="svc-spec-wrapper">
 					<div class="ord-spec-fi-wrapper">

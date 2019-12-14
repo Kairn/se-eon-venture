@@ -630,7 +630,8 @@ def go_svc_config(request, context=None):
         prSpecList = []
         prCtg = CtgProduct.objects.get(ctg_doc_id=service.ctg_doc_id)
         prSpecs = CtgSpecification.objects.filter(
-            parent_ctg_id=service.ctg_doc_id)
+            parent_ctg_id=service.ctg_doc_id, active=1)
+        pspCnt = 0
         for psp in prSpecs:
             val = getLeafValueFromSvcDoc(
                 svcBasketDoc, service.itemcode, psp.leaf_name)
@@ -638,11 +639,13 @@ def go_svc_config(request, context=None):
                 prSpecList.insert(0, buildSpecInfo(psp, val))
             else:
                 prSpecList.append(buildSpecInfo(psp, val))
+                pspCnt += 1
 
         # Feature level
         prFetList = []
         fetCtg = CtgFeature.objects.filter(
             product=prCtg, active=1).order_by('creation_time')
+        fspCnt = 0
         for fet in fetCtg:
             fetDoc = {}
             fetDoc['id'] = fet.ctg_doc_id
@@ -651,7 +654,7 @@ def go_svc_config(request, context=None):
 
             fetSpList = []
             fetSpecs = CtgSpecification.objects.filter(
-                parent_ctg_id=fet.ctg_doc_id)
+                parent_ctg_id=fet.ctg_doc_id, active=1)
             for fsp in fetSpecs:
                 val = getLeafValueFromSvcDoc(
                     svcBasketDoc, fet.itemcode, fsp.leaf_name)
@@ -659,12 +662,15 @@ def go_svc_config(request, context=None):
                     fetSpList.insert(0, buildSpecInfo(fsp, val))
                 else:
                     fetSpList.append(buildSpecInfo(fsp, val))
+                    fspCnt += 1
 
             fetDoc['specs'] = fetSpList
             prFetList.append(fetDoc)
 
         context['prCtgData'] = prSpecList
+        context['pspCnt'] = pspCnt
         context['fetCtgData'] = prFetList
+        context['fspCnt'] = fspCnt
 
         return render(request, 'order/order-service.html', context=context)
     except Exception:
