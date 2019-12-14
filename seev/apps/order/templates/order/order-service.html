@@ -76,8 +76,8 @@
 					<div class="ord-spec-fi-wrapper">
 						<label class="ord-spec-label">{{ psp.label }}</label>
 						<select id="id_psp_{{ psp.id }}" data-value="{{ psp.value }}" class="ord-spec-fi">
-							<option>Yes</option>
-							<option>No</option>
+							<option value="Y">Yes</option>
+							<option value="N">No</option>
 						</select>
 					</div>
 					{% endif %}
@@ -112,42 +112,65 @@
 				{% endif %}
 			</div>
 			<!-- FT -->
-			<div class="svc-form-line ft-line">
+			{% for fet in fetCtgData %}
+			<div class="svc-form-line ft-line" id="id_fet_{{ fet.id }}">
 				<div class="svc-item-head ft-head">
 					<div><span>FT</span></div>
-					<div>Feature Sample 1</div>
+					<div>{{ fet.name }}</div>
 				</div>
 				<div class="svc-spec-wrapper">
+					{% for fsp in fet.specs %}
+					{% if fsp.leaf == 'SP_BASE' %}
 					<div class="ord-spec-fi-wrapper">
-						<label class="ord-spec-label">Enable Spec</label>
-						<select class="ord-spec-fi">
-							<option>Yes</option>
-							<option>No</option>
+						<label class="ord-spec-label">Enable Feature</label>
+						<select id="id_fsp_{{ fsp.id }}" data-value="{{ fsp.value }}" class="ord-spec-fi fsp-master"
+							data-master-id="{{ fet.id }}">
+							<option value="Y">Yes</option>
+							<option value="N">No</option>
 						</select>
 					</div>
+					{% endif %}
+					{% if fsp.type == 'BO' and fsp.leaf != 'SP_BASE' %}
 					<div class="ord-spec-fi-wrapper">
-						<label class="ord-spec-label">Some String Spec</label>
-						<input type="text" class="ord-spec-fi">
-					</div>
-					<div class="ord-spec-fi-wrapper">
-						<label class="ord-spec-label">Some Number Spec</label>
-						<input type="number" class="ord-spec-fi">
-					</div>
-					<div class="ord-spec-fi-wrapper">
-						<label class="ord-spec-label">Some Enum Spec</label>
-						<select class="ord-spec-fi">
-							<option>11111</option>
-							<option>22222</option>
-							<option>33333</option>
-							<option>44444</option>
+						<label class="ord-spec-label">{{ fsp.label }}</label>
+						<select id="id_fsp_{{ fsp.id }}" data-value="{{ fsp.value }}" class="ord-spec-fi fsp-child">
+							<option value="Y">Yes</option>
+							<option value="N">No</option>
 						</select>
 					</div>
+					{% endif %}
+					{% if fsp.type == 'STR' %}
+					<div class="ord-spec-fi-wrapper">
+						<label class="ord-spec-label">{{ fsp.label }}</label>
+						<input type="text" id="id_fsp_{{ fsp.id }}" data-value="{{ fsp.value }}" class="ord-spec-fi fsp-child">
+					</div>
+					{% endif %}
+					{% if fsp.type == 'QTY' %}
+					<div class="ord-spec-fi-wrapper">
+						<label class="ord-spec-label">{{ fsp.label }}</label>
+						<input type="number" id="id_fsp_{{ fsp.id }}" data-value="{{ fsp.value }}" class="ord-spec-fi fsp-child">
+					</div>
+					{% endif %}
+					{% if fsp.type == 'ENUM' %}
+					<div class="ord-spec-fi-wrapper">
+						<label class="ord-spec-label">{{ fsp.label }}</label>
+						<select id="id_fsp_{{ fsp.id }}" data-value="{{ fsp.value }}" class="ord-spec-fi fsp-child">
+							{% for spv in fsp.values %}
+							<option value="{{ spv.code }}">{{ spv.ctl }}</option>
+							{% endfor %}
+						</select>
+					</div>
+					{% endif %}
+					{% endfor %}
 				</div>
 			</div>
+			{% endfor %}
 		</div>
 	</form>
 	<div style="margin: 2.5rem 0 0 0; user-select: none;">
 		<button id="ord-save-svc" onclick=";" type="button" class="ord-pri-btn">Save/Validate</button>
 	</div>
 </section>
+<!-- Scripts -->
+<script src="{% static 'order/js/configuration.js' %}"></script>
 {% endblock ordConfBody %}

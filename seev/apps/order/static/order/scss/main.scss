@@ -1289,6 +1289,9 @@ $frame-size-small: 440px;
     }
   }
   &.ft-head {
+    &.name-dis {
+      opacity: 0.3;
+    }
     div:first-child {
       user-select: none;
       border: 3px solid #0d47a1;
@@ -1348,6 +1351,12 @@ $frame-size-small: 440px;
   border-radius: 4px;
   color: #212121;
   background-color: #fafafa;
+  &.fsp-dis {
+    border: #eeeeee 1px solid;
+    background-color: #eeeeee;
+    color: #757575;
+    cursor: default;
+  }
   @include mobile {
     font-size: 18px;
   }
