@@ -61,7 +61,7 @@
 		<li class="svc-val-err-line">This sample value 5 is required.</li>
 	</ul>
 	{% endif %}
-	<form id="svc-master-form" action="#" method="post" novalidate>
+	<form id="svc-master-form" action="#" novalidate>
 		<div id="svc-form-main">
 			<!-- PS -->
 			<div class="svc-form-line ps-line">
@@ -75,7 +75,7 @@
 					{% if psp.type == 'BO' and psp.leaf != 'SP_BASE' %}
 					<div class="ord-spec-fi-wrapper">
 						<label class="ord-spec-label">{{ psp.label }}</label>
-						<select id="id_psp_{{ psp.id }}" data-value="{{ psp.value }}" class="ord-spec-fi">
+						<select id="id_psp_{{ psp.id }}" data-value="{{ psp.value }}" class="ord-spec-fi psp-child">
 							<option value="Y">Yes</option>
 							<option value="N">No</option>
 						</select>
@@ -84,19 +84,19 @@
 					{% if psp.type == 'STR' %}
 					<div class="ord-spec-fi-wrapper">
 						<label class="ord-spec-label">{{ psp.label }}</label>
-						<input type="text" id="id_psp_{{ psp.id }}" data-value="{{ psp.value }}" class="ord-spec-fi">
+						<input type="text" id="id_psp_{{ psp.id }}" data-value="{{ psp.value }}" class="ord-spec-fi psp-child">
 					</div>
 					{% endif %}
 					{% if psp.type == 'QTY' %}
 					<div class="ord-spec-fi-wrapper">
 						<label class="ord-spec-label">{{ psp.label }}</label>
-						<input type="number" id="id_psp_{{ psp.id }}" data-value="{{ psp.value }}" class="ord-spec-fi">
+						<input type="number" id="id_psp_{{ psp.id }}" data-value="{{ psp.value }}" class="ord-spec-fi psp-child">
 					</div>
 					{% endif %}
 					{% if psp.type == 'ENUM' %}
 					<div class="ord-spec-fi-wrapper">
 						<label class="ord-spec-label">{{ psp.label }}</label>
-						<select id="id_psp_{{ psp.id }}" data-value="{{ psp.value }}" class="ord-spec-fi">
+						<select id="id_psp_{{ psp.id }}" data-value="{{ psp.value }}" class="ord-spec-fi psp-child">
 							{% for spv in psp.values %}
 							<option value="{{ spv.code }}">{{ spv.ctl }}</option>
 							{% endfor %}
@@ -167,8 +167,12 @@
 			{% endfor %}
 		</div>
 	</form>
+	<!-- Json Form -->
+	<form style="display: none;" action="/order/save-svc/" method="post" novalidate id="svc-json-form">
+		<input type="text" name="svc_json" id="json-field">
+	</form>
 	<div style="margin: 2.5rem 0 0 0; user-select: none;">
-		<button id="ord-save-svc" onclick=";" type="button" class="ord-pri-btn">Save/Validate</button>
+		<button id="ord-save-svc" onclick="submitConfig()" type="button" class="ord-pri-btn">Save/Validate</button>
 	</div>
 </section>
 <!-- Scripts -->

@@ -678,3 +678,23 @@ def go_svc_config(request, context=None):
         store_context_in_session(
             request, addSnackDataToContext(context, 'Redirect error'))
         return redirect('go_ord_home')
+
+
+@transaction.atomic
+def save_svc_config(request, context=None):
+    if request.method == 'POST':
+        try:
+            context = {}
+            ordMeta = request.session['order_meta'] if 'order_meta' in request.session else None
+
+            if not ordMeta:
+                return redirect('go_svc_config')
+
+            svcDataStruct = parseJson(request.POST['svc_json'])
+        except Exception:
+            traceback.print_exc()
+            store_context_in_session(
+                request, addSnackDataToContext(context, 'Unknown error'))
+            return redirect('go_ord_config_home')
+    else:
+        return redirect('go_ord_config_home')

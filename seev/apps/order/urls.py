@@ -18,4 +18,5 @@ urlpatterns = [
     re_path(r'^add-new-pr/$', views.add_pr_to_basket, name='add_pr_to_basket'),
     re_path(r'^del-pr/$', views.del_pr_in_site, name='del_pr_in_site'),
     re_path(r'^edit-svc/$', views.go_svc_config, name='go_svc_config'),
+    re_path(r'^save-svc/$', views.save_svc_config, name='save_svc_config'),
 ]
