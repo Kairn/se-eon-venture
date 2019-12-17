@@ -269,3 +269,89 @@ def getLeafValueFromSvcDoc(svcDocList, itemcode, leafName):
             continue
 
     return None
+
+
+def createOrGetFeature(ctg_doc_id, parentItem):
+    if not ctg_doc_id or not parentItem:
+        return None
+    try:
+        # Verify catalog
+        parentCtg = CtgProduct.objects.get(
+            ctg_doc_id=parentItem.ctg_doc_id, active=True)
+        featureCtg = CtgFeature.objects.get(
+            ctg_doc_id=ctg_doc_id, product=parentCtg, active=True)
+
+        existFeature = PtaBasketItem.objects.filter(
+            parent_id=parentItem.basket_item_id, ctg_doc_id=featureCtg.ctg_doc_id)
+        if existFeature and len(existFeature) > 0:
+            return existFeature[0]
+
+        newFeature = PtaBasketItem(
+            parent_id=parentItem.basket_item_id,
+            basket=parentItem.basket,
+            ctg_doc_id=featureCtg.ctg_doc_id,
+            itemcode=featureCtg.itemcode,
+            pta_site=parentItem.pta_site
+        )
+
+        newFeature.save()
+        return newFeature
+    except Exception:
+        return None
+
+
+@transaction.atomic
+def createOrUpdateSpec(specId, parentItem, value):
+    if not specId or not parentItem:
+        return None
+
+    try:
+        # Verify catalog
+        specCtg = CtgSpecification.objects.get(
+            specification_id=specId, parent_ctg_id=parentItem.ctg_doc_id, active=True)
+
+        existSpec = PtaItemLeaf.objects.filter(
+            basket_item=parentItem, leaf_name=specCtg.leaf_name)
+        if existSpec and len(existSpec) > 0:
+            existSpec = existSpec[0]
+            existSpec.leaf_value = value
+            return existSpec
+
+        newSpec = PtaItemLeaf(
+            basket_item=parentItem,
+            basket=parentItem.basket,
+            leaf_name=specCtg.leaf_name,
+            leaf_value=value
+        )
+
+        newSpec.save()
+        return newSpec
+    except Exception:
+        return None
+
+
+@transaction.atomic
+def saveBaseSpec(parentItem):
+    bsp = 'SP_BASE'
+
+    baseSpec = CtgSpecification.objects.filter(
+        parent_ctg_id=parentItem.ctg_doc_id, leaf_name=bsp)
+    if baseSpec and len(baseSpec) > 0:
+        baseSpec = baseSpec[0]
+    else:
+        return None
+
+    existSpec = PtaItemLeaf.objects.filter(
+        basket_item=parentItem, leaf_name=bsp)
+    if existSpec and len(existSpec) > 0:
+        return existSpec[0]
+
+    newBaseSpec = PtaItemLeaf(
+        basket_item=parentItem,
+        basket=parentItem.basket,
+        leaf_name=bsp,
+        leaf_value='1'
+    )
+
+    newBaseSpec.save()
+    return newBaseSpec

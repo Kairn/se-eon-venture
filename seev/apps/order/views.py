@@ -691,6 +691,24 @@ def save_svc_config(request, context=None):
                 return redirect('go_svc_config')
 
             svcDataStruct = parseJson(request.POST['svc_json'])
+            svcId = svcDataStruct['svcId']
+            pspList = svcDataStruct['pspList']
+            fetList = svcDataStruct['fetList']
+
+            # Check order
+            order = PtaOrderInstance.objects.get(
+                order_number=ordMeta['order_number'])
+            basket = order.basket
+            productItem = PtaBasketItem.objects.get(basket_item_id=svcId)
+            site = productItem.pta_site
+
+            if isOrderLocked(order):
+                store_context_in_session(
+                    request, addSnackDataToContext(context, 'Order is locked'))
+                return redirect('go_ord_config_home')
+
+            # Save product level specs
+            # Save features and feature level specs
         except Exception:
             traceback.print_exc()
             store_context_in_session(
