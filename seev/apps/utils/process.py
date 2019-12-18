@@ -315,6 +315,7 @@ def createOrUpdateSpec(specId, parentItem, value):
         if existSpec and len(existSpec) > 0:
             existSpec = existSpec[0]
             existSpec.leaf_value = value
+            existSpec.save()
             return existSpec
 
         newSpec = PtaItemLeaf(
@@ -355,3 +356,13 @@ def saveBaseSpec(parentItem):
 
     newBaseSpec.save()
     return newBaseSpec
+
+
+def getExistingFeature(parentItem, fet_ctg_id):
+    try:
+        if not parentItem or not fet_ctg_id:
+            return None
+
+        return PtaBasketItem.objects.get(parent_id=parentItem.basket_item_id, ctg_doc_id=fet_ctg_id)
+    except Exception:
+        return None

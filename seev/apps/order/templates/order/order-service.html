@@ -169,6 +169,7 @@
 	</form>
 	<!-- Json Form -->
 	<form style="display: none;" action="/order/save-svc/" method="post" novalidate id="svc-json-form">
+		{% csrf_token %}
 		<input type="text" name="svc_json" id="json-field">
 	</form>
 	<div style="margin: 2.5rem 0 0 0; user-select: none;">

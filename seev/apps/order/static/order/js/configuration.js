@@ -78,12 +78,12 @@ const submitConfig = function() {
   console.log(svcDataStruct);
 
   // Submit json form
-  // let form = document.getElementById('svc-json-form');
+  let form = document.getElementById('svc-json-form');
   let field = document.getElementById('json-field');
   field.value = JSON.stringify(svcDataStruct);
 
   console.log(field.value);
-  // form.submit();
+  form.submit();
 };
 
 // Get ID from tagged element

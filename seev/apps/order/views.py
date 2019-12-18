@@ -702,13 +702,43 @@ def save_svc_config(request, context=None):
             productItem = PtaBasketItem.objects.get(basket_item_id=svcId)
             site = productItem.pta_site
 
+            redir = reverse('go_svc_config') + '?svc_id=' + \
+                str(svcId).replace('-', '')
+
             if isOrderLocked(order):
                 store_context_in_session(
                     request, addSnackDataToContext(context, 'Order is locked'))
                 return redirect('go_ord_config_home')
 
             # Save product level specs
-            # Save features and feature level specs
+            saveBaseSpec(productItem)
+            for psp in pspList:
+                createOrUpdateSpec(psp['id'], productItem, psp['value'])
+
+            # Save features
+            for fet in fetList:
+                if fet['addFlag']:
+                    featureItem = createOrGetFeature(fet['id'], productItem)
+                    # Save feature level specs
+                    saveBaseSpec(featureItem)
+                    for fsp in fet['fspList']:
+                        createOrUpdateSpec(
+                            fsp['id'], featureItem, fsp['value'])
+                else:
+                    existFeature = getExistingFeature(productItem, fet['id'])
+                    if existFeature:
+                        deleteFeatureItem(existFeature)
+
+            # Validation
+            valid = True
+
+            if valid:
+                store_context_in_session(request, addSnackDataToContext(
+                    context, 'Configuration is saved'))
+            else:
+                store_context_in_session(request, addSnackDataToContext(
+                    context, 'Error(s) detected in service'))
+            return redirect(redir)
         except Exception:
             traceback.print_exc()
             store_context_in_session(

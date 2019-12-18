@@ -80,7 +80,7 @@ class PtaBasketItem(models.Model):
         'Catalog Item ID', editable=False, null=False)
     itemcode = models.CharField('Item Code', max_length=32, null=False)
     serial = models.PositiveSmallIntegerField(
-        'Serial Number', default=1, null=True)
+        'Serial Number', default=0, null=True)
     pta_site = models.ForeignKey(PtaSite, on_delete=models.CASCADE, null=False)
     is_valid = models.BooleanField(default=False)
     creation_time = models.DateTimeField(
