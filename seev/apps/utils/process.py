@@ -10,6 +10,7 @@ from seev.apps.order.models import *
 
 from seev.apps.utils.generators import *
 from seev.apps.utils.session import *
+from seev.apps.utils.validations import *
 
 
 @transaction.atomic
@@ -366,3 +367,71 @@ def getExistingFeature(parentItem, fet_ctg_id):
         return PtaBasketItem.objects.get(parent_id=parentItem.basket_item_id, ctg_doc_id=fet_ctg_id)
     except Exception:
         return None
+
+
+def validateProductItem(productItem, errorList):
+    pass
+
+
+def validateFeatureItem(featureItem, errorList):
+    pass
+
+
+def validateSpec(leafItem, parentCtgId, errorList):
+    if not leafItem or not parentCtgId or errorList == None:
+        return
+
+    try:
+        leafVal = leafItem.leaf_value
+        specCtg = CtgSpecification.objects.get(
+            parent_ctg_id=parentCtgId, leaf_name=leafItem.leaf_name, active=1)
+        if specCtg.data_type in ['BO', 'ENUM']:
+            return True
+
+        resList = CtgRestriction.objects.filter(specification=specCtg)
+        if resList and len(resList > 0):
+            for res in resList:
+                resType = res.rule_type
+                resVal = res.value
+
+                if specCtg.data_type == 'STR':
+                    if resType == 'NN' and not leafVal:
+                        errorList.append(specCtg.label + ' is required.')
+                        return False
+                    elif resType == 'UPLEN' and not hasMaxLength(leafVal, int(resVal)):
+                        errorList.append(
+                            specCtg.label + ' has exceeded ' + resVal + ' characters.')
+                        return False
+                    elif resType == 'LOLEN' and not hasMinLength(leafVal, int(resVal)):
+                        errorList.append(
+                            specCtg.label + ' needs to have at least ' + resVal + ' characters.')
+                        return False
+                    elif resType == 'AO' and not hasOnlyLetter(leafVal):
+                        errorList.append(
+                            specCtg.label + ' can only contain letters.')
+                        return False
+                    elif resType == 'NUO' and not hasOnlyNumber(leafVal):
+                        errorList.append(
+                            specCtg.label + ' can only contain digits.')
+                        return False
+                    elif resType == 'EML' and not isValidEmail(leafVal):
+                        errorList.append(
+                            specCtg.label + ' is not in valid email format.')
+                        return False
+
+                if specCtg.data_type == 'QTY':
+                    if resType == 'NN' and not leafVal:
+                        errorList.append(specCtg.label + ' is required.')
+                        return False
+                    elif resType == 'MAX' and (not isValidQuantity(leafVal) or not hasMaxValue(leafVal, int(resVal))):
+                        errorList.append(
+                            specCtg.label + ' should not be greater than ' + resVal + '.')
+                        return False
+                    elif resType == 'MIN' and (not isValidQuantity(leafVal) or not hasMinValue(leafVal, int(resVal))):
+                        errorList.append(
+                            specCtg.label + ' should not be less than ' + resVal + '.')
+                        return False
+        else:
+            return True
+    except Exception:
+        return False

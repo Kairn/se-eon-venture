@@ -10,6 +10,7 @@ DOUBLE_DOTS_PATTERN = r'\.\.'
 SPACE_PATTERN = r'\s'
 DIGIT_PATTERN = r'\d'
 NON_DIGIT_PATTERN = r'\D'
+NON_LETTER_PATTERN = r'[^a-zA-Z]'
 BOOL_PATTERN = r'^[01]$'
 LOWER_CASE_PATTERN = r'[a-z]'
 UPPER_CASE_PATTERN = r'[A-Z]'
@@ -166,3 +167,57 @@ def isValidRegisterRequest(post_data):
         return True
     except:
         return False
+
+
+def hasMinLength(input, value):
+    if not input:
+        return False
+
+    input = str(input)
+    return len(input) >= value
+
+
+def hasMaxLength(input, value):
+    if not input:
+        return False
+
+    input = str(input)
+    return len(input) <= value
+
+
+def hasMinValue(input, value):
+    try:
+        input = int(input)
+        return input >= input
+    except Exception:
+        return False
+
+
+def hasMaxValue(input, value):
+    try:
+        input = int(input)
+        return input <= input
+    except Exception:
+        return False
+
+
+def hasOnlyLetter(input):
+    if not input:
+        return False
+
+    input = str(input)
+    if len(input) < 1 or re.search(NON_LETTER_PATTERN, input) != None:
+        return False
+
+    return True
+
+
+def hasOnlyNumber(input):
+    if not input:
+        return False
+
+    input = str(input)
+    if len(input) < 1 or re.search(NON_DIGIT_PATTERN, input) != None:
+        return False
+
+    return True
