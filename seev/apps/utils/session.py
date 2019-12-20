@@ -56,3 +56,28 @@ def refreshOrdSessionData(order, request):
     else:
         meta = generateOrderMeta(order)
         save_ord_meta_to_session(request, meta)
+
+
+def getOrCreateSvcError(request, svcId):
+    if not request or not hasattr(request, 'session') or not svcId:
+        return None
+
+    if 'errorMap' in request.session:
+        if svcId in request.session['errorMap']:
+            return request.session['errorMap'][svcId]
+        else:
+            return []
+    else:
+        request.session['errorMap'] = {}
+        return []
+
+
+def saveErrorInMap(request, svcId, errorList):
+    if not request or not hasattr(request, 'session') or not svcId or errorList == None:
+        return
+
+    if 'errorMap' in request.session:
+        request.session['errorMap'][svcId] = errorList
+    else:
+        request.session['errorMap'] = {}
+        request.session['errorMap'][svcId] = errorList

@@ -672,6 +672,11 @@ def go_svc_config(request, context=None):
         context['fetCtgData'] = prFetList
         context['fspCnt'] = fspCnt
 
+        # Populate error
+        errorList = getOrCreateSvcError(request, str(service.basket_item_id))
+        context['errList'] = errorList
+        context['errLen'] = len(errorList)
+
         return render(request, 'order/order-service.html', context=context)
     except Exception:
         traceback.print_exc()
@@ -731,6 +736,9 @@ def save_svc_config(request, context=None):
 
             # Validation
             valid = True
+            errorList = []
+            valid = validateProductItem(productItem, errorList)
+            saveErrorInMap(request, str(productItem.basket_item_id), errorList)
 
             if valid:
                 store_context_in_session(request, addSnackDataToContext(

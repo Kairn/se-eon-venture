@@ -2,6 +2,7 @@
 Handle background tasks used by view logic
 """
 
+import traceback
 from django.db import transaction
 
 from seev.apps.core.models import *
@@ -369,12 +370,55 @@ def getExistingFeature(parentItem, fet_ctg_id):
         return None
 
 
+@transaction.atomic
 def validateProductItem(productItem, errorList):
-    pass
+    if not productItem or errorList == None:
+        return
+
+    valid = True
+
+    specList = PtaItemLeaf.objects.filter(basket_item=productItem)
+    fetList = PtaBasketItem.objects.filter(
+        parent_id=productItem.basket_item_id)
+
+    for spec in specList:
+        if not validateSpec(spec, productItem.ctg_doc_id, errorList):
+            valid = False
+
+    for fet in fetList:
+        if not validateFeatureItem(fet, errorList):
+            valid = False
+
+    if valid and not productItem.is_valid:
+        productItem.is_valid = True
+        productItem.save()
+    elif productItem.is_valid:
+        productItem.is_valid = False
+        productItem.save()
+
+    return valid
 
 
+@transaction.atomic
 def validateFeatureItem(featureItem, errorList):
-    pass
+    if not featureItem or errorList == None:
+        return
+
+    valid = True
+
+    specList = PtaItemLeaf.objects.filter(basket_item=featureItem)
+    for spec in specList:
+        if not validateSpec(spec, featureItem.ctg_doc_id, errorList):
+            valid = False
+
+    if valid and not featureItem.is_valid:
+        featureItem.is_valid = True
+        featureItem.save()
+    elif featureItem.is_valid:
+        featureItem.is_valid = False
+        featureItem.save()
+
+    return valid
 
 
 def validateSpec(leafItem, parentCtgId, errorList):
@@ -389,7 +433,7 @@ def validateSpec(leafItem, parentCtgId, errorList):
             return True
 
         resList = CtgRestriction.objects.filter(specification=specCtg)
-        if resList and len(resList > 0):
+        if resList and len(resList) > 0:
             for res in resList:
                 resType = res.rule_type
                 resVal = res.value
@@ -400,11 +444,11 @@ def validateSpec(leafItem, parentCtgId, errorList):
                         return False
                     elif resType == 'UPLEN' and not hasMaxLength(leafVal, int(resVal)):
                         errorList.append(
-                            specCtg.label + ' has exceeded ' + resVal + ' characters.')
+                            specCtg.label + ' has exceeded ' + resVal + ' character(s).')
                         return False
                     elif resType == 'LOLEN' and not hasMinLength(leafVal, int(resVal)):
                         errorList.append(
-                            specCtg.label + ' needs to have at least ' + resVal + ' characters.')
+                            specCtg.label + ' needs to have at least ' + resVal + ' character(s).')
                         return False
                     elif resType == 'AO' and not hasOnlyLetter(leafVal):
                         errorList.append(
@@ -433,5 +477,7 @@ def validateSpec(leafItem, parentCtgId, errorList):
                         return False
         else:
             return True
+
+        return True
     except Exception:
         return False

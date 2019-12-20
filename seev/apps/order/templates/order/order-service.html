@@ -51,14 +51,12 @@
 </section>
 <section id="ord-svc-config-sect">
 	<h1 class="ord-config-title">Configuration</h1>
-	{% if True %}
+	{% if errLen > 0 %}
 	<ul id="svc-form-val-err">
 		<div class="svc-err-title">The following error(s) have occurred:</div>
-		<li class="svc-val-err-line">This sample value 1 is null.</li>
-		<li class="svc-val-err-line">This sample value 2 is invalid.</li>
-		<li class="svc-val-err-line">This sample value 3 should be greater than 5.</li>
-		<li class="svc-val-err-line">This sample value 4 is not a valid email address.</li>
-		<li class="svc-val-err-line">This sample value 5 is required.</li>
+		{% for err in errList %}
+		<li class="svc-val-err-line">{{ err }}</li>
+		{% endfor %}
 	</ul>
 	{% endif %}
 	<form id="svc-master-form" action="#" novalidate>
