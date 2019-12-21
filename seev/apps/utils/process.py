@@ -414,7 +414,7 @@ def validateFeatureItem(featureItem, errorList):
     if valid and not featureItem.is_valid:
         featureItem.is_valid = True
         featureItem.save()
-    elif featureItem.is_valid:
+    elif not valid and featureItem.is_valid:
         featureItem.is_valid = False
         featureItem.save()
 
@@ -433,16 +433,21 @@ def validateSpec(leafItem, parentCtgId, errorList):
             return True
 
         resList = CtgRestriction.objects.filter(specification=specCtg)
+
         if resList and len(resList) > 0:
+            # Check required restriction
+            for res in resList:
+                if res.rule_type == 'NN' and not leafVal:
+                    errorList.append(specCtg.label + ' is required.')
+                    return False
+
+            # Check other restrictions
             for res in resList:
                 resType = res.rule_type
                 resVal = res.value
 
                 if specCtg.data_type == 'STR':
-                    if resType == 'NN' and not leafVal:
-                        errorList.append(specCtg.label + ' is required.')
-                        return False
-                    elif resType == 'UPLEN' and not hasMaxLength(leafVal, int(resVal)):
+                    if resType == 'UPLEN' and not hasMaxLength(leafVal, int(resVal)):
                         errorList.append(
                             specCtg.label + ' has exceeded ' + resVal + ' character(s).')
                         return False
@@ -464,14 +469,15 @@ def validateSpec(leafItem, parentCtgId, errorList):
                         return False
 
                 if specCtg.data_type == 'QTY':
-                    if resType == 'NN' and not leafVal:
-                        errorList.append(specCtg.label + ' is required.')
+                    if not isValidQuantity(leafVal):
+                        errorList.append(
+                            specCtg.label + ' does not have a valid quantity.')
                         return False
-                    elif resType == 'MAX' and (not isValidQuantity(leafVal) or not hasMaxValue(leafVal, int(resVal))):
+                    elif resType == 'MAX' and not hasMaxValue(leafVal, int(resVal)):
                         errorList.append(
                             specCtg.label + ' should not be greater than ' + resVal + '.')
                         return False
-                    elif resType == 'MIN' and (not isValidQuantity(leafVal) or not hasMinValue(leafVal, int(resVal))):
+                    elif resType == 'MIN' and not hasMinValue(leafVal, int(resVal)):
                         errorList.append(
                             specCtg.label + ' should not be less than ' + resVal + '.')
                         return False

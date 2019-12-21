@@ -188,7 +188,7 @@ def hasMaxLength(input, value):
 def hasMinValue(input, value):
     try:
         input = int(input)
-        return input >= input
+        return input >= value
     except Exception:
         return False
 
@@ -196,7 +196,7 @@ def hasMinValue(input, value):
 def hasMaxValue(input, value):
     try:
         input = int(input)
-        return input <= input
+        return input <= value
     except Exception:
         return False
 
