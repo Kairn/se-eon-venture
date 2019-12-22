@@ -392,7 +392,7 @@ def validateProductItem(productItem, errorList):
     if valid and not productItem.is_valid:
         productItem.is_valid = True
         productItem.save()
-    elif productItem.is_valid:
+    elif not valid and productItem.is_valid:
         productItem.is_valid = False
         productItem.save()
 

@@ -2,6 +2,10 @@
 
 var masterSpecs = document.getElementsByClassName('fsp-master');
 var basketItemId = document.getElementById('id-svc-data').getAttribute('data-id');
+var textInputs = document.querySelectorAll('input.ord-spec-fi');
+var selectInputs = document.querySelectorAll('select');
+
+const PY_NULL = 'None';
 
 // Disable or enable feature spec fields
 const toggleFeature = function(fetId, disable) {
@@ -75,14 +79,14 @@ const submitConfig = function() {
     fetList.push(fetObj);
   }
 
-  console.log(svcDataStruct);
+  // console.log(svcDataStruct);
 
   // Submit json form
   let form = document.getElementById('svc-json-form');
   let field = document.getElementById('json-field');
   field.value = JSON.stringify(svcDataStruct);
 
-  console.log(field.value);
+  // console.log(field.value);
   form.submit();
 };
 
@@ -131,6 +135,56 @@ const isfetEnabled = function(fetEle) {
   return false;
 };
 
+// Populate text input field
+const populateTif = function(tifEle) {
+  if (!tifEle) {
+    return;
+  }
+
+  let dv = tifEle.getAttribute('data-value');
+  if (dv && dv !== PY_NULL) {
+    tifEle.value = dv;
+  } else {
+    tifEle.value = '';
+  }
+};
+
+// Populate select input
+const populateSif = function(sifEle) {
+  if (!sifEle) {
+    return;
+  }
+
+  let dv = sifEle.getAttribute('data-value');
+  let options = sifEle.querySelectorAll('option');
+
+  for (let i = 0; i < options.length; ++i) {
+    let op = options[i];
+
+    // Boolean yes
+    if (dv === '1' && op.value === 'Y') {
+      sifEle.selectedIndex = i;
+      if (sifEle.classList.contains('fsp-master')) {
+        let fetId = getIdInElement(sifEle.parentElement.parentElement.parentElement);
+        toggleFeature(fetId, false);
+      }
+      return;
+    } else if ((dv === '0' || dv === PY_NULL) && op.value === 'N') {
+      sifEle.selectedIndex = i;
+      if (sifEle.classList.contains('fsp-master')) {
+        let fetId = getIdInElement(sifEle.parentElement.parentElement.parentElement);
+        toggleFeature(fetId, true);
+      }
+      return;
+    } else {
+      if (dv === op.value && dv !== PY_NULL) {
+        sifEle.selectedIndex = i;
+        return;
+      }
+    }
+  }
+};
+
 // Runtime
 // Turn on feature toggler
 for (let ms of masterSpecs) {
@@ -143,4 +197,12 @@ for (let ms of masterSpecs) {
       toggleFeature(fid, true);
     }
   });
-};
+}
+
+// Populate config from DB
+for (let tif of textInputs) {
+  populateTif(tif);
+}
+for (let sif of selectInputs) {
+  populateSif(sif);
+}
