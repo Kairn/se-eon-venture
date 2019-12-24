@@ -3,7 +3,8 @@
 {% load static %}
 
 {% block ordConfBody %}
-<div style="display: none;" id="id-svc-data" data-id="{{ svcData.id }}" data-loc="{{ siteDoc.site_name }}"></div>
+<div style="display: none;" id="id-svc-data" data-id="{{ svcData.id }}" data-loc="{{ siteDoc.site_name }}"
+	data-sid="{{ siteDoc.pta_site_id }}"></div>
 <section id="ord-svc-details-sect">
 	<h1 class="ord-config-title">Product/Service</h1>
 	<div id="site-svc-block">
@@ -45,8 +46,7 @@
 		Status: <span style="color: #F44336;">Invalid</span></div>
 	{% endif %}
 	<div style="margin: 2.5rem 0 0 0; user-select: none;">
-		<button id="ord-back-pr" onclick="window.location.href = '/order/build-pr/'" type="button"
-			class="ord-pri-btn">Add/Remove</button>
+		<button id="ord-back-pr" onclick="navToBuildPr()" type="button" class="ord-pri-btn">Add/Remove</button>
 	</div>
 </section>
 <section id="ord-svc-config-sect">

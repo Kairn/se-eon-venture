@@ -29,6 +29,11 @@ const navToSite = function(event) {
   }
 };
 
+const navToConfig = function(svcId) {
+  let bid = svcId.replace(/\-/g, '');
+  window.location.href = `/order/edit-svc/?svc_id=${bid}`;
+};
+
 // Initialize cart
 const initCart = function() {
   if (!allCtgPills || !allCtgPills.length || !pendingCartData) {

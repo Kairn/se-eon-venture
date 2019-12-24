@@ -7,6 +7,11 @@ var selectInputs = document.querySelectorAll('select');
 
 const PY_NULL = 'None';
 
+const navToBuildPr = function() {
+  let sid = document.getElementById('id-svc-data').getAttribute('data-sid').replace(/\-/g, '');
+  window.location.href = `/order/build-pr/?site_id=${sid}`;
+};
+
 // Disable or enable feature spec fields
 const toggleFeature = function(fetId, disable) {
   if (!fetId) {

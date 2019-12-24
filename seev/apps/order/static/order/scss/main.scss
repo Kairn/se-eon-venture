@@ -1387,3 +1387,37 @@ $frame-size-small: 440px;
     margin: 0.4rem 0;
   }
 }
+
+.ord-pr-pill-serial {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.ord-pr-radio {
+  display: inline-flex;
+  margin-left: 0.5rem;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  &.pr-valid {
+    border: 2px #4caf50 solid;
+    & > span {
+      background-color: #4caf50;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+  }
+  &.pr-invalid {
+    border: 2px #ff5722 solid;
+    & > span {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: #ff5722;
+    }
+  }
+}

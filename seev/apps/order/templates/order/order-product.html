@@ -39,7 +39,14 @@
 		{% for bi in biData %}
 		<div class="ord-item-pill" data-id="{{ bi.id }}" data-valid="{{ bi.valid }}">
 			<span>{{ bi.name }}</span>
-			<span>#{{ bi.serial }}</span>
+			<div class="ord-pr-pill-serial" onclick="navToConfig('{{ bi.id }}')">
+				<span>#{{ bi.serial }}</span>
+				{% if bi.valid == '1' %}
+				<span class="ord-pr-radio pr-valid"><span></span></span>
+				{% else %}
+				<span class="ord-pr-radio pr-invalid"><span></span></span>
+				{% endif %}
+			</div>
 			<span class="ord-icon-only-btn" onclick="delBasketItem('{{ bi.id }}')">
 				<img src="{% static 'order/images/icon-61.svg' %}" alt="trash-icon">
 			</span>
