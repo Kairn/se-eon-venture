@@ -19,4 +19,5 @@ urlpatterns = [
     re_path(r'^del-pr/$', views.del_pr_in_site, name='del_pr_in_site'),
     re_path(r'^edit-svc/$', views.go_svc_config, name='go_svc_config'),
     re_path(r'^save-svc/$', views.save_svc_config, name='save_svc_config'),
+    re_path(r'^valid-ord/$', views.do_ord_valid, name='do_ord_valid'),
 ]

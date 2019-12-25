@@ -156,6 +156,11 @@ def go_ord_config_home(request, context=None):
     context['numPrs'] = len(getAllProductsInOrder(order))
     context['isValid'] = True if order.status in ('VA', 'FL') else False
 
+    # Order validation request
+    if 'ord_valid_count' in request.session:
+        context['validCnt'] = request.session['ord_valid_count']
+        del request.session['ord_valid_count']
+
     return render(request, 'order/order-home.html', context=context)
 
 
@@ -496,6 +501,9 @@ def add_pr_to_basket(request, context=None):
             for ctgId, count in prData.items():
                 tempSerial = addNewProductsToSite(
                     order, site, ctgId, count, tempSerial)
+            invalidateSite(site)
+            invalidateOrder(order)
+            refreshOrdSessionData(order, request)
 
             if tempSerial > leadSerial:
                 diff = tempSerial - leadSerial
@@ -533,12 +541,16 @@ def del_pr_in_site(request, context=None):
             siteId = request.POST['ord_site_id']
 
             site = PtaSite.objects.get(pta_site_id=siteId)
+            order = site.order_instance
             item = PtaBasketItem.objects.get(basket_item_id=biId)
             redir = reverse('go_build_pr') + '?site_id=' + \
                 str(site.pta_site_id).replace('-', '')
 
             # Delete process
             deleteProductItem(item)
+            invalidateSite(site)
+            invalidateOrder(order)
+            refreshOrdSessionData(order, request)
 
             store_context_in_session(request, addSnackDataToContext(
                 context, 'Product has been deleted'))
@@ -744,9 +756,41 @@ def save_svc_config(request, context=None):
                 store_context_in_session(request, addSnackDataToContext(
                     context, 'Configuration is saved'))
             else:
+                invalidateSite(site)
+                invalidateOrder(order)
+                refreshOrdSessionData(order, request)
                 store_context_in_session(request, addSnackDataToContext(
                     context, 'Error(s) detected in service'))
             return redirect(redir)
+        except Exception:
+            traceback.print_exc()
+            store_context_in_session(
+                request, addSnackDataToContext(context, 'Unknown error'))
+            return redirect('go_ord_config_home')
+    else:
+        return redirect('go_ord_config_home')
+
+
+@transaction.atomic
+def do_ord_valid(request, context=None):
+    if request.method == 'POST':
+        try:
+            # Metadata
+            ordMeta = request.session['order_meta'] if 'order_meta' in request.session else None
+            if not ordMeta:
+                store_context_in_session(request, addSnackDataToContext(
+                    context, 'Order request failed'))
+                return redirect('go_ord_home')
+            else:
+                context = load_ord_meta_to_context(request, context)
+
+            order = PtaOrderInstance.objects.get(
+                order_number=ordMeta['order_number'])
+            valid = validateOrder(order)
+            refreshOrdSessionData(order, request)
+
+            request.session['ord_valid_count'] = valid
+            return redirect('go_ord_config_home')
         except Exception:
             traceback.print_exc()
             store_context_in_session(

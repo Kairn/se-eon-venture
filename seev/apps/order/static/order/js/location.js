@@ -135,7 +135,7 @@ const showRmPopup = function(count, id) {
   let msg = document.querySelector('.popup-simple-msg');
   let idField = document.getElementById('id_site_id');
 
-  msg.innerHTML = msg.innerHTML.replace('#', count);
+  msg.innerHTML = `All ${count} product(s) associated to the currect site will be deleted as well. Do you wish to continue?`;
   idField.value = id;
 
   setTimeout(() => {

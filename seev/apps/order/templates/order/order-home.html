@@ -31,5 +31,30 @@
 	<div id="ord-is-valid">True</div>
 	{% endif %}
 </aside>
+<!-- Popup -->
+<div class="black-overlay no-show"></div>
+<!-- Order validation message -->
+{% if validCnt is not none %}
+<div id="ord-valid-msg" class="seev-popup no-show">
+	<div class="popup-head" style="margin-bottom: 3rem;">
+		<img onclick="dismissOrderPopup('ord-valid-msg')" src="{% static 'icon-100.svg' %}" alt="close-icon">
+	</div>
+	<div class="popup-body">
+		{% if validCnt == -1 %}
+		<div>No site has been added to this order or order data is corrupted.</div>
+		{% endif %}
+		{% if validCnt == 0 %}
+		<div>This order has been validated. Please proceed to quoting and finalization.</div>
+		{% endif %}
+		{% if validCnt > 0 %}
+		<div>Detected error in {{ validCnt }} site(s). Please re-configure products or services in them.</div>
+		{% endif %}
+		<div>
+			<button style="width: 10rem;" onclick="dismissOrderPopup('ord-valid-msg')" type="button"
+				class="ord-pri-btn">Close</button>
+		</div>
+	</div>
+</div>
+{% endif %}
 <script src="{% static 'order/js/home.js' %}"></script>
 {% endblock ordConfBody %}

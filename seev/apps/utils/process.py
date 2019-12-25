@@ -143,6 +143,16 @@ def invalidateOrder(order):
         order.save()
 
 
+@transaction.atomic
+def invalidateSite(site):
+    if not site:
+        return
+
+    if site.is_valid:
+        site.is_valid = False
+        site.save()
+
+
 def isOrderLocked(order):
     if not order:
         return False
@@ -487,3 +497,54 @@ def validateSpec(leafItem, parentCtgId, errorList):
         return True
     except Exception:
         return False
+
+
+@transaction.atomic
+def validateSite(site):
+    if not site:
+        return False
+
+    valid = True
+    svcList = PtaBasketItem.objects.filter(pta_site=site, parent_id=None)
+
+    if len(svcList) < 1:
+        valid = False
+    else:
+        for svc in svcList:
+            if not svc.is_valid:
+                valid = False
+                break
+
+    if valid and not site.is_valid:
+        site.is_valid = True
+        site.save()
+    elif not valid and site.is_valid:
+        site.is_valid = False
+        site.save()
+
+    return valid
+
+
+@transaction.atomic
+def validateOrder(order):
+    if not order:
+        return -1
+
+    # Count invalid sites
+    count = 0
+    siteList = PtaSite.objects.filter(order_instance=order)
+
+    if siteList and len(siteList) > 0:
+        for site in siteList:
+            if not validateSite(site):
+                count += 1
+    else:
+        count = -1
+
+    if count == 0 and order.status in ('IN', 'IP'):
+        order.status = 'VA'
+        order.save()
+    elif count != 0:
+        invalidateOrder(order)
+
+    return count

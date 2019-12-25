@@ -97,3 +97,18 @@ const navToSummary = function() {
     showSnackMessage('Order needs to be validated first', 3000);
   }
 };
+
+// Submit dummy form
+const submitOrderForm = function(formId) {
+  if (!formId) {
+    return;
+  }
+
+  let form = document.getElementById(formId);
+  if (form) {
+    form.submit();
+  }
+};
+
+// Runtime
+showOrderPopup('ord-valid-msg');

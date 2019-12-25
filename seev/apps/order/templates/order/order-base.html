@@ -92,7 +92,8 @@
 		<div>This will take you directly to the order home page, and all unsaved data will be lost. Are you sure to
 			continue?</div>
 		<div>
-			<button style="background-color: #43A047;" type="button" class="ord-pri-btn">Yes (Validate)</button>
+			<button onclick="submitOrderForm('ord-valid-form')" style="background-color: #43A047;" type="button"
+				class="ord-pri-btn">Yes (Validate)</button>
 			<button onclick="dismissOrderPopup('ord-validation-popup')" type="button" class="ord-pri-btn">No</button>
 		</div>
 	</div>
@@ -119,7 +120,14 @@
 		<img src="{% static 'order/images/icon-59.svg' %}" alt="home-icon">
 	</div>
 </div>
+<!-- Hidden forms -->
 <form style="display: none;" action="/order/exit-ord/" id="exit-ord-form" method="POST">
+	{% csrf_token %}
+</form>
+<form id="ord-valid-form" action="/order/valid-ord/" method="post" novalidate style="display: none;">
+	{% csrf_token %}
+</form>
+<form id="ord-cancel-form" action="#" method="post" novalidate style="display: none;">
 	{% csrf_token %}
 </form>
 {% endblock ordContent %}

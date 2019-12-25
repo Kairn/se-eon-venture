@@ -91,9 +91,7 @@
 	<div class="popup-head" style="margin-bottom: 3rem;">
 		<img onclick="dismissRmPopup()" src="{% static 'icon-100.svg' %}" alt="close-icon">
 	</div>
-	<div class="popup-simple-msg">
-		All # products associated to the currect site will be deleted as well. Do you wish to continue?
-	</div>
+	<div class="popup-simple-msg"></div>
 	<form id="site-del-form" style="display: none;" action="/order/rm-site/" method="post">
 		{% csrf_token %}
 		<input type="text" name="site-id" id="id_site_id" style="display: none;">

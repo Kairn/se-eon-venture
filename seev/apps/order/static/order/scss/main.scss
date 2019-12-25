@@ -543,11 +543,16 @@ $frame-size-small: 440px;
 }
 
 #ord-validation-popup,
-#ord-cancel-popup {
+#ord-cancel-popup,
+#ord-valid-msg {
   background-color: white;
   font-size: 22px;
   width: 900px;
   height: 380px;
+  &#ord-valid-msg {
+    height: 350px;
+    width: 850px;
+  }
   @include tablet {
     font-size: 20px;
   }
