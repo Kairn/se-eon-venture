@@ -44,24 +44,36 @@ const dismissOppoPop = function() {
   popup.classList.add('no-show');
 };
 
-// Display order details popup
-const showOrdDetails = function() {
-  let overlay = document.querySelector('.black-overlay');
-  let popup = document.getElementById('ord-detail-popup');
+// Display order popup
+const showOrderPopup = function(eleId) {
+  if (!eleId) {
+    return;
+  }
 
-  setTimeout(() => {
-    overlay.classList.remove('no-show');
-    popup.classList.remove('no-show');
-  }, 150);
+  let overlay = document.querySelector('.black-overlay');
+  let popup = document.getElementById(eleId);
+
+  if (popup) {
+    setTimeout(() => {
+      overlay.classList.remove('no-show');
+      popup.classList.remove('no-show');
+    }, 150);
+  }
 };
 
-// Dismiss order details popup
-const dismissOrdDetails = function() {
-  let overlay = document.querySelector('.black-overlay');
-  let popup = document.getElementById('ord-detail-popup');
+// Dismiss order popup
+const dismissOrderPopup = function(eleId) {
+  if (!eleId) {
+    return;
+  }
 
-  overlay.classList.add('no-show');
-  popup.classList.add('no-show');
+  let overlay = document.querySelector('.black-overlay');
+  let popup = document.getElementById(eleId);
+
+  if (popup) {
+    overlay.classList.add('no-show');
+    popup.classList.add('no-show');
+  }
 };
 
 // Exit order and clear session

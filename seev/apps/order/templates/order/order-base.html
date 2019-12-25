@@ -14,19 +14,19 @@
 		<div id="order-number">Order # {{ ordMeta.order_number }}</div>
 		<div id="order-name">Order Name: {{ ordMeta.order_name }}</div>
 		<div id="ord-header-action-wrapper">
-			<button type="button" class="order-icon-btn" onclick="showOrdDetails()">
+			<button type="button" class="order-icon-btn" onclick="showOrderPopup('ord-detail-popup')">
 				<span>
 					<img src="{% static 'order/images/icon-55.svg' %}" alt="view-icon">
 					<span style="color: #283593;">View Details</span>
 				</span>
 			</button>
-			<button type="button" class="order-icon-btn">
+			<button type="button" class="order-icon-btn" onclick="showOrderPopup('ord-validation-popup')">
 				<span>
 					<img src="{% static 'order/images/icon-56.svg' %}" alt="validate-icon">
 					<span style="color: #2E7D32;">Validate Order</span>
 				</span>
 			</button>
-			<button type="button" class="order-icon-btn">
+			<button type="button" class="order-icon-btn" onclick="showOrderPopup('ord-cancel-popup')">
 				<span>
 					<img src="{% static 'order/images/icon-57.svg' %}" alt="cancel-icon">
 					<span style="color: #D84315;">Cancel Order</span>
@@ -43,9 +43,10 @@
 </div>
 <!-- Popup -->
 <div class="black-overlay no-show"></div>
+<!-- Order details -->
 <div id="ord-detail-popup" class="seev-popup no-show">
 	<div class="popup-head" style="margin-bottom: 3rem;">
-		<img onclick="dismissOrdDetails()" src="{% static 'icon-100.svg' %}" alt="close-icon">
+		<img onclick="dismissOrderPopup('ord-detail-popup')" src="{% static 'icon-100.svg' %}" alt="close-icon">
 	</div>
 	<div>
 		<div class="ord-detail-pop-row">
@@ -79,6 +80,33 @@
 		<div class="ord-detail-pop-row">
 			<span>Order Status: </span>
 			<span style="color: #4A148C;">{{ ordMeta.order_status }}</span>
+		</div>
+	</div>
+</div>
+<!-- Validation -->
+<div id="ord-validation-popup" class="seev-popup no-show">
+	<div class="popup-head" style="margin-bottom: 3rem;">
+		<img onclick="dismissOrderPopup('ord-validation-popup')" src="{% static 'icon-100.svg' %}" alt="close-icon">
+	</div>
+	<div class="popup-body">
+		<div>This will take you directly to the order home page, and all unsaved data will be lost. Are you sure to
+			continue?</div>
+		<div>
+			<button style="background-color: #43A047;" type="button" class="ord-pri-btn">Yes (Validate)</button>
+			<button onclick="dismissOrderPopup('ord-validation-popup')" type="button" class="ord-pri-btn">No</button>
+		</div>
+	</div>
+</div>
+<!-- Cancellation -->
+<div id="ord-cancel-popup" class="seev-popup no-show">
+	<div class="popup-head" style="margin-bottom: 3rem;">
+		<img onclick="dismissOrderPopup('ord-cancel-popup')" src="{% static 'icon-100.svg' %}" alt="close-icon">
+	</div>
+	<div class="popup-body">
+		<div>You are about to cancel this order. This action cannot be reverted. Are you sure to continue?</div>
+		<div>
+			<button style="background-color: #D32F2F;" type="button" class="ord-pri-btn">Yes (Cancel)</button>
+			<button onclick="dismissOrderPopup('ord-cancel-popup')" type="button" class="ord-pri-btn">No</button>
 		</div>
 	</div>
 </div>

@@ -135,6 +135,13 @@ form {
   }
 }
 
+.popup-body {
+  padding: 0 2rem;
+  @include mobile {
+    padding: 0 0.5rem;
+  }
+}
+
 .popup-title {
   user-select: none;
   margin: 3rem 0 1rem;
