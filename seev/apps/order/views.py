@@ -798,3 +798,37 @@ def do_ord_valid(request, context=None):
             return redirect('go_ord_config_home')
     else:
         return redirect('go_ord_config_home')
+
+
+def go_ord_summary(request, context=None):
+    try:
+        context = get_context_in_session(request)
+
+        if not context:
+            context = {}
+
+        # Metadata
+        ordMeta = request.session['order_meta'] if 'order_meta' in request.session else None
+        if not ordMeta:
+            store_context_in_session(request, addSnackDataToContext(
+                context, 'Order request failed'))
+            return redirect('go_ord_home')
+        else:
+            context = load_ord_meta_to_context(request, context)
+
+        order = PtaOrderInstance.objects.get(
+            order_number=ordMeta['order_number'])
+        if order.status not in ('VA', 'FL'):
+            store_context_in_session(request, addSnackDataToContext(
+                context, 'Summary is not available'))
+            return redirect('go_ord_config_home')
+
+        # Load product/service tree data
+        # Load pricing is available
+
+        return render(request, 'order/order-summary.html', context=context)
+    except Exception:
+        traceback.print_exc()
+        store_context_in_session(
+            request, addSnackDataToContext(context, 'Unknown error'))
+        return redirect('go_ord_config_home')

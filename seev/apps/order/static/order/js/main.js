@@ -92,7 +92,7 @@ const navToSummary = function() {
   let flagDiv = document.getElementById('ord-is-valid');
 
   if (flagDiv && flagDiv.innerHTML === 'True') {
-    // Go
+    window.location.href = '/order/ord-summ/';
   } else {
     showSnackMessage('Order needs to be validated first', 3000);
   }

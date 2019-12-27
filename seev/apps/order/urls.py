@@ -20,4 +20,5 @@ urlpatterns = [
     re_path(r'^edit-svc/$', views.go_svc_config, name='go_svc_config'),
     re_path(r'^save-svc/$', views.save_svc_config, name='save_svc_config'),
     re_path(r'^valid-ord/$', views.do_ord_valid, name='do_ord_valid'),
+    re_path(r'^ord-summ/$', views.go_ord_summary, name='go_ord_summary'),
 ]
