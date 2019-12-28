@@ -3,5 +3,53 @@
 {% load static %}
 
 {% block ordConfBody %}
-<h1>Summary/Quoting is working!</h1>
+<section id="ord-summ-item-sect">
+	<h1 class="ord-config-title">Order Summary</h1>
+	<!-- Indicators -->
+	<div id="ord-notes-wrapper">
+		<div class="ord-note">
+			<span class="color-strip" style="background-color: #C62828;"></span>
+			<span>Product</span>
+		</div>
+		<div class="ord-note">
+			<span class="color-strip" style="background-color: #0D47A1;"></span>
+			<span>Feature</span>
+		</div>
+		<div class="ord-note">
+			<span class="color-strip" style="background-color: #689F38;"></span>
+			<span>Specification</span>
+		</div>
+		<div class="ord-note">
+			<span class="color-strip" style="background-color: #880E4F;"></span>
+			<span>Monthly Charge</span>
+		</div>
+		<div class="ord-note">
+			<span class="color-strip" style="background-color: #1A237E;"></span>
+			<span>Non-recurring Charge</span>
+		</div>
+	</div>
+	<!-- Locations -->
+	<div class="summ-loc-wrapper">
+		<div class="loc-summ">
+			<div>
+				<img src="{% static 'order/images/icon-64.svg' %}" alt="calculator">
+				<span>Sample Location 1</span>
+			</div>
+			<div class="summ-price-block">
+				<span class="mrc">$981.50</span>
+				<span class="nrc">$1108.90</span>
+			</div>
+		</div>
+		<div class="summ-pr-wrapper">
+			<div class="pr-summ"></div>
+			<div class="summ-fet-wrapper">
+				<div class="fet-summ"></div>
+				<!-- Specs -->
+				<div class="summ-spec"></div>
+			</div>
+		</div>
+	</div>
+	<!-- Popups -->
+	<!-- Hidden forms -->
+</section>
 {% endblock ordConfBody %}
