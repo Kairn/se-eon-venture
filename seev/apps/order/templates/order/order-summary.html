@@ -48,8 +48,8 @@
 					<span>Sample Product 1</span>
 				</div>
 				<div class="summ-price-block">
-					<span class="mrc">$172.09</span>
-					<span class="nrc">$533.00</span>
+					<span class="mrc">172.00</span>
+					<span class="nrc">533.50</span>
 				</div>
 			</div>
 			<!-- Product specs -->
@@ -59,8 +59,8 @@
 					<span>Sample Spec 1 (×1)</span>
 				</div>
 				<div class="summ-price-block">
-					<span class="mrc">$60.00</span>
-					<span class="nrc">$180.00</span>
+					<span class="mrc">60</span>
+					<span class="nrc">180</span>
 				</div>
 			</div>
 			<div class="summ-spec">
@@ -69,8 +69,8 @@
 					<span>Sample Spec 2 (100M)</span>
 				</div>
 				<div class="summ-price-block">
-					<span class="mrc">$5.00</span>
-					<span class="nrc">$100.00</span>
+					<span class="mrc">5</span>
+					<span class="nrc">100</span>
 				</div>
 			</div>
 			<!-- Features -->
@@ -81,8 +81,8 @@
 						<span>Sample Feature 1</span>
 					</div>
 					<div class="summ-price-block">
-						<span class="mrc">$222.00</span>
-						<span class="nrc">$135.50</span>
+						<span class="mrc">222</span>
+						<span class="nrc">135</span>
 					</div>
 				</div>
 				<!-- Feature specs -->
@@ -92,8 +92,8 @@
 						<span>Sample Spec 3 (×1)</span>
 					</div>
 					<div class="summ-price-block">
-						<span class="mrc">$40.00</span>
-						<span class="nrc">$90.00</span>
+						<span class="mrc">40</span>
+						<span class="nrc">90</span>
 					</div>
 				</div>
 				<div class="summ-spec summ-spec-fet">
@@ -102,14 +102,40 @@
 						<span>Sample Spec 4 (×25)</span>
 					</div>
 					<div class="summ-price-block">
-						<span class="mrc">$170.00</span>
-						<span class="nrc">$450.00</span>
+						<span class="mrc">17</span>
+						<span class="nrc">450</span>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<!-- Popups -->
-	<!-- Hidden forms -->
+	<!-- Subtotal -->
+	<div style="margin-top: 4.5rem;"></div>
+	<div class="ord-config-subtitle smaller">Total Monthly (DISC.): <strong>$1530.50</strong></div>
+	<div class="ord-config-subtitle smaller">Total Non-recurring (DISC.): <strong>$16630.75</strong></div>
+	<!-- Actions -->
+	<div id="ord-summ-action-wrapper">
+		<button style="background-color: rgb(143, 190, 0);" id="ord-quote-btn" type="button" class="ord-pri-btn">Request
+			Quote</button>
+		<button onclick="showOrderPopup('ord-submit-popup')" style="background-color: #FF3D00;" id="ord-submit-btn"
+			type="button" class="ord-pri-btn">Finalize/Submit</button>
+	</div>
 </section>
+<!-- Popup -->
+<div id="ord-submit-popup" class="seev-popup no-show">
+	<div class="popup-head" style="margin-bottom: 3rem;">
+		<img onclick="dismissOrderPopup('ord-submit-popup')" src="{% static 'icon-100.svg' %}" alt="close-icon">
+	</div>
+	<div class="popup-body">
+		<div>Once you submit the order, it will be permanently locked and no further edits can be made. Are you sure to
+			continue?</div>
+		<div>
+			<button style="background-color: #FF3D00;" type="button" class="ord-pri-btn">Yes (Submit)</button>
+			<button onclick="dismissOrderPopup('ord-submit-popup')" type="button" class="ord-pri-btn">No</button>
+		</div>
+	</div>
+</div>
+<!-- Hidden forms -->
+<!-- Scripts -->
+<script src="{% static 'order/js/summary.js' %}"></script>
 {% endblock ordConfBody %}

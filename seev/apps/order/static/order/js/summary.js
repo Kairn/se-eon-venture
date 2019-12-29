@@ -1,0 +1,1 @@
+// Handles all summary and quoting related functionalities

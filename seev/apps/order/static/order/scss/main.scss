@@ -54,17 +54,27 @@ $frame-size-small: 440px;
   font-weight: 500;
   font-size: 26px;
   font-family: "Titillium Web", sans-serif;
+  &.smaller {
+    font-size: 24px;
+  }
   @include tablet {
     margin: 0;
     font-size: 24px;
     text-align: center;
+    &.smaller {
+      font-size: 22px;
+    }
   }
   @include mobile {
     font-size: 22px;
+    &.smaller {
+      font-size: 20px;
+    }
   }
 }
 
 .ord-pri-btn {
+  user-select: none;
   cursor: pointer;
   display: inline-block;
   padding: 0.65rem 0;
@@ -552,7 +562,8 @@ $frame-size-small: 440px;
 
 #ord-validation-popup,
 #ord-cancel-popup,
-#ord-valid-msg {
+#ord-valid-msg,
+#ord-submit-popup {
   background-color: white;
   font-size: 22px;
   width: 900px;
@@ -1508,6 +1519,10 @@ $frame-size-small: 440px;
   align-items: center;
 }
 
+.summ-loc-wrapper {
+  margin: 0 0 3rem 0;
+}
+
 .summ-price-block {
   display: inline-grid;
   grid-template-columns: 1fr 1fr;
@@ -1599,7 +1614,7 @@ $frame-size-small: 440px;
     font-size: 14px;
   }
   @include mobile {
-    font-size: 12px;
+    font-size: 13px;
     padding: 1rem 1.25rem 1rem 1.5rem;
   }
   & > div:first-child {
@@ -1646,10 +1661,10 @@ $frame-size-small: 440px;
     font-size: 16px;
   }
   @include tablet {
-    font-size: 12px;
+    font-size: 13px;
   }
   @include mobile {
-    font-size: 11px;
+    font-size: 12px;
     padding: 0.25rem 1.5rem 0.25rem 2rem;
     &.summ-spec-fet {
       padding: 0.25rem 1.5rem 0.25rem 2.75rem;
@@ -1674,6 +1689,25 @@ $frame-size-small: 440px;
         margin-right: 0.5rem;
         width: 10px;
         height: 10px;
+      }
+    }
+  }
+}
+
+#ord-summ-action-wrapper {
+  margin: 2.75rem 0 0 0;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: center;
+  @include tablet {
+    flex-flow: column wrap;
+  }
+  & > button {
+    width: 16rem;
+    &:first-child {
+      @include tablet {
+        margin-bottom: 1.75rem;
       }
     }
   }
