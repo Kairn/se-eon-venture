@@ -824,7 +824,7 @@ def go_ord_summary(request, context=None):
             return redirect('go_ord_config_home')
 
         # Load product/service tree data
-        # Load pricing is available
+        # Load pricing if available
 
         return render(request, 'order/order-summary.html', context=context)
     except Exception:

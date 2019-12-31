@@ -548,3 +548,92 @@ def validateOrder(order):
         invalidateOrder(order)
 
     return count
+
+
+def populateSiteSummary(stList, site):
+    if stList is None or not site or not site.order_instance:
+        return
+
+    siteDoc = {}
+    priceFlag = site.is_priced
+    siteDoc['id'] = site.pta_site_id
+    siteDoc['name'] = site.site_name
+    siteDoc['priceFlag'] = priceFlag
+
+    # Populate products
+    svcList = []
+    prList = PtaBasketItem.objects.filter(pta_site=site, parent_id=None)
+
+    if prList and len(prList) > 0:
+        for pr in prList:
+            prDoc = {}
+            prCtg = CtgProduct.objects.get(ctg_doc_id=pr.ctg_doc_id)
+            prDoc['id'] = pr.basket_item_id
+            prDoc['name'] = prCtg.name
+
+            # Populate product specs
+            pspList = []
+            prSpecs = PtaItemLeaf.objects.filter(basket_item=pr)
+            if prSpecs and len(prSpecs) > 0:
+                for psp in prSpecs:
+                    populateSpecSummary(pspList, psp, priceFlag)
+            prDoc['pspList'] = pspList
+
+            # Populate features
+            fetList = []
+            features = PtaBasketItem.objects.filter(
+                parent_id=pr.basket_item_id)
+            if features and len(features) > 0:
+                for fet in features:
+                    fetDoc = {}
+                    fetCtg = CtgFeature.objects.get(ctg_doc_id=fet.ctg_doc_id)
+                    fetDoc['id'] = fet.basket_item_id
+                    fetDoc['name'] = fetCtg.name
+
+                    # Populate feature specs
+                    fspList = []
+                    fetSpecs = PtaItemLeaf.objects.filter(basket_item=fet)
+                    if fetSpecs and len(fetSpecs) > 0:
+                        for fsp in fetSpecs:
+                            populateSpecSummary(fspList, fsp, priceFlag)
+                    fetDoc['fspList'] = fspList
+                    fetList.append(fetDoc)
+
+            prDoc['fetList'] = fetList
+            svcList.append(prDoc)
+
+    siteDoc['svcList'] = svcList
+    stList.append(siteDoc)
+
+
+def populateSpecSummary(spList, leaf, priceFlag):
+    if spList is None or not leaf:
+        return
+
+    BASE = 'SP_BASE'
+
+    spDoc = {}
+    parent = leaf.basket_item
+    spCtg = CtgSpecification.objects.filter(
+        parent_ctg_id=parent.ctg_doc_id, leaf_name=leaf.leaf_name, active=True)
+
+    if spCtg.data_type == 'STR':
+        return
+    else:
+        if spCtg.leaf_name == BASE:
+            spDoc['name'] = 'Base'
+        else:
+            spDoc['name'] = spCtg.label
+
+        if spCtg.data_type == 'BO':
+            spDoc['value'] = '×1'
+        elif spCtg.data_type == 'QTY':
+            spDoc['value'] = '×' + str(leaf.leaf_value)
+        elif spCtg.data_type == 'ENUM':
+            spDoc['value'] = leaf.leaf_value
+
+        # Load pricing
+        if priceFlag:
+            pass
+
+    spList.append(spDoc)
