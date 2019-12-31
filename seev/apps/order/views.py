@@ -824,7 +824,12 @@ def go_ord_summary(request, context=None):
             return redirect('go_ord_config_home')
 
         # Load product/service tree data
-        # Load pricing if available
+        siteDataList = []
+        sites = PtaSite.objects.filter(order_instance=order)
+        if sites and len(sites) > 0:
+            for site in sites:
+                populateSiteSummary(siteDataList, site)
+        context['siteDataList'] = siteDataList
 
         return render(request, 'order/order-summary.html', context=context)
     except Exception:

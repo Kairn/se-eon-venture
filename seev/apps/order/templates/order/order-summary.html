@@ -29,90 +29,81 @@
 		</div>
 	</div>
 	<!-- Locations -->
+	{% for siteDoc in siteDataList %}
 	<div class="summ-loc-wrapper">
 		<div class="loc-summ">
 			<div>
-				<img src="{% static 'order/images/icon-64.svg' %}" alt="calculator">
-				<span>Sample Location 1</span>
+				<img onclick="getSitePricing('{{ siteDoc.id }}')" src="{% static 'order/images/icon-64.svg' %}"
+					alt="calculator">
+				<span>{{ siteDoc.name }}</span>
 			</div>
 			<div class="summ-price-block">
-				<span class="mrc">$981.50</span>
-				<span class="nrc">$1108.90</span>
+				<span class="mrc"></span>
+				<span class="nrc"></span>
 			</div>
 		</div>
 		<!-- Products -->
+		{% for prDoc in siteDoc.svcList %}
 		<div class="summ-pr-wrapper">
 			<div class="pr-summ">
 				<div>
-					<img src="{% static 'order/images/icon-65.svg' %}" alt="package">
-					<span>Sample Product 1</span>
+					<img onclick="navToSvcConfig('{{ prDoc.id }}')" src="{% static 'order/images/icon-65.svg' %}" alt="package">
+					<span>{{ prDoc.name }}</span>
 				</div>
 				<div class="summ-price-block">
-					<span class="mrc">172.00</span>
-					<span class="nrc">533.50</span>
+					<span class="mrc"></span>
+					<span class="nrc"></span>
 				</div>
 			</div>
 			<!-- Product specs -->
+			{% for psp in prDoc.pspList %}
 			<div class="summ-spec">
 				<div>
 					<img src="{% static 'order/images/icon-67.svg' %}" alt="piece">
-					<span>Sample Spec 1 (×1)</span>
+					<span>{{ psp.name }} ({{ psp.value }})</span>
 				</div>
 				<div class="summ-price-block">
-					<span class="mrc">60</span>
-					<span class="nrc">180</span>
+					<span class="mrc"></span>
+					<span class="nrc"></span>
 				</div>
 			</div>
-			<div class="summ-spec">
-				<div>
-					<img src="{% static 'order/images/icon-67.svg' %}" alt="piece">
-					<span>Sample Spec 2 (100M)</span>
-				</div>
-				<div class="summ-price-block">
-					<span class="mrc">5</span>
-					<span class="nrc">100</span>
-				</div>
-			</div>
+			{% endfor %}
 			<!-- Features -->
+			{% for fet in prDoc.fetList %}
 			<div class="summ-fet-wrapper">
 				<div class="fet-summ">
 					<div>
 						<img src="{% static 'order/images/icon-66.svg' %}" alt="feather">
-						<span>Sample Feature 1</span>
+						<span>{{ fet.name }}</span>
 					</div>
 					<div class="summ-price-block">
-						<span class="mrc">222</span>
-						<span class="nrc">135</span>
+						<span class="mrc"></span>
+						<span class="nrc"></span>
 					</div>
 				</div>
 				<!-- Feature specs -->
+				{% for fsp in fet.fspList %}
 				<div class="summ-spec summ-spec-fet">
 					<div>
 						<img src="{% static 'order/images/icon-67.svg' %}" alt="piece">
-						<span>Sample Spec 3 (×1)</span>
+						<span>{{ fsp.name }} ({{ fsp.value }})</span>
 					</div>
 					<div class="summ-price-block">
-						<span class="mrc">40</span>
-						<span class="nrc">90</span>
+						<span class="mrc"></span>
+						<span class="nrc"></span>
 					</div>
 				</div>
-				<div class="summ-spec summ-spec-fet">
-					<div>
-						<img src="{% static 'order/images/icon-67.svg' %}" alt="piece">
-						<span>Sample Spec 4 (×25)</span>
-					</div>
-					<div class="summ-price-block">
-						<span class="mrc">17</span>
-						<span class="nrc">450</span>
-					</div>
-				</div>
+				{% endfor %}
 			</div>
+			{% endfor %}
 		</div>
+		{% endfor %}
 	</div>
+	{% endfor %}
 	<!-- Subtotal -->
 	<div style="margin-top: 4.5rem;"></div>
-	<div class="ord-config-subtitle smaller">Total Monthly (DISC.): <strong>$1530.50</strong></div>
-	<div class="ord-config-subtitle smaller">Total Non-recurring (DISC.): <strong>$16630.75</strong></div>
+	<div class="ord-config-subtitle smaller">Total Monthly (DISC.): <strong></strong></div>
+	<div class="ord-config-subtitle smaller">Total Non-recurring (DISC.): <strong></strong></div>
 	<!-- Actions -->
 	<div id="ord-summ-action-wrapper">
 		<button style="background-color: rgb(143, 190, 0);" id="ord-quote-btn" type="button" class="ord-pri-btn">Request

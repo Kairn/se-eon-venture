@@ -614,7 +614,7 @@ def populateSpecSummary(spList, leaf, priceFlag):
 
     spDoc = {}
     parent = leaf.basket_item
-    spCtg = CtgSpecification.objects.filter(
+    spCtg = CtgSpecification.objects.get(
         parent_ctg_id=parent.ctg_doc_id, leaf_name=leaf.leaf_name, active=True)
 
     if spCtg.data_type == 'STR':
