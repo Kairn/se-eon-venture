@@ -40,3 +40,155 @@ const priceAllSites = function() {
     showSnackMessage('No site needs pricing', 2500);
   }
 };
+
+// Populate spec price
+const loadSpecPrice = function(specEle) {
+  let mrcField = specEle.querySelector('.mrc.pl-spec');
+  let nrcField = specEle.querySelector('.nrc.pl-spec');
+  let spMrc = parseFloat(mrcField.getAttribute('data-price'));
+  let spNrc = parseFloat(nrcField.getAttribute('data-price'));
+
+  if (!spMrc) {
+    spMrc = 0;
+  }
+
+  if (!spNrc) {
+    spNrc = 0;
+  }
+
+  mrcField.innerHTML = `${spMrc.toFixed(0)}`;
+  nrcField.innerHTML = `${spNrc.toFixed(0)}`;
+
+  return [spMrc, spNrc];
+};
+
+// Populate feature price
+const loadFetPrice = function(fetEle) {
+  let fetMrc = 0;
+  let fetNrc = 0;
+  let mrcField = fetEle.querySelector('.mrc.pl-fet');
+  let nrcField = fetEle.querySelector('.nrc.pl-fet');
+
+  // Get aggregate spec prices
+  let specs = fetEle.querySelectorAll('.summ-spec.summ-spec-fet');
+  for (let i = 0; i < specs.length; ++i) {
+    let spec = specs[i];
+    let spPrice = loadSpecPrice(spec);
+    if (spPrice && spPrice.length == 2) {
+      fetMrc += parseFloat(spPrice[0]);
+      fetNrc += parseFloat(spPrice[1]);
+    }
+  }
+
+  mrcField.innerHTML = `${fetMrc.toFixed(2)}`;
+  nrcField.innerHTML = `${fetNrc.toFixed(2)}`;
+
+  return [fetMrc, fetNrc];
+};
+
+// Populate product price
+const loadPrPrice = function(prEle) {
+  let prMrc = 0;
+  let prNrc = 0;
+  let mrcField = prEle.querySelector('.mrc.pl-pr');
+  let nrcField = prEle.querySelector('.nrc.pl-pr');
+
+  // Get spec prices
+  let specs = prEle.querySelectorAll('.summ-spec.summ-spec-pr');
+  for (let i = 0; i < specs.length; ++i) {
+    let spec = specs[i];
+    let spPrice = loadSpecPrice(spec);
+    if (spPrice && spPrice.length == 2) {
+      prMrc += parseFloat(spPrice[0]);
+      prNrc += parseFloat(spPrice[1]);
+    }
+  }
+
+  // Get feature prices
+  let features = prEle.querySelectorAll('.summ-fet-wrapper');
+  for (let i = 0; i < features.length; ++i) {
+    let feature = features[i];
+    let fetPrice = loadFetPrice(feature);
+    if (fetPrice && fetPrice.length === 2) {
+      prMrc += parseFloat(fetPrice[0]);
+      prNrc += parseFloat(fetPrice[1]);
+    }
+  }
+
+  mrcField.innerHTML = `${prMrc.toFixed(2)}`;
+  nrcField.innerHTML = `${prNrc.toFixed(2)}`;
+
+  return [prMrc, prNrc];
+};
+
+// Populate site price
+const loadSitePrice = function(siteEle) {
+  let siteMrc = 0;
+  let siteNrc = 0;
+  let mrcField = siteEle.querySelector('.mrc.pl-site');
+  let nrcField = siteEle.querySelector('.nrc.pl-site');
+
+  // Get aggregate product prices
+  let products = siteEle.querySelectorAll('.summ-pr-wrapper');
+  for (let i = 0; i < products.length; ++i) {
+    let product = products[i];
+    let prPrice = loadPrPrice(product);
+    if (prPrice && prPrice.length === 2) {
+      siteMrc += parseFloat(prPrice[0]);
+      siteNrc += parseFloat(prPrice[1]);
+    }
+  }
+
+  mrcField.innerHTML = `\$${siteMrc.toFixed(2)}`;
+  nrcField.innerHTML = `\$${siteNrc.toFixed(2)}`;
+
+  return [siteMrc, siteNrc];
+};
+
+// Populate all price
+const populatePriceSummary = function() {
+  let totalMrc = null;
+  let totalNrc = null;
+  let mrcField = document.getElementById('ord-summ-tmrc');
+  let nrcField = document.getElementById('ord-summ-tnrc');
+
+  // Get aggregate site prices
+  let sites = document.querySelectorAll('.summ-loc-wrapper');
+  for (let i = 0; i < sites.length; ++i) {
+    let site = sites[i];
+    if (site.querySelector('.loc-summ').getAttribute('data-flag') === PY_TRUE) {
+      if (totalMrc === null) {
+        totalMrc = parseFloat('0');
+      }
+      if (totalNrc === null) {
+        totalNrc = parseFloat('0');
+      }
+
+      let sitePrice = loadSitePrice(site);
+      if (sitePrice && sitePrice.length === 2) {
+        totalMrc += parseFloat(sitePrice[0]);
+        totalNrc += parseFloat(sitePrice[1]);
+      }
+    }
+  }
+
+  // Get discounts
+  let disEle = document.getElementById('ord-data-order-dis');
+  let disMrc = parseFloat(disEle.getAttribute('data-mrc')) / 100;
+  let disNrc = parseFloat(disEle.getAttribute('data-nrc')) / 100;
+
+  if (totalMrc !== null) {
+    mrcField.innerHTML = `\$${(totalMrc * (1 - disMrc)).toFixed(2)}`;
+  } else {
+    mrcField.innerHTML = `N/A`;
+  }
+
+  if (totalNrc !== null) {
+    nrcField.innerHTML = `\$${(totalNrc * (1 - disNrc)).toFixed(2)}`;
+  } else {
+    nrcField.innerHTML = `N/A`;
+  }
+};
+
+// Runtime
+populatePriceSummary();

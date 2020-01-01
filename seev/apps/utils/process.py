@@ -625,6 +625,8 @@ def populateSpecSummary(spList, leaf, priceFlag):
 
     if spCtg.data_type == 'STR':
         return
+    elif spCtg.data_type == 'BO' and leaf.leaf_value == 'N':
+        return
     else:
         if spCtg.leaf_name == BASE:
             spDoc['name'] = 'Base'
@@ -674,7 +676,9 @@ def priceSite(site):
                         parent_ctg_id=bi.ctg_doc_id, leaf_name=leaf.leaf_name, active=True)
                     ct = None
                     priceCtg = None
-                    if spCtg.data_type == 'ENUM':
+                    if spCtg.data_type == 'BO' and leaf.leaf_value == 'N':
+                        continue
+                    elif spCtg.data_type == 'ENUM':
                         ct = 'SPEC'
                         value = CtgValue.objects.get(
                             specification=spCtg, code=leaf.leaf_value)
@@ -696,13 +700,17 @@ def priceSite(site):
                         nrc = 0
                         if spCtg.data_type == 'QTY':
                             ct = 'QUAN'
-                            mrc = round(float(leaf.leaf_value) *
-                                        float(priceCtg.unit_mrc), 2)
-                            nrc = round(float(leaf.leaf_value) *
-                                        float(priceCtg.unit_nrc), 2)
+                            umrc = priceCtg.unit_mrc if priceCtg.unit_mrc else 0
+                            unrc = priceCtg.unit_nrc if priceCtg.unit_nrc else 0
+                            mrc = round(float(leaf.leaf_value)
+                                        * float(umrc), 2)
+                            nrc = round(float(leaf.leaf_value)
+                                        * float(unrc), 2)
                         else:
-                            mrc = round(float(priceCtg.mrc), 2)
-                            nrc = round(float(priceCtg.nrc), 2)
+                            mrc = round(float(priceCtg.mrc),
+                                        2) if priceCtg.mrc else round(0, 2)
+                            nrc = round(float(priceCtg.nrc),
+                                        2) if priceCtg.nrc else round(0, 2)
 
                         newPriceLine = PtaPriceLine(
                             basket_item=bi,

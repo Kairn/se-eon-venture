@@ -38,8 +38,8 @@
 				<span>{{ siteDoc.name }}</span>
 			</div>
 			<div class="summ-price-block">
-				<span class="mrc"></span>
-				<span class="nrc"></span>
+				<span class="mrc pl-site"></span>
+				<span class="nrc pl-site"></span>
 			</div>
 		</div>
 		<!-- Products -->
@@ -51,20 +51,20 @@
 					<span>{{ prDoc.name }}</span>
 				</div>
 				<div class="summ-price-block">
-					<span class="mrc"></span>
-					<span class="nrc"></span>
+					<span class="mrc pl-pr"></span>
+					<span class="nrc pl-pr"></span>
 				</div>
 			</div>
 			<!-- Product specs -->
 			{% for psp in prDoc.pspList %}
-			<div class="summ-spec">
+			<div class="summ-spec summ-spec-pr">
 				<div>
 					<img src="{% static 'order/images/icon-67.svg' %}" alt="piece">
 					<span>{{ psp.name }} ({{ psp.value }})</span>
 				</div>
 				<div class="summ-price-block">
-					<span class="mrc">{{ psp.mrc }}</span>
-					<span class="nrc">{{ psp.nrc }}</span>
+					<span class="mrc pl-spec" data-price="{{ psp.mrc }}"></span>
+					<span class="nrc pl-spec" data-price="{{ psp.nrc }}"></span>
 				</div>
 			</div>
 			{% endfor %}
@@ -77,8 +77,8 @@
 						<span>{{ fet.name }}</span>
 					</div>
 					<div class="summ-price-block">
-						<span class="mrc"></span>
-						<span class="nrc"></span>
+						<span class="mrc pl-fet"></span>
+						<span class="nrc pl-fet"></span>
 					</div>
 				</div>
 				<!-- Feature specs -->
@@ -89,8 +89,8 @@
 						<span>{{ fsp.name }} ({{ fsp.value }})</span>
 					</div>
 					<div class="summ-price-block">
-						<span class="mrc">{{ fsp.mrc }}</span>
-						<span class="nrc">{{ fsp.nrc }}</span>
+						<span class="mrc pl-spec" data-price="{{ fsp.mrc }}"></span>
+						<span class="nrc pl-spec" data-price="{{ fsp.nrc }}"></span>
 					</div>
 				</div>
 				{% endfor %}
@@ -102,8 +102,8 @@
 	{% endfor %}
 	<!-- Subtotal -->
 	<div style="margin-top: 4.5rem;"></div>
-	<div class="ord-config-subtitle smaller">Total Monthly (DISC.): <strong></strong></div>
-	<div class="ord-config-subtitle smaller">Total Non-recurring (DISC.): <strong></strong></div>
+	<div class="ord-config-subtitle smaller">Total Monthly (DISC.): <strong id="ord-summ-tmrc"></strong></div>
+	<div class="ord-config-subtitle smaller">Total Non-recurring (DISC.): <strong id="ord-summ-tnrc"></strong></div>
 	<!-- Actions -->
 	<div id="ord-summ-action-wrapper">
 		<button onclick="priceAllSites()" style="background-color: rgb(143, 190, 0);" id="ord-quote-btn" type="button"

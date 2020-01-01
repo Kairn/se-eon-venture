@@ -1587,13 +1587,12 @@ $frame-size-small: 440px;
       }
     }
   }
-  &.loc-summ {
+
+  &.loc-summ,
+  &.pr-summ {
     .summ-price-block {
       font-weight: 700;
     }
-  }
-  &.loc-summ,
-  &.pr-summ {
     img {
       cursor: pointer;
     }
