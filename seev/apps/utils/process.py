@@ -2,8 +2,8 @@
 Handle background tasks used by view logic
 """
 
-import traceback
 from django.db import transaction
+from django.core.exceptions import ObjectDoesNotExist
 
 from seev.apps.core.models import *
 from seev.apps.catalog.models import *
@@ -147,6 +147,8 @@ def invalidateOrder(order):
 def invalidateSite(site):
     if not site:
         return
+    else:
+        clearSitePrice(site)
 
     if site.is_valid:
         site.is_valid = False
@@ -562,7 +564,8 @@ def populateSiteSummary(stList, site):
 
     # Populate products
     svcList = []
-    prList = PtaBasketItem.objects.filter(pta_site=site, parent_id=None)
+    prList = PtaBasketItem.objects.filter(
+        pta_site=site, parent_id=None).order_by('serial')
 
     if prList and len(prList) > 0:
         for pr in prList:
@@ -573,7 +576,8 @@ def populateSiteSummary(stList, site):
 
             # Populate product specs
             pspList = []
-            prSpecs = PtaItemLeaf.objects.filter(basket_item=pr)
+            prSpecs = PtaItemLeaf.objects.filter(
+                basket_item=pr).order_by('leaf_name')
             if prSpecs and len(prSpecs) > 0:
                 for psp in prSpecs:
                     populateSpecSummary(pspList, psp, priceFlag)
@@ -582,7 +586,7 @@ def populateSiteSummary(stList, site):
             # Populate features
             fetList = []
             features = PtaBasketItem.objects.filter(
-                parent_id=pr.basket_item_id)
+                parent_id=pr.basket_item_id).order_by('itemcode')
             if features and len(features) > 0:
                 for fet in features:
                     fetDoc = {}
@@ -592,7 +596,8 @@ def populateSiteSummary(stList, site):
 
                     # Populate feature specs
                     fspList = []
-                    fetSpecs = PtaItemLeaf.objects.filter(basket_item=fet)
+                    fetSpecs = PtaItemLeaf.objects.filter(
+                        basket_item=fet).order_by('leaf_name')
                     if fetSpecs and len(fetSpecs) > 0:
                         for fsp in fetSpecs:
                             populateSpecSummary(fspList, fsp, priceFlag)
@@ -611,6 +616,7 @@ def populateSpecSummary(spList, leaf, priceFlag):
         return
 
     BASE = 'SP_BASE'
+    preFlag = False
 
     spDoc = {}
     parent = leaf.basket_item
@@ -622,6 +628,7 @@ def populateSpecSummary(spList, leaf, priceFlag):
     else:
         if spCtg.leaf_name == BASE:
             spDoc['name'] = 'Base'
+            preFlag = True
         else:
             spDoc['name'] = spCtg.label
 
@@ -634,6 +641,92 @@ def populateSpecSummary(spList, leaf, priceFlag):
 
         # Load pricing
         if priceFlag:
-            pass
+            try:
+                price = PtaPriceLine.objects.get(item_leaf=leaf)
+                spDoc['mrc'] = price.mrc_charge
+                spDoc['nrc'] = price.nrc_charge
+            except ObjectDoesNotExist:
+                pass
 
-    spList.append(spDoc)
+    if preFlag:
+        spList.insert(0, spDoc)
+    else:
+        spList.append(spDoc)
+
+
+@transaction.atomic
+def priceSite(site):
+    if not site:
+        return
+
+    # Clear site price
+    if site.is_priced:
+        clearSitePrice(site)
+
+    biArray = PtaBasketItem.objects.filter(pta_site=site)
+
+    if biArray and len(biArray) > 0:
+        for bi in biArray:
+            leaves = PtaItemLeaf.objects.filter(basket_item=bi)
+            if leaves and len(leaves) > 0:
+                for leaf in leaves:
+                    spCtg = CtgSpecification.objects.get(
+                        parent_ctg_id=bi.ctg_doc_id, leaf_name=leaf.leaf_name, active=True)
+                    ct = None
+                    priceCtg = None
+                    if spCtg.data_type == 'ENUM':
+                        ct = 'SPEC'
+                        value = CtgValue.objects.get(
+                            specification=spCtg, code=leaf.leaf_value)
+                        try:
+                            priceCtg = CtgPrice.objects.get(
+                                specification=spCtg, value=value)
+                        except ObjectDoesNotExist:
+                            continue
+                    else:
+                        ct = 'ONTM'
+                        try:
+                            priceCtg = CtgPrice.objects.get(
+                                specification=spCtg)
+                        except ObjectDoesNotExist:
+                            continue
+
+                    if priceCtg:
+                        mrc = 0
+                        nrc = 0
+                        if spCtg.data_type == 'QTY':
+                            ct = 'QUAN'
+                            mrc = round(float(leaf.leaf_value) *
+                                        float(priceCtg.unit_mrc), 2)
+                            nrc = round(float(leaf.leaf_value) *
+                                        float(priceCtg.unit_nrc), 2)
+                        else:
+                            mrc = round(float(priceCtg.mrc), 2)
+                            nrc = round(float(priceCtg.nrc), 2)
+
+                        newPriceLine = PtaPriceLine(
+                            basket_item=bi,
+                            item_leaf=leaf,
+                            charge_type=ct,
+                            mrc_charge=mrc,
+                            nrc_charge=nrc
+                        )
+                        newPriceLine.save()
+
+        site.is_priced = True
+        site.save()
+
+
+@transaction.atomic
+def clearSitePrice(site):
+    if not site or not site.is_priced:
+        return
+
+    biArray = PtaBasketItem.objects.filter(pta_site=site)
+    if biArray and len(biArray) > 0:
+        prices = PtaPriceLine.objects.filter(basket_item__in=biArray)
+        if prices and len(prices) > 0:
+            prices.delete()
+
+        site.is_priced = False
+        site.save()

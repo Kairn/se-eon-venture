@@ -31,7 +31,7 @@
 	<!-- Locations -->
 	{% for siteDoc in siteDataList %}
 	<div class="summ-loc-wrapper">
-		<div class="loc-summ">
+		<div class="loc-summ" data-flag="{{ siteDoc.priceFlag }}" data-id="{{ siteDoc.id }}">
 			<div>
 				<img onclick="getSitePricing('{{ siteDoc.id }}')" src="{% static 'order/images/icon-64.svg' %}"
 					alt="calculator">
@@ -63,8 +63,8 @@
 					<span>{{ psp.name }} ({{ psp.value }})</span>
 				</div>
 				<div class="summ-price-block">
-					<span class="mrc"></span>
-					<span class="nrc"></span>
+					<span class="mrc">{{ psp.mrc }}</span>
+					<span class="nrc">{{ psp.nrc }}</span>
 				</div>
 			</div>
 			{% endfor %}
@@ -89,8 +89,8 @@
 						<span>{{ fsp.name }} ({{ fsp.value }})</span>
 					</div>
 					<div class="summ-price-block">
-						<span class="mrc"></span>
-						<span class="nrc"></span>
+						<span class="mrc">{{ fsp.mrc }}</span>
+						<span class="nrc">{{ fsp.nrc }}</span>
 					</div>
 				</div>
 				{% endfor %}
@@ -106,8 +106,8 @@
 	<div class="ord-config-subtitle smaller">Total Non-recurring (DISC.): <strong></strong></div>
 	<!-- Actions -->
 	<div id="ord-summ-action-wrapper">
-		<button style="background-color: rgb(143, 190, 0);" id="ord-quote-btn" type="button" class="ord-pri-btn">Request
-			Quote</button>
+		<button onclick="priceAllSites()" style="background-color: rgb(143, 190, 0);" id="ord-quote-btn" type="button"
+			class="ord-pri-btn">Request Quote</button>
 		<button onclick="showOrderPopup('ord-submit-popup')" style="background-color: #FF3D00;" id="ord-submit-btn"
 			type="button" class="ord-pri-btn">Finalize/Submit</button>
 	</div>
@@ -127,6 +127,10 @@
 	</div>
 </div>
 <!-- Hidden forms -->
+<form style="display: none;" id="ord-price-form" action="/order/do-price/" method="post" novalidate>
+	{% csrf_token %}
+	<input type="text" name="site_array" id="id_price_site_array">
+</form>
 <!-- Scripts -->
 <script src="{% static 'order/js/summary.js' %}"></script>
 {% endblock ordConfBody %}

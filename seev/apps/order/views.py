@@ -746,6 +746,8 @@ def save_svc_config(request, context=None):
                     if existFeature:
                         deleteFeatureItem(existFeature)
 
+            clearSitePrice(site)
+
             # Validation
             valid = True
             errorList = []
@@ -825,7 +827,8 @@ def go_ord_summary(request, context=None):
 
         # Load product/service tree data
         siteDataList = []
-        sites = PtaSite.objects.filter(order_instance=order)
+        sites = PtaSite.objects.filter(
+            order_instance=order).order_by('creation_time')
         if sites and len(sites) > 0:
             for site in sites:
                 populateSiteSummary(siteDataList, site)
@@ -837,3 +840,46 @@ def go_ord_summary(request, context=None):
         store_context_in_session(
             request, addSnackDataToContext(context, 'Unknown error'))
         return redirect('go_ord_config_home')
+
+
+@transaction.atomic
+def do_site_price(request, context=None):
+    if request.method == 'POST':
+        try:
+            ordMeta = request.session['order_meta'] if 'order_meta' in request.session else None
+
+            if not ordMeta:
+                return redirect('go_ord_summary')
+
+            siteIds = request.POST['site_array']
+            siteList = str(siteIds).split(',') if siteIds else None
+            sites = []
+
+            # Check sites
+            order = PtaOrderInstance.objects.get(
+                order_number=ordMeta['order_number'])
+            if siteList and len(siteList) > 0:
+                for sid in siteList:
+                    site = PtaSite.objects.get(pta_site_id=sid)
+                    if site.order_instance.order_instance_id == order.order_instance_id:
+                        sites.append(site)
+
+            if sites and len(sites) > 0:
+                for site in sites:
+                    # Do pricing
+                    priceSite(site)
+            else:
+                store_context_in_session(
+                    request, addSnackDataToContext(context, 'No site to price'))
+                return redirect('go_ord_summary')
+
+            store_context_in_session(request, addSnackDataToContext(
+                context, 'Pricing is received'))
+            return redirect('go_ord_summary')
+        except Exception:
+            traceback.print_exc()
+            store_context_in_session(
+                request, addSnackDataToContext(context, 'Unknown error'))
+            return redirect('go_ord_config_home')
+    else:
+        return redirect('go_ord_summary')

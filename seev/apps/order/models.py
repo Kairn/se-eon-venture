@@ -123,3 +123,6 @@ class PtaPriceLine(models.Model):
         max_digits=20, decimal_places=2, default=0.00, null=True)
     creation_time = models.DateTimeField(
         'Timestamp of Creation', default=now, editable=False, null=False)
+
+    class Meta:
+        db_table = 'PTA_PRICE_LINE'
