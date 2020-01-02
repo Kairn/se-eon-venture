@@ -6,12 +6,20 @@ const PY_NULL = 'None'
 
 // Go to svc config
 const navToSvcConfig = function(svcId) {
+  if (!isOrderEditable()) {
+    return;
+  }
+
   svcId = svcId.replace(/\-/g, '');
   window.location.href = `/order/edit-svc/?svc_id=${svcId}`;
 };
 
 // Price a site
 const getSitePricing = function(siteId) {
+  if (!isOrderEditable()) {
+    return;
+  }
+
   let form = document.getElementById('ord-price-form');
   let field = document.getElementById('id_price_site_array');
 
@@ -21,6 +29,11 @@ const getSitePricing = function(siteId) {
 
 // Price all sites (if not priced)
 const priceAllSites = function() {
+  if (!isOrderEditable()) {
+    showSnackMessage('Locked', 1000);
+    return;
+  }
+
   let form = document.getElementById('ord-price-form');
   let field = document.getElementById('id_price_site_array');
 

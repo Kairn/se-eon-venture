@@ -15,7 +15,7 @@ from seev.apps.utils.messages import get_app_message, addSnackDataToContext
 from seev.apps.utils.session import *
 from seev.apps.utils.process import *
 
-from seev.apps.core.views import go_error
+from seev.apps.core.views import go_error, go_success
 from seev.apps.core.models import UnoClient
 
 from .models import *
@@ -150,8 +150,6 @@ def go_ord_config_home(request, context=None):
 
     order = PtaOrderInstance.objects.get(
         order_number=context['ordMeta']['order_number'])
-    context['data_on'] = order.order_number
-    context['data_os'] = order.status
     context['numSites'] = len(getAllSitesInOrder(order))
     context['numPrs'] = len(getAllProductsInOrder(order))
     context['isValid'] = True if order.status in ('VA', 'FL') else False
@@ -169,7 +167,12 @@ def find_ord_by_num(request, context=None):
         try:
             ordNumber = request.POST['order-number']
 
+            # Check order
             order = PtaOrderInstance.objects.get(order_number=ordNumber)
+            if order.status not in ('IN', 'IP', 'VA', 'FL'):
+                store_context_in_session(request, addSnackDataToContext(
+                    context, 'Order cannot be accessed'))
+                return redirect('go_ord_home')
 
             # Get order data
             ordData = generateOrderData(order)
@@ -240,6 +243,10 @@ def go_site_config(request, context=None):
 
         order = PtaOrderInstance.objects.get(
             order_number=ordMeta['order_number'])
+        if isOrderLocked(order):
+            store_context_in_session(
+                request, addSnackDataToContext(context, 'Order is locked'))
+            return redirect('go_ord_config_home')
 
         # Load existing sites
         siteData = []
@@ -400,6 +407,11 @@ def go_build_pr(request, context=None):
 
         order = PtaOrderInstance.objects.get(
             order_number=ordMeta['order_number'])
+        if isOrderLocked(order):
+            store_context_in_session(
+                request, addSnackDataToContext(context, 'Order is locked'))
+            return redirect('go_ord_config_home')
+
         client = order.client
 
         # Load catalog products
@@ -584,6 +596,10 @@ def go_svc_config(request, context=None):
 
         order = PtaOrderInstance.objects.get(
             order_number=ordMeta['order_number'])
+        if isOrderLocked(order):
+            store_context_in_session(
+                request, addSnackDataToContext(context, 'Order is locked'))
+            return redirect('go_ord_config_home')
 
         # Get all sites and products
         sites = PtaSite.objects.filter(
@@ -591,7 +607,7 @@ def go_svc_config(request, context=None):
         if not sites or len(sites) < 1:
             store_context_in_session(
                 request, addSnackDataToContext(context, 'No sites found'))
-            return redirect('go_ord_home')
+            return redirect('go_ord_config_home')
         else:
             for site in sites:
                 products = PtaBasketItem.objects.filter(
@@ -604,14 +620,14 @@ def go_svc_config(request, context=None):
         if len(serviceList) < 1:
             store_context_in_session(
                 request, addSnackDataToContext(context, 'No services found'))
-            return redirect('go_ord_home')
+            return redirect('go_ord_config_home')
 
         serviceId = request.GET.get('svc_id') if request.GET.get(
             'svc_id') else serviceList[0]
         if serviceId not in serviceList:
             store_context_in_session(
                 request, addSnackDataToContext(context, 'Invalid service'))
-            return redirect('go_ord_home')
+            return redirect('go_ord_config_home')
 
         preSvcId = None
         nxtSvcId = None
@@ -694,7 +710,7 @@ def go_svc_config(request, context=None):
         traceback.print_exc()
         store_context_in_session(
             request, addSnackDataToContext(context, 'Redirect error'))
-        return redirect('go_ord_home')
+        return redirect('go_ord_config_home')
 
 
 @transaction.atomic
@@ -770,7 +786,7 @@ def save_svc_config(request, context=None):
                 request, addSnackDataToContext(context, 'Unknown error'))
             return redirect('go_ord_config_home')
     else:
-        return redirect('go_ord_config_home')
+        return redirect('go_svc_config')
 
 
 @transaction.atomic
@@ -883,3 +899,97 @@ def do_site_price(request, context=None):
             return redirect('go_ord_config_home')
     else:
         return redirect('go_ord_summary')
+
+
+@transaction.atomic
+def do_ord_submit(request, context=None):
+    if request.method == 'POST':
+        try:
+            ordMeta = request.session['order_meta'] if 'order_meta' in request.session else None
+
+            if not ordMeta:
+                return redirect('go_ord_summary')
+
+            order = PtaOrderInstance.objects.get(
+                order_number=ordMeta['order_number'])
+
+            # Validation
+            if order.status == 'VA':
+                order.status = 'FL'
+                basket = order.basket
+                basket.is_locked = True
+
+                # Send external request here
+                # No code is provided due to the nature of this project
+
+                # Archive record
+                oldAr = UnoOrder.objects.filter(
+                    order_number=order.order_number)
+                if not oldAr or len(oldAr) < 1:
+                    arOrder = UnoOrder(
+                        order_number=order.order_number,
+                        client=order.client,
+                        customer=order.customer,
+                        opportunity=order.opportunity,
+                        status='SM'
+                    )
+                    arOrder.save()
+
+                    # Increase deal count
+                    oppo = order.opportunity
+                    oppo.deal_count += 1
+                    oppo.save()
+
+                basket.save()
+                order.save()
+                clear_ord_meta(request)
+
+                return go_success(HttpRequest(), {'message': get_app_message('order_submit_message')})
+            else:
+                store_context_in_session(request, addSnackDataToContext(
+                    context, 'Cannot submit this order'))
+                return redirect('go_ord_config_home')
+        except Exception:
+            traceback.print_exc()
+            store_context_in_session(
+                request, addSnackDataToContext(context, 'Unknown error'))
+            return redirect('go_ord_config_home')
+    else:
+        return redirect('go_ord_summary')
+
+
+@transaction.atomic
+def do_ord_cancel(request, context=None):
+    if request.method == 'POST':
+        try:
+            ordMeta = request.session['order_meta'] if 'order_meta' in request.session else None
+
+            if not ordMeta:
+                store_context_in_session(request, addSnackDataToContext(
+                    context, 'Order request failed'))
+                return redirect('go_ord_home')
+
+            order = PtaOrderInstance.objects.get(
+                order_number=ordMeta['order_number'])
+
+            if order.status in ('IN', 'IP', 'VA'):
+                order.status = 'VD'
+                basket = order.basket
+                basket.is_locked = True
+
+                basket.save()
+                order.save()
+                clear_ord_meta(request)
+
+                return go_success(HttpRequest(), {'message': get_app_message('order_cancel_message')})
+            else:
+                store_context_in_session(request, addSnackDataToContext(
+                    context, 'Invalid cancellation request'))
+                return redirect('go_ord_config_home')
+        except Exception:
+            traceback.print_exc()
+            store_context_in_session(
+                request, addSnackDataToContext(context, 'Unknown error'))
+            return redirect('go_ord_config_home')
+    else:
+        return redirect('go_ord_config_home')

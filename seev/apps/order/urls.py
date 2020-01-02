@@ -22,4 +22,6 @@ urlpatterns = [
     re_path(r'^valid-ord/$', views.do_ord_valid, name='do_ord_valid'),
     re_path(r'^ord-summ/$', views.go_ord_summary, name='go_ord_summary'),
     re_path(r'^do-price/$', views.do_site_price, name='do_site_price'),
+    re_path(r'^sub-ord/$', views.do_ord_submit, name='do_ord_submit'),
+    re_path(r'^can-ord/$', views.do_ord_cancel, name='do_ord_cancel'),
 ]

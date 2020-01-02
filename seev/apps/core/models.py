@@ -145,15 +145,10 @@ class UnoOrder(models.Model):
     status = models.CharField('status', max_length=16, choices=[
         ('CL', 'Cancelled'),
         ('SM', 'Submitted'),
-        ('RN', 'Renegotiated'),
         ('IV', 'Invalidated'),
         ('OD', 'Ordered'),
         ('CP', 'Completed'),
     ], null=False, blank=False)
-    order_data_1 = models.TextField('Data Chunk 1', max_length=4000, null=True)
-    order_data_2 = models.TextField('Data Chunk 2', max_length=4000, null=True)
-    order_data_3 = models.TextField('Data Chunk 3', max_length=4000, null=True)
-    data_length = models.PositiveIntegerField('Data Length in Characters')
     creation_time = models.DateTimeField(
         'Timestamp of Creation', default=now, editable=False, null=False)
     last_update_time = models.DateTimeField(

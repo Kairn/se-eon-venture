@@ -108,7 +108,7 @@
 	<div id="ord-summ-action-wrapper">
 		<button onclick="priceAllSites()" style="background-color: rgb(143, 190, 0);" id="ord-quote-btn" type="button"
 			class="ord-pri-btn">Request Quote</button>
-		<button onclick="showOrderPopup('ord-submit-popup')" style="background-color: #FF3D00;" id="ord-submit-btn"
+		<button onclick="showOrderPopup('ord-submit-popup', true)" style="background-color: #FF3D00;" id="ord-submit-btn"
 			type="button" class="ord-pri-btn">Finalize/Submit</button>
 	</div>
 </section>
@@ -121,7 +121,8 @@
 		<div>Once you submit the order, it will be permanently locked and no further edits can be made. Are you sure to
 			continue?</div>
 		<div>
-			<button style="background-color: #FF3D00;" type="button" class="ord-pri-btn">Yes (Submit)</button>
+			<button onclick="submitOrderForm('ord-submit-form')" style="background-color: #FF3D00;" type="button"
+				class="ord-pri-btn">Yes (Submit)</button>
 			<button onclick="dismissOrderPopup('ord-submit-popup')" type="button" class="ord-pri-btn">No</button>
 		</div>
 	</div>
@@ -130,6 +131,9 @@
 <form style="display: none;" id="ord-price-form" action="/order/do-price/" method="post" novalidate>
 	{% csrf_token %}
 	<input type="text" name="site_array" id="id_price_site_array">
+</form>
+<form style="display: none;" id="ord-submit-form" action="/order/sub-ord/" method="post" novalidate>
+	{% csrf_token %}
 </form>
 <!-- Scripts -->
 <script src="{% static 'order/js/summary.js' %}"></script>

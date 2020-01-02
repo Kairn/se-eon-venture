@@ -8,11 +8,15 @@ const checkConfigAccess = function() {
   }
 
   // Buttons
+  let scBtn = document.getElementById('ord-sc-btn');
   let bpBtn = document.getElementById('ord-bp-btn');
   let esBtn = document.getElementById('ord-es-btn');
 
+  if (!isOrderEditable()) {
+    scBtn.disabled = true;
+    scBtn.classList.add('penta-btn-dis');
+  }
   if (dataSnap.getAttribute('data-ns') === '0' || !isOrderEditable()) {
-    console.log('disable');
     bpBtn.disabled = true;
     bpBtn.classList.add('penta-btn-dis');
   }
@@ -24,7 +28,9 @@ const checkConfigAccess = function() {
 
 // Navigate to site config page
 const navToSiteConfig = function() {
-  window.location.href = '/order/config-site/';
+  if (isOrderEditable()) {
+    window.location.href = '/order/config-site/';
+  }
 };
 
 // Navigate to build products page

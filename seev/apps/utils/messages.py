@@ -19,6 +19,8 @@ def get_app_message(key):
         'oppo_can_message': 'Internal error occurred for the request opportunity. Please contact a system administrator.',
         'catalog_error': 'Business Catalog Error',
         'catalog_error_message': 'We have encountered an error while retrieving data from the current client partner. This might be caused by incomplete catalog definition. Please contact your business client.',
+        'order_submit_message': 'Your order has been submitted successfully. Please keep in touch with the vendor.',
+        'order_cancel_message': 'Your order has been cancelled.',
         '': '',
     }
 

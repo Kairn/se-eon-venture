@@ -28,6 +28,8 @@ def load_ord_meta_to_context(request, context):
 
     if hasattr(request, 'session') and 'order_meta' in request.session and request.session['order_meta']:
         context['ordMeta'] = request.session['order_meta']
+        context['data_on'] = request.session['order_meta']['on']
+        context['data_os'] = request.session['order_meta']['os']
         return context
     else:
         return {}

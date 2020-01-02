@@ -45,8 +45,13 @@ const dismissOppoPop = function() {
 };
 
 // Display order popup
-const showOrderPopup = function(eleId) {
+const showOrderPopup = function(eleId, checkEdit) {
   if (!eleId) {
+    return;
+  }
+
+  if (checkEdit && !isOrderEditable()) {
+    showSnackMessage('Locked', 1000);
     return;
   }
 

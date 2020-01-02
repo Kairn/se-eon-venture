@@ -114,10 +114,12 @@ def generateOrderMeta(order):
 
         order_meta = {}
         order_meta['order_number'] = str(order.order_number).replace('-', '')
+        order_meta['on'] = str(order.order_number)
         order_meta['order_name'] = order.order_name
         order_meta['order_dis_mrc'] = order.opportunity.discount_mrc
         order_meta['order_dis_nrc'] = order.opportunity.discount_nrc
         order_meta['order_status'] = getGeneralTranslation(order.status)
+        order_meta['os'] = order.status
         order_meta['client_name'] = order.client.entity_name
         order_meta['client_email'] = order.client.contact_email
         order_meta['client_phone'] = order.client.contact_phone

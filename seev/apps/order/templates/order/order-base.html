@@ -21,13 +21,13 @@
 					<span style="color: #283593;">View Details</span>
 				</span>
 			</button>
-			<button type="button" class="order-icon-btn" onclick="showOrderPopup('ord-validation-popup')">
+			<button type="button" class="order-icon-btn" onclick="showOrderPopup('ord-validation-popup', true)">
 				<span>
 					<img src="{% static 'order/images/icon-56.svg' %}" alt="validate-icon">
 					<span style="color: #2E7D32;">Validate Order</span>
 				</span>
 			</button>
-			<button type="button" class="order-icon-btn" onclick="showOrderPopup('ord-cancel-popup')">
+			<button type="button" class="order-icon-btn" onclick="showOrderPopup('ord-cancel-popup', true)">
 				<span>
 					<img src="{% static 'order/images/icon-57.svg' %}" alt="cancel-icon">
 					<span style="color: #D84315;">Cancel Order</span>
@@ -107,7 +107,8 @@
 	<div class="popup-body">
 		<div>You are about to cancel this order. This action cannot be reverted. Are you sure to continue?</div>
 		<div>
-			<button style="background-color: #D32F2F;" type="button" class="ord-pri-btn">Yes (Cancel)</button>
+			<button onclick="submitOrderForm('ord-cancel-form')" style="background-color: #D32F2F;" type="button"
+				class="ord-pri-btn">Yes (Cancel)</button>
 			<button onclick="dismissOrderPopup('ord-cancel-popup')" type="button" class="ord-pri-btn">No</button>
 		</div>
 	</div>
@@ -128,7 +129,7 @@
 <form id="ord-valid-form" action="/order/valid-ord/" method="post" novalidate style="display: none;">
 	{% csrf_token %}
 </form>
-<form id="ord-cancel-form" action="#" method="post" novalidate style="display: none;">
+<form id="ord-cancel-form" action="/order/can-ord/" method="post" novalidate style="display: none;">
 	{% csrf_token %}
 </form>
 {% endblock ordContent %}
