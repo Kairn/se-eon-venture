@@ -127,6 +127,20 @@
 		</div>
 	</div>
 </div>
+<!-- Waiting -->
+<div id="ord-price-wait-popup" class="seev-popup no-show">
+	<div class="popup-body">
+		<img src="{% static 'order/images/icon-68.svg' %}" alt="hourglass">
+		<div>Request being processed</div>
+		<div id="wait-dots">
+			<img class="wait-dot" data-num="1" src="{% static 'order/images/icon-69.svg' %}" alt="asterisk">
+			<img class="wait-dot" data-num="2" src="{% static 'order/images/icon-69.svg' %}" alt="asterisk">
+			<img class="wait-dot" data-num="3" src="{% static 'order/images/icon-69.svg' %}" alt="asterisk">
+			<img class="wait-dot" data-num="4" src="{% static 'order/images/icon-69.svg' %}" alt="asterisk">
+			<img class="wait-dot" data-num="5" src="{% static 'order/images/icon-69.svg' %}" alt="asterisk">
+		</div>
+	</div>
+</div>
 <!-- Hidden forms -->
 <form style="display: none;" id="ord-price-form" action="/order/do-price/" method="post" novalidate>
 	{% csrf_token %}

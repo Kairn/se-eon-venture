@@ -4,6 +4,10 @@ const PY_TRUE = 'True';
 const PY_FALSE = 'False';
 const PY_NULL = 'None'
 
+const dotBox = document.getElementById('wait-dots');
+const allDots = document.querySelectorAll('.wait-dot');
+var dotCount = 1;
+
 // Go to svc config
 const navToSvcConfig = function(svcId) {
   if (!isOrderEditable()) {
@@ -19,6 +23,8 @@ const getSitePricing = function(siteId) {
   if (!isOrderEditable()) {
     return;
   }
+
+  showWaitPopup();
 
   let form = document.getElementById('ord-price-form');
   let field = document.getElementById('id_price_site_array');
@@ -47,6 +53,8 @@ const priceAllSites = function() {
   }
 
   if (siteIds && siteIds.length > 0) {
+    showWaitPopup();
+
     field.value = siteIds.join(',');
     form.submit();
   } else {
@@ -200,6 +208,64 @@ const populatePriceSummary = function() {
     nrcField.innerHTML = `\$${(totalNrc * (1 - disNrc)).toFixed(2)}`;
   } else {
     nrcField.innerHTML = `N/A`;
+  }
+};
+
+// Toggle wait dot
+const toggleWaitDot = function(dotEle, hide) {
+  if (dotEle) {
+    if (hide) {
+      dotEle.classList.add('invisible');
+    } else {
+      dotEle.classList.remove('invisible');
+    }
+  }
+};
+
+// Looping wait dots
+const updateWaitDots = function() {
+  let next = dotCount >= 5 ? 1 : dotCount + 1;
+
+  allDots.forEach((dot) => {
+    if (parseInt(dot.getAttribute('data-num')) > next) {
+      toggleWaitDot(dot, true);
+    } else {
+      toggleWaitDot(dot, false);
+    }
+  })
+
+  dotCount = next;
+};
+
+// Initialize wait dots
+const initWaitDots = function() {
+  dotCount = 1;
+
+  allDots.forEach((dot) => {
+    if (parseInt(dot.getAttribute('data-num')) > 1) {
+      toggleWaitDot(dot, true);
+    } else {
+      toggleWaitDot(dot, false);
+    }
+  })
+};
+
+// Start waiting popup
+const showWaitPopup = function() {
+  let overlay = document.querySelector('.black-overlay');
+  let popup = document.getElementById('ord-price-wait-popup');
+
+  initWaitDots();
+
+  if (popup) {
+    setTimeout(() => {
+      overlay.classList.remove('no-show');
+      popup.classList.remove('no-show');
+
+      setInterval(() => {
+        updateWaitDots();
+      }, 1000);
+    }, 150);
   }
 };
 
