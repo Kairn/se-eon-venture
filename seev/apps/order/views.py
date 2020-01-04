@@ -19,7 +19,6 @@ from seev.apps.core.views import go_error, go_success
 from seev.apps.core.models import UnoClient
 
 from .models import *
-from .forms import *
 
 
 def go_ord_home(request, context=None):

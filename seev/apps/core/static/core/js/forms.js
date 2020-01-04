@@ -5,6 +5,7 @@ var allForms = document.querySelectorAll('form');
 var allInputFields = document.querySelectorAll('input, select, textarea');
 var allButtons = document.querySelectorAll('button');
 var allValidationMessages = document.querySelectorAll('.ie-msg');
+var psrForm = document.getElementById('psr-form');
 
 // Validate login form
 const validateLoginForm = function(form) {
@@ -333,6 +334,10 @@ allButtons.forEach((button) => {
       for (let i = 0; i < targetForm.length; ++i) {
         let element = targetForm[i];
 
+        if (element.type === 'submit') {
+          element.disabled = true;
+          element.classList.add('form-btn-dis');
+        }
         if (!element.id.startsWith('id_')) {
           continue;
         }
@@ -344,4 +349,10 @@ allButtons.forEach((button) => {
       }
     })
   }
+});
+
+// Disable password reset
+psrForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  showSnackMessage('Not available');
 });

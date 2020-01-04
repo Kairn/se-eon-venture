@@ -9,6 +9,7 @@ from django.http import HttpRequest
 from django.db import transaction
 from django.shortcuts import render, redirect, reverse
 from django.core.paginator import Paginator
+from django.core.exceptions import ObjectDoesNotExist
 
 from seev.apps.utils.generators import (getRandomSalt, getSha384Hash,
                                         getSha224Hash, getAdminCredentials, getCpAdminId,
@@ -23,7 +24,8 @@ from .forms import (LoginForm, PasswordResetForm, RegisterForm,
 
 
 def go_landing(request):
-    request.session.set_test_cookie()
+    # Test cookie (disabled)
+    # request.session.set_test_cookie()
 
     context = {}
     return render(request, 'core/index.html', context=context)
@@ -31,9 +33,12 @@ def go_landing(request):
 
 def go_login(request, context=None):
     try:
-        if request and request.session and request.session.test_cookie_worked():
-            print('Django session is working')
-            request.session.delete_test_cookie()
+        if request and request.session:
+            pass
+            # Test cookie (disabled)
+            # if request.session.test_cookie_worked():
+            # print('Django session is working')
+            # request.session.delete_test_cookie()
     except AttributeError:
         pass
 
@@ -85,6 +90,10 @@ def auth_login(request):
                 store_context_in_session(request, addSnackDataToContext(
                     context, 'Invalid credentials'))
                 return redirect('go_login')
+        except ObjectDoesNotExist:
+            store_context_in_session(
+                request, addSnackDataToContext(context, 'User not found'))
+            return redirect('go_login')
         except Exception:
             traceback.print_exc()
             request.session.clear()
@@ -92,8 +101,6 @@ def auth_login(request):
                 request, addSnackDataToContext(context, 'ERR01'))
             return redirect('go_login')
     else:
-        store_context_in_session(
-            request, addSnackDataToContext(context, 'ERR01'))
         return redirect('go_login')
 
 
