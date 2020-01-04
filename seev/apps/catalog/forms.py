@@ -35,7 +35,11 @@ class EditPrForm(forms.Form):
     product_id = forms.CharField(
         label=None,
         label_suffix=None,
-        widget=forms.HiddenInput()
+        widget=forms.HiddenInput(
+            attrs={
+                'id': 'id_add_product_id'
+            }
+        )
     )
 
     product_code = forms.CharField(
@@ -125,7 +129,10 @@ class AddFetForm(forms.Form):
     product_id = forms.CharField(
         label=None,
         label_suffix=None,
-        widget=forms.HiddenInput()
+        widget=forms.HiddenInput(
+            attrs={
+                'id': 'id_fet_product_id'
+            })
     )
 
     feature_code = forms.CharField(
@@ -289,7 +296,11 @@ class AddValueForm(forms.Form):
     specification_id = forms.CharField(
         label=None,
         label_suffix=None,
-        widget=forms.HiddenInput()
+        widget=forms.HiddenInput(
+            attrs={
+                'id': 'id_val_spec_id'
+            }
+        )
     )
 
     code = forms.CharField(
@@ -321,7 +332,11 @@ class RestrictionForm(forms.Form):
     specification_id = forms.CharField(
         label=None,
         label_suffix=None,
-        widget=forms.HiddenInput()
+        widget=forms.HiddenInput(
+            attrs={
+                'id': 'id_res_spec_id'
+            }
+        )
     )
 
     max_val = forms.CharField(
@@ -417,7 +432,11 @@ class PriceForm(forms.Form):
     specification_id = forms.CharField(
         label=None,
         label_suffix=None,
-        widget=forms.HiddenInput()
+        widget=forms.HiddenInput(
+            attrs={
+                'id': 'id_pri_spec_id'
+            }
+        )
     )
 
     mrc = forms.CharField(

@@ -85,3 +85,22 @@ const rmSpecVal = function(valueId) {
   field.value = valueId;
   form.submit();
 };
+
+// Populate base spec
+const populateBase = function() {
+  let form = document.getElementById('ctg-add-spec-form');
+
+  if (form) {
+    let codeFi = form.querySelector('#id_leaf_name');
+    let labelFi = form.querySelector('#id_spec_label');
+    let dtFi = form.querySelector('#id_data_type');
+    let dvFi = form.querySelector('#id_default_value');
+
+    codeFi.value = 'SP_BASE';
+    labelFi.value = 'Base Spec';
+    dtFi.selectedIndex = 0;
+    dvFi.value = '1';
+
+    validateAddSpForm(form);
+  }
+};

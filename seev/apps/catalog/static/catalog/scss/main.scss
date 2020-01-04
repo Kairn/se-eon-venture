@@ -143,6 +143,9 @@ $field-wrapper-margin-y: 1rem;
   display: flex;
   justify-content: flex-end;
   padding: 0.75rem 1.5rem 0 0;
+  & > button:not(:last-child) {
+    margin-right: 1.5rem;
+  }
 }
 
 .ctg-ti-wrapper {
@@ -205,6 +208,9 @@ $field-wrapper-margin-y: 1rem;
   &.update-2 {
     color: #000000;
     background-color: #ffd600;
+  }
+  &.base {
+    background-color: #607d8b;
   }
 }
 
