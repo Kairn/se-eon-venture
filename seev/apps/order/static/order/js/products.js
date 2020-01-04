@@ -138,7 +138,7 @@ const submitCart = function() {
   let dataField = document.getElementById('ctg-add-data');
 
   dataField.value = JSON.stringify(data);
-  form.submit();
+  softSubmit(form);
 };
 
 // Delete existing product
@@ -151,7 +151,7 @@ const delBasketItem = function(bid) {
   let bidField = document.getElementById('bi-rm-id');
 
   bidField.value = bid;
-  form.submit();
+  softSubmit(form);
 };
 
 // Runtime

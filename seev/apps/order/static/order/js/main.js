@@ -1,7 +1,5 @@
 // Main script used in order app
 
-console.log('Order app is launching...');
-
 // Static functions
 // Clear radio field
 const clearRadio = function(radio) {
@@ -84,7 +82,7 @@ const dismissOrderPopup = function(eleId) {
 // Exit order and clear session
 const exitOrder = function() {
   let form = document.getElementById('exit-ord-form')
-  form.submit();
+  softSubmit(form);
 };
 
 // Navigate to order config home
@@ -111,7 +109,7 @@ const submitOrderForm = function(formId) {
 
   let form = document.getElementById(formId);
   if (form) {
-    form.submit();
+    softSubmit(form);
   }
 };
 

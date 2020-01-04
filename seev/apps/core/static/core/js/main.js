@@ -1,7 +1,5 @@
 // Main script used in core app
 
-console.log('Core app is launching...');
-
 const maxOffsetXAbs = 45;
 const maxOffsetYAbs = 30;
 const baseCloudSize = 160;
@@ -34,7 +32,7 @@ const canOppo = function(oppoNb) {
   let field = document.getElementById('rec-del-field');
 
   field.value = oppoNb;
-  form.submit();
+  softSubmit(form);
 };
 
 let translateUpdate = true;

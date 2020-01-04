@@ -1,7 +1,5 @@
 // Main script used in catalog app
 
-console.log('Catalog app is launching...');
-
 // Navigate to catalog home
 const goCtgHome = function() {
   window.location.href = '/catalog/';
@@ -23,7 +21,7 @@ const rmProduct = function(productId) {
   let field = document.getElementById('ctg-pr-rm-field');
 
   field.value = productId;
-  form.submit();
+  softSubmit(form);
 };
 
 // Navigate to specification config page
@@ -54,7 +52,7 @@ const rmPrSpec = function(specificationId) {
 
   flag.value = 'PR';
   field.value = specificationId;
-  form.submit();
+  softSubmit(form);
 };
 
 // Remove feature specification
@@ -65,7 +63,7 @@ const rmFetSpec = function(specificationId) {
 
   flag.value = 'FET';
   field.value = specificationId;
-  form.submit();
+  softSubmit(form);
 };
 
 // Remove catalog feature
@@ -74,7 +72,7 @@ const rmFeature = function(featureId) {
   let field = document.getElementById('ctg-fet-rm-field');
 
   field.value = featureId;
-  form.submit();
+  softSubmit(form);
 };
 
 // Remove spec value
@@ -83,7 +81,7 @@ const rmSpecVal = function(valueId) {
   let field = document.getElementById('ctg-val-rm-field');
 
   field.value = valueId;
-  form.submit();
+  softSubmit(form);
 };
 
 // Populate base spec

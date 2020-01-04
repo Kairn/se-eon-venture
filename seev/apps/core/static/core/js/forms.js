@@ -352,7 +352,9 @@ allButtons.forEach((button) => {
 });
 
 // Disable password reset
-psrForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-  showSnackMessage('Not available');
-});
+if (psrForm) {
+  psrForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    showSnackMessage('Not available');
+  });
+}

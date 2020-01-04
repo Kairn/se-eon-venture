@@ -91,8 +91,7 @@ const submitConfig = function() {
   let field = document.getElementById('json-field');
   field.value = JSON.stringify(svcDataStruct);
 
-  // console.log(field.value);
-  form.submit();
+  softSubmit(form);
 };
 
 // Get ID from tagged element

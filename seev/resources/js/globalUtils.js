@@ -74,6 +74,6 @@ const getSnackData = function() {
 
 // Onload behavior
 window.onload = () => {
-  console.log('Running application in DEBUG mode...');
+  // console.log('Running application in DEBUG mode...');
   showSnackMessage(getSnackData(), 2500);
 };

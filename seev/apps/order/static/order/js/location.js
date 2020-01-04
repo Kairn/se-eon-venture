@@ -156,5 +156,5 @@ const dismissRmPopup = function() {
 // Submit removal
 const confirmDelete = function() {
   let form = document.getElementById('site-del-form');
-  form.submit();
+  softSubmit(form);
 };

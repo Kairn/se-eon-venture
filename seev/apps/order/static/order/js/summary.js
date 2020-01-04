@@ -30,7 +30,7 @@ const getSitePricing = function(siteId) {
   let field = document.getElementById('id_price_site_array');
 
   field.value = siteId.replace(/\-/g, '');
-  form.submit();
+  softSubmit(form);
 };
 
 // Price all sites (if not priced)
@@ -56,7 +56,7 @@ const priceAllSites = function() {
     showWaitPopup();
 
     field.value = siteIds.join(',');
-    form.submit();
+    softSubmit(form);
   } else {
     showSnackMessage('No site needs pricing', 2500);
   }
