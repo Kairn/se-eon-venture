@@ -22,3 +22,6 @@ urlpatterns = [
     path('catalog/', include('seev.apps.catalog.urls')),
     path('order/', include('seev.apps.order.urls')),
 ]
+
+handler404 = 'seev.apps.core.views.go_bad_view'
+handler500 = 'seev.apps.core.views.go_bad_view'

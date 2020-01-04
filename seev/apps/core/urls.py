@@ -20,4 +20,5 @@ urlpatterns = [
     re_path(r'^do-oppo/$', views.do_oppo, name='do_oppo'),
     re_path(r'^records/$', views.go_records, name='go_records'),
     re_path(r'^can-oppo/$', views.can_oppo, name='can_oppo'),
+    re_path(r'^bad/$', views.go_bad_view, name='go_bad_view'),
 ]

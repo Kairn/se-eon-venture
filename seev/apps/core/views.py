@@ -561,3 +561,7 @@ def can_oppo(request, context=None):
             return go_error(HttpRequest(), {'error': get_app_message('oppo_can_error'), 'message': get_app_message('oppo_can_message')})
     else:
         return redirect('go_records')
+
+
+def go_bad_view(request, context=None):
+    return render(request, 'core/bad-view.html', context=context)
