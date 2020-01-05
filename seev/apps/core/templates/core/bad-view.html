@@ -7,7 +7,22 @@
 {% endblock css %}
 
 {% block content %}
-<h1>Error is working!</h1>
+<div id="bad-view-wrapper">
+	<div id="bad-header">System Error</div>
+	<div id="bad-content-wrapper">
+		<div id="bad-text">
+			<div>Sorry, but we have encountered an unexpected error that stopped our server from responding properly. This
+				could be due to your requested page is not found, your request was either unauthenticated or invalid, or the
+				server is experiencing downtime or facing internal issues.</div>
+			<div>Please go back to the home page and try again or you may contact us for additional support.</div>
+		</div>
+		<img src="{% static 'core/images/icon-500.svg' %}" alt="system" id="bad-img">
+	</div>
+	<div id="bad-view-action">
+		<a href="/" class="seev-btn">Home</a>
+		<button class="seev-btn">Contact Us</button>
+	</div>
+</div>
 {% endblock content %}
 
 {% block js %}
