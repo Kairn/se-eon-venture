@@ -221,7 +221,7 @@ def buildSpecInfo(spItem, value):
         return None
 
     infoDoc = {}
-    infoDoc['id'] = spItem.specification_id
+    infoDoc['id'] = str(spItem.specification_id)
     infoDoc['leaf'] = spItem.leaf_name
     infoDoc['label'] = spItem.label
     infoDoc['type'] = spItem.data_type
@@ -254,7 +254,7 @@ def populateServiceDoc(service):
     biDocList = []
     for item in biList:
         itemDoc = {}
-        itemDoc['id'] = item.basket_item_id
+        itemDoc['id'] = str(item.basket_item_id)
         itemDoc['itemcode'] = item.itemcode
         itemDoc['serial'] = item.serial
         itemDoc['leaves'] = []
@@ -558,7 +558,7 @@ def populateSiteSummary(stList, site):
 
     siteDoc = {}
     priceFlag = site.is_priced
-    siteDoc['id'] = site.pta_site_id
+    siteDoc['id'] = str(site.pta_site_id)
     siteDoc['name'] = site.site_name
     siteDoc['priceFlag'] = priceFlag
 
@@ -571,7 +571,7 @@ def populateSiteSummary(stList, site):
         for pr in prList:
             prDoc = {}
             prCtg = CtgProduct.objects.get(ctg_doc_id=pr.ctg_doc_id)
-            prDoc['id'] = pr.basket_item_id
+            prDoc['id'] = str(pr.basket_item_id)
             prDoc['name'] = prCtg.name
 
             # Populate product specs
@@ -591,7 +591,7 @@ def populateSiteSummary(stList, site):
                 for fet in features:
                     fetDoc = {}
                     fetCtg = CtgFeature.objects.get(ctg_doc_id=fet.ctg_doc_id)
-                    fetDoc['id'] = fet.basket_item_id
+                    fetDoc['id'] = str(fet.basket_item_id)
                     fetDoc['name'] = fetCtg.name
 
                     # Populate feature specs
@@ -738,3 +738,19 @@ def clearSitePrice(site):
 
         site.is_priced = False
         site.save()
+
+
+@transaction.atomic
+def logError(request):
+    idArray = getUserAndOrderId(request)
+    tbArray = getTbDescAndStack()
+
+    errorEvent = SeevEventLog(
+        log_level='3',
+        user_id=idArray[0],
+        order_id=idArray[1],
+        log_desc=tbArray[0],
+        stack_trace=tbArray[1]
+    )
+
+    errorEvent.save()

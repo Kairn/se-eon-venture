@@ -7,6 +7,7 @@ import string
 import random
 import hashlib
 import json
+import traceback
 
 from seev.apps.core.models import *
 from seev.apps.order.models import *
@@ -138,7 +139,7 @@ def generateOrderData(order):
             return None
 
         ordData = {}
-        ordData['ordId'] = order.order_instance_id
+        ordData['ordId'] = str(order.order_instance_id)
         ordData['ordNumber'] = str(order.order_number).replace('-', '')
         ordData['ordName'] = order.order_name
         ordData['oppoNum'] = str(
@@ -149,6 +150,16 @@ def generateOrderData(order):
         ordData['ordCreDate'] = order.creation_time
 
         return ordData
+    except Exception:
+        return None
+
+
+def getOrderByNumber(orderNumber):
+    if not orderNumber:
+        return None
+
+    try:
+        return PtaOrderInstance.objects.get(order_number=orderNumber)
     except Exception:
         return None
 
@@ -201,3 +212,28 @@ def getBasketItemName(item):
         # Product
         ctgItem = CtgProduct.objects.get(ctg_doc_id=item.ctg_doc_id)
         return ctgItem.name
+
+
+def getTbDescAndStack():
+    try:
+        tbInfo = traceback.format_exc(10)
+        tbRawList = tbInfo.split('\n')
+
+        tbDesc = ''
+        tbStack = ''
+        tbStripList = []
+
+        if tbRawList and len(tbRawList) > 0:
+            if not tbRawList[-1]:
+                tbRawList.pop()
+            tbDesc = str(tbRawList.pop()).strip()
+
+        for tbs in tbRawList:
+            tbStripList.append(str(tbs).strip())
+
+        if tbStripList and len(tbStripList) > 0:
+            tbStack = '\n'.join(tbStripList)
+
+        return [tbDesc, tbStack]
+    except Exception:
+        return ['', '']

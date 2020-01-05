@@ -83,3 +83,23 @@ def saveErrorInMap(request, svcId, errorList):
     else:
         request.session['errorMap'] = {}
         request.session['errorMap'][svcId] = errorList
+
+
+def getUserAndOrderId(request):
+    if request and hasattr(request, 'session'):
+        idArray = []
+        userId = None
+        orderId = None
+
+        if 'id' in request.session:
+            userId = request.session['id']
+        if 'order_meta' in request.session:
+            order = getOrderByNumber(
+                request.session['order_meta']['order_number'])
+            orderId = order.order_instance_id if order else None
+
+        idArray.append(userId)
+        idArray.append(orderId)
+        return idArray
+    else:
+        return [None, None]

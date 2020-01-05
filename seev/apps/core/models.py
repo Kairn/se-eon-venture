@@ -179,3 +179,27 @@ class UnoSite(models.Model):
 
     class Meta:
         db_table = 'UNO_SITE'
+
+
+class SeevEventLog(models.Model):
+    """
+    Server logging table
+    """
+    log_id = models.UUIDField(
+        primary_key=True, default=uuid.uuid4, editable=False)
+    log_time = models.DateTimeField(
+        'Event Time', default=now, editable=False, null=False)
+    log_level = models.CharField('Log Level', max_length=4, choices=[
+        ('0', 'Unknown'),
+        ('1', 'Debug'),
+        ('2', 'Warn'),
+        ('3', 'Error'),
+        ('4', 'Fatal'),
+    ], null=False, blank=False, editable=False)
+    order_id = models.UUIDField('Order ID', editable=False, null=True)
+    user_id = models.UUIDField('User ID', editable=False, null=True)
+    log_desc = models.TextField('Log Description', max_length=1024, null=True)
+    stack_trace = models.TextField('Stack Trace', max_length=4000, null=True)
+
+    class Meta:
+        db_table = 'SEEV_EVENT_LOG'

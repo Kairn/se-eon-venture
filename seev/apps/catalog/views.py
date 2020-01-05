@@ -9,7 +9,7 @@ from django.shortcuts import render, redirect, reverse
 from django.core.paginator import Paginator
 
 from seev.apps.utils.process import (
-    removeProductCascade, removeFeatureCascade, removeSpecCascade)
+    removeProductCascade, removeFeatureCascade, removeSpecCascade, logError)
 from seev.apps.utils.generators import (getFullCatalogCode, getDefCatalogCode)
 from seev.apps.utils.codetable import getGeneralTranslation
 from seev.apps.utils.messages import get_app_message, addSnackDataToContext
@@ -59,9 +59,13 @@ def go_cat_home(request, context=None):
 
         return render(request, 'catalog/index.html', context=context)
     except Exception:
-        traceback.print_exc()
+        # traceback.print_exc()
+        logError(request)
         if request and hasattr(request, 'session'):
             request.session.clear()
+
+        store_context_in_session(
+            request, addSnackDataToContext(context, 'Unknown Error'))
         return redirect('go_login')
 
 
@@ -105,7 +109,8 @@ def add_ctg_pr(request, context=None):
                 context, 'Code already exists'))
             return redirect('go_cat_home')
         except Exception:
-            traceback.print_exc()
+            # traceback.print_exc()
+            logError(request)
             store_context_in_session(
                 request, addSnackDataToContext(context, 'Unexpected error'))
             return redirect('go_cat_home')
@@ -142,7 +147,8 @@ def rm_ctg_pr(request, context=None):
                 context, 'Product does not exist'))
             return redirect('go_cat_home')
         except Exception:
-            traceback.print_exc()
+            # traceback.print_exc()
+            logError(request)
             store_context_in_session(
                 request, addSnackDataToContext(context, 'Unexpected error'))
             return redirect('go_cat_home')
@@ -204,7 +210,10 @@ def go_pr_config(request, context=None):
 
         return render(request, 'catalog/product.html', context=context)
     except Exception:
-        traceback.print_exc()
+        # traceback.print_exc()
+        logError(request)
+        store_context_in_session(
+            request, addSnackDataToContext(context, 'Unknown Error'))
         return redirect('go_cat_home')
 
 
@@ -236,7 +245,8 @@ def chg_pr_name(request, context=None):
                 context, 'Product does not exist'))
             return redirect('go_cat_home')
         except Exception:
-            traceback.print_exc()
+            # traceback.print_exc()
+            logError(request)
             store_context_in_session(
                 request, addSnackDataToContext(context, 'Unexpected error'))
             return redirect('go_cat_home')
@@ -324,7 +334,8 @@ def add_ctg_spec(request, context=None):
                 context, 'Product/Feature does not exist'))
             return redirect('go_cat_home')
         except Exception:
-            traceback.print_exc()
+            # traceback.print_exc()
+            logError(request)
             store_context_in_session(
                 request, addSnackDataToContext(context, 'Unexpected error'))
             return redirect('go_cat_home')
@@ -395,7 +406,8 @@ def add_ctg_fet(request, context=None):
                 context, 'Product does not exist'))
             return redirect('go_cat_home')
         except Exception:
-            traceback.print_exc()
+            # traceback.print_exc()
+            logError(request)
             store_context_in_session(
                 request, addSnackDataToContext(context, 'Unexpected error'))
             return redirect('go_cat_home')
@@ -430,7 +442,8 @@ def rm_ctg_spec(request, context=None):
                 context, 'Specification removed'))
             return redirect(redir)
         except Exception:
-            traceback.print_exc()
+            # traceback.print_exc()
+            logError(request)
             store_context_in_session(
                 request, addSnackDataToContext(context, 'Unexpected error'))
             return redirect('go_cat_home')
@@ -463,7 +476,8 @@ def rm_ctg_fet(request, context=None):
                 request, addSnackDataToContext(context, 'Feature removed'))
             return redirect(redir)
         except Exception:
-            traceback.print_exc()
+            # traceback.print_exc()
+            logError(request)
             store_context_in_session(
                 request, addSnackDataToContext(context, 'Unexpected error'))
             return redirect('go_cat_home')
@@ -520,7 +534,10 @@ def go_fet_config(request, context=None):
 
         return render(request, 'catalog/feature.html', context=context)
     except Exception:
-        traceback.print_exc()
+        # traceback.print_exc()
+        logError(request)
+        store_context_in_session(
+            request, addSnackDataToContext(context, 'Unknown Error'))
         return redirect('go_cat_home')
 
 
@@ -558,7 +575,8 @@ def chg_fet(request, context=None):
                 context, 'Feature does not exist'))
             return redirect('go_cat_home')
         except Exception:
-            traceback.print_exc()
+            # traceback.print_exc()
+            logError(request)
             store_context_in_session(
                 request, addSnackDataToContext(context, 'Unexpected error'))
             return redirect('go_cat_home')
@@ -725,7 +743,10 @@ def go_spec_config(request, context=None):
 
         return render(request, 'catalog/specification.html', context=context)
     except Exception:
-        traceback.print_exc()
+        # traceback.print_exc()
+        logError(request)
+        store_context_in_session(
+            request, addSnackDataToContext(context, 'Unknown Error'))
         return redirect('go_cat_home')
 
 
@@ -760,7 +781,8 @@ def chg_spec(request, context=None):
                 context, 'Specification updated'))
             return redirect(redir)
         except Exception:
-            traceback.print_exc()
+            # traceback.print_exc()
+            logError(request)
             store_context_in_session(
                 request, addSnackDataToContext(context, 'Unexpected error'))
             return redirect('go_cat_home')
@@ -811,7 +833,8 @@ def add_ctg_val(request, context=None):
                 context, 'Code already exists'))
             return redirect(redir)
         except Exception:
-            traceback.print_exc()
+            # traceback.print_exc()
+            logError(request)
             store_context_in_session(
                 request, addSnackDataToContext(context, 'Unexpected error'))
             return redirect('go_cat_home')
@@ -997,7 +1020,8 @@ def save_ctg_res(request, context=None):
                 request, addSnackDataToContext(context, 'Rule conflict'))
             return redirect(redir)
         except Exception:
-            traceback.print_exc()
+            # traceback.print_exc()
+            logError(request)
             store_context_in_session(
                 request, addSnackDataToContext(context, 'Unexpected error'))
             return redirect('go_cat_home')
@@ -1069,7 +1093,8 @@ def save_ctg_price(request, context=None):
                 request, addSnackDataToContext(context, 'Invalid data'))
             return redirect(redir)
         except Exception:
-            traceback.print_exc()
+            # traceback.print_exc()
+            logError(request)
             store_context_in_session(
                 request, addSnackDataToContext(context, 'Unexpected error'))
             return redirect('go_cat_home')
@@ -1098,7 +1123,8 @@ def rm_ctg_val(request, context=None):
                 context, 'Enumeration removed'))
             return redirect(redir)
         except Exception:
-            traceback.print_exc()
+            # traceback.print_exc()
+            logError(request)
             store_context_in_session(
                 request, addSnackDataToContext(context, 'Unexpected error'))
             return redirect('go_cat_home')

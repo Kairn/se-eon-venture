@@ -17,6 +17,7 @@ from seev.apps.utils.generators import (getRandomSalt, getSha384Hash,
 from seev.apps.utils.validations import isValidRegisterRequest
 from seev.apps.utils.messages import get_app_message, addSnackDataToContext, getNewOppoMessage
 from seev.apps.utils.session import store_context_in_session, get_context_in_session
+from seev.apps.utils.process import logError
 
 from .models import UnoClient, UnoCredentials, UnoApproval, UnoCustomer, UnoOpportunity
 from .forms import (LoginForm, PasswordResetForm, RegisterForm,
@@ -95,7 +96,8 @@ def auth_login(request):
                 request, addSnackDataToContext(context, 'User not found'))
             return redirect('go_login')
         except Exception:
-            traceback.print_exc()
+            # traceback.print_exc()
+            logError(request)
             request.session.clear()
             store_context_in_session(
                 request, addSnackDataToContext(context, 'ERR01'))
@@ -105,6 +107,9 @@ def auth_login(request):
 
 
 def auth_password_reset(request):
+    """
+    Deprecated
+    """
     if request.method == 'POST':
         return redirect('go_landing')
     else:
@@ -187,7 +192,8 @@ def do_register(request):
                     newClient.save()
                     newCredentials.save()
                 except Exception:
-                    traceback.print_exc()
+                    # traceback.print_exc()
+                    logError(request)
                     return go_error(HttpRequest(), {'error': get_app_message('register_error'), 'message': get_app_message('register_error_message')})
 
                 return go_success(HttpRequest(), {'message': get_app_message('register_success')})
@@ -344,7 +350,8 @@ def do_approve(request):
 
             return redirect(reverse('go_admin') + '?request_page=' + str(redirectPage))
         except Exception:
-            traceback.print_exc()
+            # traceback.print_exc()
+            logError(request)
             return go_error(HttpRequest(), {'error': get_app_message('approval_error'), 'message': get_app_message('approval_error_message')})
     else:
         return redirect('go_admin')
@@ -429,7 +436,8 @@ def do_enroll(request):
                 context, 'Invalid client session'))
             return redirect('go_login')
         except Exception:
-            traceback.print_exc()
+            # traceback.print_exc()
+            logError(request)
             return go_error(HttpRequest(), {'error': get_app_message('enroll_error'), 'message': get_app_message('enroll_error_message')})
     else:
         return redirect('go_client')
@@ -483,7 +491,8 @@ def do_oppo(request, context=None):
                 context, 'Invalid client session'))
             return redirect('go_login')
         except Exception:
-            traceback.print_exc()
+            # traceback.print_exc()
+            logError(request)
             return go_error(HttpRequest(), {'error': get_app_message('oppo_error'), 'message': get_app_message('oppo_error_message')})
     else:
         return redirect('go_client')
@@ -516,10 +525,13 @@ def go_records(request):
 
         return render(request, 'core/records.html', context=context)
     except Exception:
-        traceback.print_exc()
+        # traceback.print_exc()
+        logError(request)
         if request and hasattr(request, 'session'):
             request.session.clear()
 
+        store_context_in_session(
+            request, addSnackDataToContext(context, 'Unexpected Error'))
         return redirect('go_login')
 
 
@@ -557,7 +569,8 @@ def can_oppo(request, context=None):
                 context, 'Invalid client session'))
             return redirect('go_login')
         except Exception:
-            traceback.print_exc()
+            # traceback.print_exc()
+            logError(request)
             return go_error(HttpRequest(), {'error': get_app_message('oppo_can_error'), 'message': get_app_message('oppo_can_message')})
     else:
         return redirect('go_records')

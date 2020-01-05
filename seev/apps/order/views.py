@@ -68,14 +68,19 @@ def find_oppo_by_num(request, context=None):
             context['oppoData'] = oppoData
 
             return render(request, 'order/index.html', context=context)
+        except ObjectDoesNotExist:
+            store_context_in_session(request, addSnackDataToContext(
+                context, 'Opportunity not found'))
+            return redirect('go_ord_home')
         except AssertionError:
             store_context_in_session(request, addSnackDataToContext(
                 context, 'Opportunity has expired'))
             return redirect('go_ord_home')
         except Exception:
-            traceback.print_exc()
-            store_context_in_session(request, addSnackDataToContext(
-                context, 'Opportunity not found'))
+            # traceback.print_exc()
+            logError(request)
+            store_context_in_session(
+                request, addSnackDataToContext(context, 'Unknown Error'))
             return redirect('go_ord_home')
     else:
         return redirect('go_ord_home')
@@ -126,7 +131,8 @@ def create_order(request, context=None):
                 context, 'Opportunity invalid or expired'))
             return redirect('go_ord_home')
         except Exception:
-            traceback.print_exc()
+            # traceback.print_exc()
+            logError(request)
             store_context_in_session(request, addSnackDataToContext(
                 context, 'Order creation failed'))
             return redirect('go_ord_home')
@@ -180,10 +186,15 @@ def find_ord_by_num(request, context=None):
             context['ordData'] = ordData
 
             return render(request, 'order/index.html', context=context)
-        except Exception:
-            traceback.print_exc()
+        except ObjectDoesNotExist:
             store_context_in_session(
                 request, addSnackDataToContext(context, 'Order not found'))
+            return redirect('go_ord_home')
+        except Exception:
+            # traceback.print_exc()
+            logError(request)
+            store_context_in_session(
+                request, addSnackDataToContext(context, 'Unknown Error'))
             return redirect('go_ord_home')
     else:
         return redirect('go_ord_home')
@@ -211,7 +222,8 @@ def auth_access_order(request, context=None):
 
                 return render(request, 'order/index.html', context=context)
         except Exception:
-            traceback.print_exc()
+            # traceback.print_exc()
+            logError(request)
             clear_ord_meta(request)
             store_context_in_session(
                 request, addSnackDataToContext(context, 'Unexpected error'))
@@ -254,7 +266,7 @@ def go_site_config(request, context=None):
         for site in sites:
             data = {}
             doc = site.site
-            data['id'] = site.pta_site_id
+            data['id'] = str(site.pta_site_id)
             data['name'] = site.site_name
             data['valid'] = '1' if site.is_valid else '0'
             data['addr'] = ', '.join([doc.address_1, doc.city, doc.country])
@@ -267,7 +279,8 @@ def go_site_config(request, context=None):
 
         return render(request, 'order/order-site.html', context=context)
     except Exception:
-        traceback.print_exc()
+        # traceback.print_exc()
+        logError(request)
         store_context_in_session(
             request, addSnackDataToContext(context, 'Redirect error'))
         return redirect('go_ord_home')
@@ -346,7 +359,8 @@ def add_new_site(request, context=None):
                 context, 'Location name already exists'))
             return redirect('go_site_config')
         except Exception:
-            traceback.print_exc()
+            # traceback.print_exc()
+            logError(request)
             store_context_in_session(
                 request, addSnackDataToContext(context, 'Unknown error'))
             return redirect('go_ord_config_home')
@@ -380,7 +394,8 @@ def rm_site(request, context=None):
                 context, 'Location has been removed'))
             return redirect('go_site_config')
         except Exception:
-            traceback.print_exc()
+            # traceback.print_exc()
+            logError(request)
             store_context_in_session(
                 request, addSnackDataToContext(context, 'Unknown error'))
             return redirect('go_ord_config_home')
@@ -421,7 +436,7 @@ def go_build_pr(request, context=None):
 
         for pr in ctgList:
             prDoc = {}
-            prDoc['id'] = pr.ctg_doc_id
+            prDoc['id'] = str(pr.ctg_doc_id)
             prDoc['code'] = getDefCatalogCode(pr.itemcode)
             prDoc['name'] = pr.name
             ctgData.append(prDoc)
@@ -438,7 +453,7 @@ def go_build_pr(request, context=None):
         for site in sites:
             data = {}
             doc = site.site
-            data['id'] = site.pta_site_id
+            data['id'] = str(site.pta_site_id)
             data['name'] = site.site_name
             data['valid'] = '1' if site.is_valid else '0'
             siteData.append(data)
@@ -457,14 +472,14 @@ def go_build_pr(request, context=None):
                 return redirect('go_site_config')
 
         siteDoc = site.site
-        context['selId'] = site.pta_site_id
+        context['selId'] = str(site.pta_site_id)
         context['siteDoc'] = siteDoc
 
         products = getAllProductsInSite(site)
         biData = []
         for bi in products:
             biDoc = {}
-            biDoc['id'] = bi.basket_item_id
+            biDoc['id'] = str(bi.basket_item_id)
             biDoc['name'] = getBasketItemName(bi)
             biDoc['serial'] = zeroPrepender(bi.serial, 5)
             biDoc['valid'] = '1' if bi.is_valid else '0'
@@ -475,7 +490,8 @@ def go_build_pr(request, context=None):
 
         return render(request, 'order/order-product.html', context=context)
     except Exception:
-        traceback.print_exc()
+        # traceback.print_exc()
+        logError(request)
         store_context_in_session(
             request, addSnackDataToContext(context, 'Redirect error'))
         return redirect('go_ord_home')
@@ -530,7 +546,8 @@ def add_pr_to_basket(request, context=None):
 
             return redirect(redir)
         except Exception:
-            traceback.print_exc()
+            # traceback.print_exc()
+            logError(request)
             store_context_in_session(
                 request, addSnackDataToContext(context, 'Unknown error'))
             return redirect('go_ord_config_home')
@@ -567,7 +584,8 @@ def del_pr_in_site(request, context=None):
                 context, 'Product has been deleted'))
             return redirect(redir)
         except Exception:
-            traceback.print_exc()
+            # traceback.print_exc()
+            logError(request)
             store_context_in_session(
                 request, addSnackDataToContext(context, 'Unknown error'))
             return redirect('go_ord_config_home')
@@ -641,7 +659,7 @@ def go_svc_config(request, context=None):
         siteDoc = service.pta_site
         addrDoc = siteDoc.site
         svcData = {}
-        svcData['id'] = service.basket_item_id
+        svcData['id'] = str(service.basket_item_id)
         svcData['name'] = getBasketItemName(service)
         svcData['serial'] = zeroPrepender(service.serial, 5)
         svcData['valid'] = '1' if service.is_valid else '0'
@@ -675,7 +693,7 @@ def go_svc_config(request, context=None):
         fspCnt = 0
         for fet in fetCtg:
             fetDoc = {}
-            fetDoc['id'] = fet.ctg_doc_id
+            fetDoc['id'] = str(fet.ctg_doc_id)
             fetDoc['itemcode'] = fet.itemcode
             fetDoc['name'] = fet.name
 
@@ -706,7 +724,8 @@ def go_svc_config(request, context=None):
 
         return render(request, 'order/order-service.html', context=context)
     except Exception:
-        traceback.print_exc()
+        # traceback.print_exc()
+        logError(request)
         store_context_in_session(
             request, addSnackDataToContext(context, 'Redirect error'))
         return redirect('go_ord_config_home')
@@ -780,7 +799,8 @@ def save_svc_config(request, context=None):
                     context, 'Error(s) detected in service'))
             return redirect(redir)
         except Exception:
-            traceback.print_exc()
+            # traceback.print_exc()
+            logError(request)
             store_context_in_session(
                 request, addSnackDataToContext(context, 'Unknown error'))
             return redirect('go_ord_config_home')
@@ -809,7 +829,8 @@ def do_ord_valid(request, context=None):
             request.session['ord_valid_count'] = valid
             return redirect('go_ord_config_home')
         except Exception:
-            traceback.print_exc()
+            # traceback.print_exc()
+            logError(request)
             store_context_in_session(
                 request, addSnackDataToContext(context, 'Unknown error'))
             return redirect('go_ord_config_home')
@@ -851,7 +872,8 @@ def go_ord_summary(request, context=None):
 
         return render(request, 'order/order-summary.html', context=context)
     except Exception:
-        traceback.print_exc()
+        # traceback.print_exc()
+        logError(request)
         store_context_in_session(
             request, addSnackDataToContext(context, 'Unknown error'))
         return redirect('go_ord_config_home')
@@ -892,7 +914,8 @@ def do_site_price(request, context=None):
                 context, 'Pricing is received'))
             return redirect('go_ord_summary')
         except Exception:
-            traceback.print_exc()
+            # traceback.print_exc()
+            logError(request)
             store_context_in_session(
                 request, addSnackDataToContext(context, 'Unknown error'))
             return redirect('go_ord_config_home')
@@ -949,7 +972,8 @@ def do_ord_submit(request, context=None):
                     context, 'Cannot submit this order'))
                 return redirect('go_ord_config_home')
         except Exception:
-            traceback.print_exc()
+            # traceback.print_exc()
+            logError(request)
             store_context_in_session(
                 request, addSnackDataToContext(context, 'Unknown error'))
             return redirect('go_ord_config_home')
@@ -986,7 +1010,8 @@ def do_ord_cancel(request, context=None):
                     context, 'Invalid cancellation request'))
                 return redirect('go_ord_config_home')
         except Exception:
-            traceback.print_exc()
+            # traceback.print_exc()
+            logError(request)
             store_context_in_session(
                 request, addSnackDataToContext(context, 'Unknown error'))
             return redirect('go_ord_config_home')
