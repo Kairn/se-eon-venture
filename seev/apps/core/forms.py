@@ -144,7 +144,7 @@ class RegisterForm(forms.Form):
         widget=forms.Textarea(
             attrs={
                 'placeholder': 'Business summary',
-                'maxlength': 500,
+                'maxlength': 1000,
             }
         )
     )
