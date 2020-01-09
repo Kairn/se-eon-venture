@@ -161,7 +161,7 @@
 			{% csrf_token %}
 			<input type="text" name="opportunity-id" id="id_oppo_id" style="display: none;">
 			<input type="text" name="order-name" id="id_ord_name" placeholder="Order Name" required>
-			<input type="text" name="order-secret" id="id_ord_secret" placeholder="Secret" required>
+			<input type="password" name="order-secret" id="id_ord_secret" placeholder="Secret" required>
 			<input id="id_ord_agree" type="radio" style="display: none;" required>
 			<div id="oppo-radio-row">
 				<span id="oppo-radio" class="seev-radio-outer" data-target="id_ord_agree" data-inner="oppo-radio-inner">

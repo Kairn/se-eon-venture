@@ -506,6 +506,7 @@ def go_fet_config(request, context=None):
         prUrl = reverse('go_pr_config') + '?doc_id=' + \
             str(product.ctg_doc_id).replace('-', '')
         context['reUrl'] = prUrl
+        context['pntText'] = getDefCatalogCode(product.itemcode)
 
         # Load specs
         specs = CtgSpecification.objects.filter(
@@ -602,10 +603,12 @@ def go_spec_config(request, context=None):
         # Get parent URL
         flag = ''
         pntUrl = ''
+        pntText = ''
         product = CtgProduct.objects.filter(
             ctg_doc_id=specification.parent_ctg_id, client=client, active=True)
         if product and len(product) > 0:
             flag = 'PR'
+            pntText = getDefCatalogCode(product[0].itemcode)
             pntUrl = reverse('go_pr_config') + '?doc_id=' + \
                 str(product[0].ctg_doc_id).replace('-', '')
         else:
@@ -613,12 +616,14 @@ def go_spec_config(request, context=None):
                 ctg_doc_id=specification.parent_ctg_id, client=client, active=True)
             if feature and len(feature) > 0:
                 flag = 'FET'
+                pntText = getDefCatalogCode(feature[0].itemcode)
                 pntUrl = reverse('go_fet_config') + '?doc_id=' + \
                     str(feature[0].ctg_doc_id).replace('-', '')
 
         if not flag:
             raise Exception
         context['reUrl'] = pntUrl
+        context['pntText'] = pntText
 
         # Spec config details
         # Values

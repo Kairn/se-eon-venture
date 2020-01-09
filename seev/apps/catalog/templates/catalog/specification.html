@@ -7,6 +7,7 @@
 	<!-- Specification -->
 	<section class="ctg-form-sect">
 		<h3>Edit Specification</h3>
+		<div class="parent-text">(From: {{ pntText }})</div>
 		<form id="ctg-edit-spec-form" class="ctg-def-form" action="/catalog/sp-chg/" method="post" novalidate>
 			{% csrf_token %}
 			{% for field in editSpecForm.hidden_fields %}
@@ -122,6 +123,7 @@
 	</section>
 	{% endif %}
 	<!-- Price -->
+	{% if specification.data_type != 'STR' %}
 	<section class="ctg-form-sect">
 		<h3>Configure Pricing</h3>
 		<form id="ctg-conf-pri-form" class="ctg-def-form" action="/catalog/save-pri/" method="post" novalidate>
@@ -150,6 +152,7 @@
 			</div>
 		</form>
 	</section>
+	{% endif %}
 	<!-- Price data -->
 	<aside style="display: none;">
 		{% if priceData %}

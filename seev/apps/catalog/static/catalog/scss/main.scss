@@ -109,6 +109,9 @@ $field-wrapper-margin-y: 1rem;
         text-align: center;
         font-size: 22px;
       }
+      .parent-text {
+        text-align: center;
+      }
     }
   }
   @include mobile {
@@ -318,6 +321,13 @@ section.ctg-form-sect {
       text-align: center;
     }
   }
+}
+
+.parent-text {
+  font-size: 18px;
+  font-style: italic;
+  color: #006064;
+  font-family: "Titillium Web", sans-serif;
 }
 
 #ctg-pr-paginator {
