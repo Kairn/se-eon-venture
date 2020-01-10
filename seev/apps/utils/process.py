@@ -441,8 +441,16 @@ def validateSpec(leafItem, parentCtgId, errorList):
         leafVal = leafItem.leaf_value
         specCtg = CtgSpecification.objects.get(
             parent_ctg_id=parentCtgId, leaf_name=leafItem.leaf_name, active=1)
+
+        # Skip boolean and enumeration
         if specCtg.data_type in ['BO', 'ENUM']:
             return True
+
+        # Check quantity
+        if specCtg.data_type == 'QTY' and leafVal and (not isValidQuantity(leafVal) or int(leafVal) < 1):
+            errorList.append(
+                specCtg.label + ' does not have a valid quantity.')
+            return False
 
         resList = CtgRestriction.objects.filter(specification=specCtg)
 
@@ -481,11 +489,7 @@ def validateSpec(leafItem, parentCtgId, errorList):
                         return False
 
                 if specCtg.data_type == 'QTY':
-                    if not isValidQuantity(leafVal):
-                        errorList.append(
-                            specCtg.label + ' does not have a valid quantity.')
-                        return False
-                    elif resType == 'MAX' and not hasMaxValue(leafVal, int(resVal)):
+                    if resType == 'MAX' and not hasMaxValue(leafVal, int(resVal)):
                         errorList.append(
                             specCtg.label + ' should not be greater than ' + resVal + '.')
                         return False
