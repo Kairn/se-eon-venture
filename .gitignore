@@ -270,3 +270,4 @@ temp/*
 temp/**/*
 credits.txt
 test.txt
+static/*
