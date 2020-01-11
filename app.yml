@@ -1,0 +1,11 @@
+# Runtime
+runtime: python37
+
+# Static handler
+handlers:
+- url: /static
+  static_dir: static/
+
+# Main app handler
+- url: /.*
+  script: auto
