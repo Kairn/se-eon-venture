@@ -1,0 +1,5 @@
+uwsgi:
+  socket: 127.0.0.1:8000
+  master: 1
+  daemonize: /home/esoma-gcp/logs/seev.log
+  wsgi-file: /home/esoma-gcp/dev/se-eon-venture/main.py
