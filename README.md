@@ -6,6 +6,8 @@
 
 SE Eon Venture is a conceptual prototype of an ordering platform for enterprise level products and services. It is built to be used by both service providers and their potential customers. Due to business complexity and the fact that the application is general-purpose, some training is required in order for any user to operate on the site effectively.
 
+**Update: This database server for this project has been shut down, and the service is no longer functional.**
+
 ## Build Project
 ### Prerequisites
 * [Python 3](https://www.python.org/)
@@ -42,9 +44,6 @@ SE Eon Venture is a conceptual prototype of an ordering platform for enterprise 
 7. Open a browser and navigate to your server's public domain or IP address with the correct port, verify the application is running without issues.
 
 *At the time of this writing, the latest version of Django available on a Debian distribution is 2.9.9, and therefore the dependency file on the "release" branch does not specify version 3.0.1.*
-
-## Usage
-Due to multiple levels of complexity, the user manual will be on a separate document.
 
 ## Credits
 * [Marek Polakovic](https://thenounproject.com/marekpolakovic/)
